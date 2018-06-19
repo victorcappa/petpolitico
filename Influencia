@@ -1,0 +1,373 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using System;
+using UnityEditor.iOS;
+
+// NESSA VERSÃO:
+// o código para perda de level quando chega no limite de popularidade foi resolvido
+// mas o código está bem sujo (vou deixar registradas as alternativas de solução que não funcionaram)
+
+public class Influencia : MonoBehaviour
+{
+
+    public float influencia = 100;
+    private float maxInflu = 100;
+    private float minInflu;
+    public Text influ_txtUI;
+    public float veloPerdaInflu;
+    public int level;
+    public int max_level;
+    public Text level_txtUI;
+    int indiceInfluPersonagens;
+    private float perdaPop;
+    private int tempLevel;
+    public int subtrairLvl;
+    public int resultSubLvl;
+   public  int i = 0;
+
+
+    //bool lvlDown = false;
+
+
+    public bool perdeuLevel = false;
+
+
+
+    void Start()
+    {
+        //PlayerPrefs.DeleteAll();
+        //recuperaLevel();
+        InfluPersonagens();
+        PerdaInflu();
+        //PerdeLevels();
+
+
+    }
+
+
+
+    void Update()
+    {
+        //recuperaLevel();
+        PerdaInflu();
+        InfluPersonagens();
+        //PerdeLevels();
+
+
+    }
+
+    public void PerdaInflu()
+
+    {
+        if (PlayerPrefs.GetInt("CPI") == 1)
+        {
+            veloPerdaInflu = 0.3f;
+
+            switch (indiceInfluPersonagens)
+            {
+                case 0:
+                    PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") - Time.deltaTime * veloPerdaInflu);
+                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula")) == 70)
+
+                    {
+                        tempLevel = PlayerPrefs.GetInt("LevelLula");
+                        PlayerPrefs.SetInt("QuantoPerdeuLula", (tempLevel - 1));
+                        if (PlayerPrefs.GetInt("QuantoPerdeuLula") != PlayerPrefs.GetInt("LevelLula") - 1)
+                        {
+                            PlayerPrefs.SetInt("QuantoPerdeuLula", PlayerPrefs.GetInt("LevelLula") - 1);
+                            PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("QuantoPerdeuLula"));
+
+                        }
+
+                        perdeuLevel = true;
+                    }
+                    // if (quantoperdeulula > 1 // quantoperdeulula = 1
+
+                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula")) < 80)
+                    {
+                        perdeuLevel = false;
+                        PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLulaUpdate"));
+
+                    }
+                    break;
+
+                case 1:
+                    PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") - Time.deltaTime * veloPerdaInflu);
+                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro")) == 95)
+                    {
+                        level -= 1;
+                        PlayerPrefs.SetInt("QuantoPerdeuCiro", level);
+                        // PlayerPrefs.SetInt("QuantoPerdeuCiro", PlayerPrefs.GetInt("LevelCiro"));
+
+                        perdeuLevel = true;
+                    }
+
+                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro")) < 95)
+                    {
+                        perdeuLevel = false;
+                    }
+
+
+                    break;
+
+                case 2:
+                    PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") - Time.deltaTime * veloPerdaInflu);
+                    int tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
+                    if (tempPop == 20 && perdeuLevel == false)
+                    {
+                        perdeuLevel = true;
+
+                        level = PlayerPrefs.GetInt("LevelBolso");
+                        //level = Math.Abs(level - 1);
+                        PlayerPrefs.SetInt("LevelPerdeuBolso", Math.Abs(level -1));
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelPerdeuBolso"));
+                            i++;
+                        }
+
+                        //lvlDown = true;
+                        // PlayerPrefs.SetInt("QuantoPerdeuBolso", level);
+                        // PlayerPrefs.SetInt("QuantoPerdeuBolso", PlayerPrefs.GetInt("LevelBolso"));
+
+                    }
+                    //if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") > 75)
+                    else
+                    {
+                        perdeuLevel = false;
+                        //lvlDown = false;
+                    }
+
+
+                    break;
+            }
+
+        }
+
+        if (PlayerPrefs.GetInt("CPI") == 0)
+        {
+            veloPerdaInflu = 0f;
+        }
+
+    }
+
+    public void recuperaLevel()
+    {
+        if (perdeuLevel == true)
+        {
+            switch (indiceInfluPersonagens)
+            {
+                case 0:
+                    subtrairLvl = (PlayerPrefs.GetInt("QuantoPerdeuLula") * -1);
+                    resultSubLvl = (subtrairLvl - 1);
+                    PlayerPrefs.SetInt("LevelLulaUpdate", (PlayerPrefs.GetInt("LevelLula") + resultSubLvl));
+
+                    break;
+
+                case 1:
+
+
+                    PlayerPrefs.SetInt("LevelCiro", (PlayerPrefs.GetInt("LevelCiro") + (PlayerPrefs.GetInt("QuantoPerdeuCiro") * -1)) - 2);
+
+
+
+                    break;
+                case 2:
+                    subtrairLvl = ((Math.Abs(PlayerPrefs.GetInt("LevelPerdeuBolso"))) + PlayerPrefs.GetInt("LevelBolso"));
+                    resultSubLvl = (subtrairLvl + PlayerPrefs.GetInt("LevelBolso")) - (subtrairLvl + 1);
+                    PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso"));
+                    level = resultSubLvl;
+                  
+
+
+
+                    break;
+            }
+
+
+
+        }
+    }
+
+
+    public void GanhaInflu()
+    {
+        float cresceInflu = 30;
+
+        switch (indiceInfluPersonagens)
+        {
+            case 0:
+                PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + cresceInflu);
+                break;
+
+            case 1:
+                PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") + cresceInflu);
+                break;
+            case 2:
+                PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + cresceInflu);
+                break;
+
+
+
+        }
+
+    }
+
+    public void InfluPersonagens()
+
+    {
+
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+
+        {
+            indiceInfluPersonagens = 0;
+
+            level = PlayerPrefs.GetInt("LevelLula");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluLula", influencia));
+            influ_txtUI.text = (influencia.ToString() + "%");
+
+
+
+
+            if (PlayerPrefs.GetFloat("InfluLula") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluLula", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelLula", level);
+
+            }
+
+            if (PlayerPrefs.GetFloat("InfluLula") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluLula", minInflu);
+
+            }
+
+
+
+        }
+
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            indiceInfluPersonagens = 1;
+
+            level = PlayerPrefs.GetInt("LevelCiro");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluCiro", influencia));
+            influ_txtUI.text = (influencia.ToString() + "%");
+
+
+
+            if (PlayerPrefs.GetFloat("InfluCiro") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluCiro", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelCiro", level);
+            }
+            if (PlayerPrefs.GetFloat("InfluCiro") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluCiro", minInflu);
+
+            }
+
+        }
+
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            indiceInfluPersonagens = 2;
+
+            level = PlayerPrefs.GetInt("LevelBolso");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluBolso", influencia));
+            influ_txtUI.text = (influencia.ToString() + "%");
+
+
+
+            if (PlayerPrefs.GetFloat("InfluBolso") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluBolso", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelBolso", level);
+                i = 0;
+
+            }
+
+
+
+
+            if (PlayerPrefs.GetFloat("InfluBolso") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluBolso", minInflu);
+
+            }
+
+
+
+        }
+
+
+
+
+
+    }
+
+
+    /* public void PerdeLevels()
+      {
+
+          if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+          {
+              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
+              if (tempPop == 90)
+              {
+                  PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLula") - 1);
+
+              }
+
+
+          }
+
+          if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+          {
+              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
+              if (tempPop == 90)
+              {
+                  PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelCiro") - 1);
+
+              }
+
+
+
+
+          }
+
+          if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+          {
+              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
+              if (tempPop == 90)
+              {
+                  PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso") - 1);
+
+              }
+
+
+          }
+      }*/
+
+}
+
+
