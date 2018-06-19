@@ -36,7 +36,7 @@ public class FichaLimpa : MonoBehaviour {
         GanhaFicha();
         MaxMinFicha();
 
-       // PlayerPrefs.GetFloat("VeloPerdaPop", PlayerPrefs.GetFloat("VeloPerdaPop"));
+       // PlayerPrefs.GetFloat("VeloPerdaPop", PlayerPrefs.GetFloat("VeloPerdaPop")); //
     }
 
 
