@@ -89,9 +89,9 @@ public class FichaLimpa : MonoBehaviour {
             {
                 PlayerPrefs.SetFloat("FichaLula", 100);
             }
-            if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("FichaLula") <= 0)
+            if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("FichaLula") <= 1)
             {
-                PlayerPrefs.SetFloat("FichaLula", 50);
+                PlayerPrefs.SetFloat("FichaLula", 100);
             }
            
 
@@ -115,9 +115,9 @@ public class FichaLimpa : MonoBehaviour {
                 PlayerPrefs.SetFloat("FichaCiro", 100);
             }
 
-            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 0)
+            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 1)
             {
-                PlayerPrefs.SetFloat("FichaCiro", 50);
+                PlayerPrefs.SetFloat("FichaCiro", 100);
             }
 
 
@@ -139,9 +139,9 @@ public class FichaLimpa : MonoBehaviour {
             {
                 PlayerPrefs.SetFloat("FichaBolsonaro", 0);
 
-                if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 0)
+                if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 1)
                 {
-                    PlayerPrefs.SetFloat("FichaBolsonaro", 50);
+                    PlayerPrefs.SetFloat("FichaBolsonaro", 100);
                 }
             }
 
