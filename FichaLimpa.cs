@@ -181,4 +181,13 @@ public class FichaLimpa : MonoBehaviour {
 
 
     }
+
+    public void AlmaHonesta()
+    {
+        if (fichaLimpa >= 80)
+        {
+            PlayerPrefs.SetFloat("VeloGanhaPop", 0.5f);
+        }
+        PlayerPrefs.SetFloat("VeloGanhaPop", PlayerPrefs.GetFloat("VeloGanhaPop"));
+    }
 }
