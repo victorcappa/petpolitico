@@ -10,7 +10,7 @@ public class Popularidade : MonoBehaviour
     //public Sprite iconPopularidade; COLOCAR ISSO NO SCRIPT MENU STATUS
     public float veloPerdaPop = 0.1f;
     public float veloGanhaPop = 0;
-    public float popularidade = 100;
+    public float popularidade = 50;
     public float max_pop = 100;
     public float min_pop = 0;
     //public GameObject tempPersonagem;
@@ -72,13 +72,15 @@ public class Popularidade : MonoBehaviour
             popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
 
             // ganho ou perda de pop
-            if ( PlayerPrefs.GetFloat("VeloGanhaPop") <= 0)
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetFloat("VeloGanhaPop") > 0)
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
@@ -123,13 +125,15 @@ public class Popularidade : MonoBehaviour
 
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetFloat("VeloGanhaPop") <= 0)
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetFloat("VeloGanhaPop") > 0)
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
@@ -175,13 +179,14 @@ public class Popularidade : MonoBehaviour
 
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetFloat("VeloGanhaPop") <= 0)
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetFloat("VeloGanhaPop") > 0)
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
