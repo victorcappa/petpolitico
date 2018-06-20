@@ -13,6 +13,7 @@ public class FichaLimpa : MonoBehaviour {
     public float min_ficha = 0;
     public bool recuperarFicha = false;
     public int cpi;
+    public int almaHonesta;
     //public GameObject tempPersonagem;
 
 
@@ -23,6 +24,7 @@ public class FichaLimpa : MonoBehaviour {
 
         FichaPersonagens();
         CPI();
+        AlmaHonesta();
 
     }
 
@@ -35,6 +37,8 @@ public class FichaLimpa : MonoBehaviour {
 
         GanhaFicha();
         MaxMinFicha();
+
+        AlmaHonesta();
 
        // PlayerPrefs.GetFloat("VeloPerdaPop", PlayerPrefs.GetFloat("VeloPerdaPop"));
     }
@@ -187,6 +191,16 @@ public class FichaLimpa : MonoBehaviour {
         if (fichaLimpa >= 80)
         {
             PlayerPrefs.SetFloat("VeloGanhaPop", 0.5f);
+            almaHonesta = 1;
+            PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
+
+        }
+        if (fichaLimpa < 80 && fichaLimpa > 20 )
+        {
+            PlayerPrefs.SetFloat("VeloGanhaPop", 0);
+            almaHonesta = 0;
+            PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
+
         }
         PlayerPrefs.SetFloat("VeloGanhaPop", PlayerPrefs.GetFloat("VeloGanhaPop"));
     }
