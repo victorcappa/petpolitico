@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class Verba : MonoBehaviour {
     public void Awake()
     {
         verba = PlayerPrefs.GetInt("Verba");
+        minVerba();
     }
 
     public void Update()
@@ -18,6 +18,9 @@ public class Verba : MonoBehaviour {
 
         verba = PlayerPrefs.GetInt("Verba");
         verba_txtUI.text = verba.ToString();
+        minVerba();
+
+       
     }
 
     public void GanhaVerba()
@@ -25,6 +28,14 @@ public class Verba : MonoBehaviour {
         int cresceVerba = 10;
         PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + cresceVerba);
 
+    }
+
+    public void minVerba()
+    {
+        if (PlayerPrefs.GetInt("Verba") <= 0)
+        {
+            PlayerPrefs.SetInt("Verba", 0);
+        }
     }
 
 
