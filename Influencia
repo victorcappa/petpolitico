@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEditor.iOS;
 
-// NESSA VERSÃO:
-// o código para perda de level quando chega no limite de popularidade foi resolvido
-// mas o código está bem sujo (vou deixar registradas as alternativas de solução que não funcionaram)
 
 public class Influencia : MonoBehaviour
 {
@@ -15,19 +9,22 @@ public class Influencia : MonoBehaviour
     public float influencia = 100;
     private float maxInflu = 100;
     private float minInflu;
+
     public Text influ_txtUI;
+
     public float veloPerdaInflu;
+
     public int level;
     public int max_level;
     public Text level_txtUI;
-    int indiceInfluPersonagens;
+
+    int indiceInfluPersonagens; // DETERMINA QUAL PERSONAGEM DEVE TER SUA INFLU ALTERADA (QUEM TA NA SCENE)
+
     private float perdaPop;
     private int tempLevel;
-  
-   public  int i = 0;
 
-
-
+    private int tempPop;
+    public int i = 0;
 
     public bool perdeuLevel = false;
 
@@ -36,26 +33,20 @@ public class Influencia : MonoBehaviour
     void Start()
     {
         //PlayerPrefs.DeleteAll();
-    
+
         InfluPersonagens();
         PerdaInflu();
-    
-
-
     }
 
 
 
     void Update()
     {
-    
         PerdaInflu();
         InfluPersonagens();
-    
-
-
     }
 
+    // PERDA DE INFLUÊNCIA (EM CASO DE CPI) E PERDA DE LEVEL (AO ATINGIR MIN DE POP)
     public void PerdaInflu()
 
     {
@@ -67,41 +58,46 @@ public class Influencia : MonoBehaviour
             {
                 case 0:
                     PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") - Time.deltaTime * veloPerdaInflu);
-                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula")) == 70)
-
+                     tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
+                    if (tempPop == 95 && perdeuLevel == false)
                     {
-                        tempLevel = PlayerPrefs.GetInt("LevelLula");
-                        PlayerPrefs.SetInt("QuantoPerdeuLula", (tempLevel - 1));
-                        if (PlayerPrefs.GetInt("QuantoPerdeuLula") != PlayerPrefs.GetInt("LevelLula") - 1)
-                        {
-                            PlayerPrefs.SetInt("QuantoPerdeuLula", PlayerPrefs.GetInt("LevelLula") - 1);
-                            PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("QuantoPerdeuLula"));
+                        perdeuLevel = true;
 
+                        level = PlayerPrefs.GetInt("LevelLula");
+                        PlayerPrefs.SetInt("LevelPerdeuLula", Math.Abs(level - 1));
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelPerdeuLula"));
+                            i++;
                         }
 
-                        perdeuLevel = true;
-                    }
 
-                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula")) < 80)
+                    }
+                    else
                     {
                         perdeuLevel = false;
-                        PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLulaUpdate"));
-
                     }
                     break;
 
                 case 1:
                     PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") - Time.deltaTime * veloPerdaInflu);
-                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro")) == 95)
+                       tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
+                    if (tempPop == 95 && perdeuLevel == false)
                     {
-                        level -= 1;
-                        PlayerPrefs.SetInt("QuantoPerdeuCiro", level);
-                        // PlayerPrefs.SetInt("QuantoPerdeuCiro", PlayerPrefs.GetInt("LevelCiro"));
-
                         perdeuLevel = true;
-                    }
 
-                    if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro")) < 95)
+                        level = PlayerPrefs.GetInt("LevelCiro");
+                        PlayerPrefs.SetInt("LevelPerdeuCiro", Math.Abs(level - 1));
+
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelPerdeuCiro"));
+                            i++;
+                        }
+
+
+                    }
+                    else
                     {
                         perdeuLevel = false;
                     }
@@ -111,20 +107,21 @@ public class Influencia : MonoBehaviour
 
                 case 2:
                     PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") - Time.deltaTime * veloPerdaInflu);
-                    int tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
-                    if (tempPop == 20 && perdeuLevel == false)
+
+                       tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
+                    if (tempPop == 40 && perdeuLevel == false)
                     {
                         perdeuLevel = true;
 
                         level = PlayerPrefs.GetInt("LevelBolso");
-                        PlayerPrefs.SetInt("LevelPerdeuBolso", Math.Abs(level -1));
+                        PlayerPrefs.SetInt("LevelPerdeuBolso", Math.Abs(level - 1));
                         if (i < 1)
                         {
                             PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelPerdeuBolso"));
                             i++;
                         }
 
-                       
+
                     }
                     else
                     {
@@ -144,9 +141,9 @@ public class Influencia : MonoBehaviour
 
     }
 
-  
 
-    public void GanhaInflu() // usado no button de recompensas
+    // usado no button de recompensas
+    public void GanhaInflu() 
     {
         float cresceInflu = 30;
 
@@ -167,6 +164,7 @@ public class Influencia : MonoBehaviour
 
     }
 
+    // INFLUÊNCIA E GANHO DE LEVEL
     public void InfluPersonagens()
 
     {
@@ -192,6 +190,7 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetFloat("InfluLula", 0);
                 level += 1;
                 PlayerPrefs.SetInt("LevelLula", level);
+                i = 0;
 
             }
 
@@ -225,6 +224,7 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetFloat("InfluCiro", 0);
                 level += 1;
                 PlayerPrefs.SetInt("LevelCiro", level);
+                i = 0;
             }
             if (PlayerPrefs.GetFloat("InfluCiro") <= minInflu)
             {
@@ -278,7 +278,7 @@ public class Influencia : MonoBehaviour
     }
 
 
-   
+
 }
 
 
