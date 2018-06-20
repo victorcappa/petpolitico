@@ -8,7 +8,7 @@ public class FichaLimpa : MonoBehaviour {
 
     public Text ficha_txtUI;
     public float veloPerdaFicha;
-    public float fichaLimpa = 100;
+    public float fichaLimpa = 50;
     public float max_ficha = 100;
     public float min_ficha = 0;
     public bool recuperarFicha = false;
@@ -87,7 +87,7 @@ public class FichaLimpa : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("FichaLula") <= 0)
             {
-                PlayerPrefs.SetFloat("FichaLula", 100);
+                PlayerPrefs.SetFloat("FichaLula", 50);
             }
            
 
@@ -113,7 +113,7 @@ public class FichaLimpa : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 0)
             {
-                PlayerPrefs.SetFloat("FichaCiro", 100);
+                PlayerPrefs.SetFloat("FichaCiro", 50);
             }
 
 
@@ -137,7 +137,7 @@ public class FichaLimpa : MonoBehaviour {
 
                 if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 0)
                 {
-                    PlayerPrefs.SetFloat("FichaBolsonaro", 100);
+                    PlayerPrefs.SetFloat("FichaBolsonaro", 50);
                 }
             }
 
@@ -156,16 +156,16 @@ public class FichaLimpa : MonoBehaviour {
     public void CPI()
 
     {
-        if (fichaLimpa <= 99)
+        if (fichaLimpa <= 20)
         {
-            PlayerPrefs.SetFloat("VeloPerdaPop", 0.7f);
+            PlayerPrefs.SetFloat("VeloPerdaPop", 0.5f);
 
             cpi = 1;
             PlayerPrefs.SetInt("CPI", cpi);
           
         }
 
-        if (fichaLimpa > 99)
+        if (fichaLimpa > 20)
         {
             PlayerPrefs.SetFloat("VeloPerdaPop", 0.1f);
 
