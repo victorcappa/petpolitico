@@ -101,7 +101,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeLula", 50);
+                PlayerPrefs.SetFloat("PopularidadeLula", 0);
             }
 
         }
@@ -156,7 +156,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeCiro", 50);
+                PlayerPrefs.SetFloat("PopularidadeCiro", 0);
             }
 
 
@@ -208,7 +208,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 50);
+                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 0);
             }
 
         }
