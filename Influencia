@@ -59,7 +59,7 @@ public class Influencia : MonoBehaviour
                 case 0:
                     PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") - Time.deltaTime * veloPerdaInflu);
                      tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
-                    if (tempPop == 95 && perdeuLevel == false)
+                    if (tempPop == 20 && perdeuLevel == false)
                     {
                         perdeuLevel = true;
 
@@ -69,6 +69,8 @@ public class Influencia : MonoBehaviour
                         {
                             PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelPerdeuLula"));
                             i++;
+                            PlayerPrefs.SetFloat("FichaLula", PlayerPrefs.GetFloat("FichaLula") - 10);
+
                         }
 
 
@@ -82,7 +84,7 @@ public class Influencia : MonoBehaviour
                 case 1:
                     PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") - Time.deltaTime * veloPerdaInflu);
                        tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
-                    if (tempPop == 95 && perdeuLevel == false)
+                    if (tempPop == 20 && perdeuLevel == false)
                     {
                         perdeuLevel = true;
 
@@ -93,6 +95,8 @@ public class Influencia : MonoBehaviour
                         {
                             PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelPerdeuCiro"));
                             i++;
+                            PlayerPrefs.SetFloat("FichaCiro", PlayerPrefs.GetFloat("FichaCiro") - 10);
+
                         }
 
 
@@ -109,7 +113,7 @@ public class Influencia : MonoBehaviour
                     PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") - Time.deltaTime * veloPerdaInflu);
 
                        tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
-                    if (tempPop == 40 && perdeuLevel == false)
+                    if (tempPop == 20 && perdeuLevel == false)
                     {
                         perdeuLevel = true;
 
@@ -119,6 +123,8 @@ public class Influencia : MonoBehaviour
                         {
                             PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelPerdeuBolso"));
                             i++;
+                            PlayerPrefs.SetFloat("FichaBolsonaro", PlayerPrefs.GetFloat("FichaBolsonaro") - 10);
+
                         }
 
 
@@ -195,6 +201,8 @@ public class Influencia : MonoBehaviour
                 level += 1;
                 PlayerPrefs.SetInt("LevelLula", level);
                 i = 0;
+                PlayerPrefs.SetFloat("FichaLula", PlayerPrefs.GetFloat("FichaLula") + 10);
+
 
             }
 
@@ -232,7 +240,9 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetFloat("InfluCiro", 0);
                 level += 1;
                 PlayerPrefs.SetInt("LevelCiro", level);
-                i = 0;
+                i = 0; // reinicia o indice para perda de level 
+                PlayerPrefs.SetFloat("FichaCiro", PlayerPrefs.GetFloat("FichaCiro") + 10);
+
             }
             if (PlayerPrefs.GetFloat("InfluCiro") <= minInflu)
             {
@@ -267,6 +277,8 @@ public class Influencia : MonoBehaviour
                 level += 1;
                 PlayerPrefs.SetInt("LevelBolso", level);
                 i = 0;
+                PlayerPrefs.SetFloat("FichaBolsonaro", PlayerPrefs.GetFloat("FichaBolsonaro") + 10);
+
 
             }
 
