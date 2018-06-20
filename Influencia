@@ -23,12 +23,10 @@ public class Influencia : MonoBehaviour
     int indiceInfluPersonagens;
     private float perdaPop;
     private int tempLevel;
-    public int subtrairLvl;
-    public int resultSubLvl;
+  
    public  int i = 0;
 
 
-    //bool lvlDown = false;
 
 
     public bool perdeuLevel = false;
@@ -38,10 +36,10 @@ public class Influencia : MonoBehaviour
     void Start()
     {
         //PlayerPrefs.DeleteAll();
-        //recuperaLevel();
+    
         InfluPersonagens();
         PerdaInflu();
-        //PerdeLevels();
+    
 
 
     }
@@ -50,10 +48,10 @@ public class Influencia : MonoBehaviour
 
     void Update()
     {
-        //recuperaLevel();
+    
         PerdaInflu();
         InfluPersonagens();
-        //PerdeLevels();
+    
 
 
     }
@@ -83,7 +81,6 @@ public class Influencia : MonoBehaviour
 
                         perdeuLevel = true;
                     }
-                    // if (quantoperdeulula > 1 // quantoperdeulula = 1
 
                     if ((int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula")) < 80)
                     {
@@ -120,7 +117,6 @@ public class Influencia : MonoBehaviour
                         perdeuLevel = true;
 
                         level = PlayerPrefs.GetInt("LevelBolso");
-                        //level = Math.Abs(level - 1);
                         PlayerPrefs.SetInt("LevelPerdeuBolso", Math.Abs(level -1));
                         if (i < 1)
                         {
@@ -128,16 +124,11 @@ public class Influencia : MonoBehaviour
                             i++;
                         }
 
-                        //lvlDown = true;
-                        // PlayerPrefs.SetInt("QuantoPerdeuBolso", level);
-                        // PlayerPrefs.SetInt("QuantoPerdeuBolso", PlayerPrefs.GetInt("LevelBolso"));
-
+                       
                     }
-                    //if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") > 75)
                     else
                     {
                         perdeuLevel = false;
-                        //lvlDown = false;
                     }
 
 
@@ -153,46 +144,9 @@ public class Influencia : MonoBehaviour
 
     }
 
-    public void recuperaLevel()
-    {
-        if (perdeuLevel == true)
-        {
-            switch (indiceInfluPersonagens)
-            {
-                case 0:
-                    subtrairLvl = (PlayerPrefs.GetInt("QuantoPerdeuLula") * -1);
-                    resultSubLvl = (subtrairLvl - 1);
-                    PlayerPrefs.SetInt("LevelLulaUpdate", (PlayerPrefs.GetInt("LevelLula") + resultSubLvl));
+  
 
-                    break;
-
-                case 1:
-
-
-                    PlayerPrefs.SetInt("LevelCiro", (PlayerPrefs.GetInt("LevelCiro") + (PlayerPrefs.GetInt("QuantoPerdeuCiro") * -1)) - 2);
-
-
-
-                    break;
-                case 2:
-                    subtrairLvl = ((Math.Abs(PlayerPrefs.GetInt("LevelPerdeuBolso"))) + PlayerPrefs.GetInt("LevelBolso"));
-                    resultSubLvl = (subtrairLvl + PlayerPrefs.GetInt("LevelBolso")) - (subtrairLvl + 1);
-                    PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso"));
-                    level = resultSubLvl;
-                  
-
-
-
-                    break;
-            }
-
-
-
-        }
-    }
-
-
-    public void GanhaInflu()
+    public void GanhaInflu() // usado no button de recompensas
     {
         float cresceInflu = 30;
 
@@ -208,8 +162,6 @@ public class Influencia : MonoBehaviour
             case 2:
                 PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + cresceInflu);
                 break;
-
-
 
         }
 
@@ -326,48 +278,7 @@ public class Influencia : MonoBehaviour
     }
 
 
-    /* public void PerdeLevels()
-      {
-
-          if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
-          {
-              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
-              if (tempPop == 90)
-              {
-                  PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLula") - 1);
-
-              }
-
-
-          }
-
-          if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
-          {
-              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
-              if (tempPop == 90)
-              {
-                  PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelCiro") - 1);
-
-              }
-
-
-
-
-          }
-
-          if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
-          {
-              tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
-              if (tempPop == 90)
-              {
-                  PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso") - 1);
-
-              }
-
-
-          }
-      }*/
-
+   
 }
 
 
