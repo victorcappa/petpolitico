@@ -76,7 +76,9 @@ public class Popularidade : MonoBehaviour
                 PlayerPrefs.SetFloat("PopularidadeLula", 0);
             }
 
-            if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("PopularidadeLula") <= 0 && PlayerPrefs.GetInt("DentroDoPartido") == 0)
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+            if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
             {
                 PlayerPrefs.SetFloat("PopularidadeLula", 100);
             }
@@ -105,7 +107,9 @@ public class Popularidade : MonoBehaviour
                 PlayerPrefs.SetFloat("PopularidadeCiro", 0);
             }
 
-            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 0 && PlayerPrefs.GetInt("DentroDoPartido") == 0)
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
             {
                 PlayerPrefs.SetFloat("PopularidadeCiro", 100);
             }
@@ -132,7 +136,10 @@ public class Popularidade : MonoBehaviour
                 PlayerPrefs.SetFloat("PopularidadeBolsonaro", 0);
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0 && PlayerPrefs.GetInt("DentroDoPartido") == 0)
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+
+            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0)
             {
                 PlayerPrefs.SetFloat("PopularidadeBolsonaro", 100);
             }
