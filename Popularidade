@@ -11,8 +11,7 @@ public class Popularidade : MonoBehaviour
     public float veloPerdaPop = 0.1f;
     public float popularidade = 100;
     public float max_pop = 100;
-    public float min_pop = 80;
-    public bool recuperarPop = false;
+    public float min_pop = 0;
     //public GameObject tempPersonagem;
 
    /* private void Awake()
@@ -54,19 +53,6 @@ public class Popularidade : MonoBehaviour
     }
 
 
-
-    void GanhaPopularidade()
-    {
-        if (popularidade <= 100)
-        {
-            popularidade += Time.deltaTime * veloPerdaPop;
-        }
-    }
-
-
-
-
-
     public void PopPersonagens()
 
     {
@@ -87,7 +73,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeLula", 100);
+                PlayerPrefs.SetFloat("PopularidadeLula", 0);
             }
 
         }
@@ -111,7 +97,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeCiro", 100);
+                PlayerPrefs.SetFloat("PopularidadeCiro", 0);
             }
 
 
@@ -132,7 +118,7 @@ public class Popularidade : MonoBehaviour
 
             if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 100);
+                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 0);
             }
 
         }
