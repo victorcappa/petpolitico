@@ -85,10 +85,20 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaLula", fichaLimpa);
 
+            //MIN E MAX
+
             if (PlayerPrefs.GetFloat("FichaLula") <= 0)
+            {
+                PlayerPrefs.SetFloat("FichaLula", 0);
+            }
+
+            if (PlayerPrefs.GetFloat("FichaLula") >= 100)
             {
                 PlayerPrefs.SetFloat("FichaLula", 100);
             }
+
+
+            // INICIO DO JOGO
             if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("FichaLula") <= 1)
             {
                 PlayerPrefs.SetFloat("FichaLula", 100);
@@ -111,6 +121,11 @@ public class FichaLimpa : MonoBehaviour {
             PlayerPrefs.SetFloat("FichaCiro", fichaLimpa);
 
             if (PlayerPrefs.GetFloat("FichaCiro") <= 0)
+            {
+                PlayerPrefs.SetFloat("FichaCiro", 0);
+            }
+
+            if (PlayerPrefs.GetFloat("FichaCiro") >= 100)
             {
                 PlayerPrefs.SetFloat("FichaCiro", 100);
             }
@@ -138,12 +153,18 @@ public class FichaLimpa : MonoBehaviour {
             if (PlayerPrefs.GetFloat("FichaBolsonaro") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaBolsonaro", 0);
+            }
+
+            if (PlayerPrefs.GetFloat("FichaBolsonaro") >= 100)
+            {
+                PlayerPrefs.SetFloat("FichaBolsonaro", 100);
+            }
 
                 if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 1)
                 {
                     PlayerPrefs.SetFloat("FichaBolsonaro", 100);
                 }
-            }
+            
 
 
            
