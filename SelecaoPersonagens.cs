@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography.X509Certificates;
+using UnityEngine.Experimental.UIElements;
 
-public class SelecaoPersonagens : MonoBehaviour {
+public class SelecaoPersonagens : MonoBehaviour
+{
     //public GameObject[] MeuPartido = new GameObject[5];
     // public GameObject politico;
 
@@ -10,7 +12,7 @@ public class SelecaoPersonagens : MonoBehaviour {
     public GameObject Lula, Ciro, Bolsonaro;
     public GameObject LulaPartido, CiroPartido, BolsoPartido;
     public int LulaDentroPartido, CiroDentroPartido, BolsoDentroPartido;
-
+    public GameObject[] TiraPartidoBtn;
     private void Awake()
 
     {
@@ -34,7 +36,7 @@ public class SelecaoPersonagens : MonoBehaviour {
         {
             BolsonaroPartidoOn();
         }
-    
+
     }
 
     // LULA 
@@ -55,7 +57,7 @@ public class SelecaoPersonagens : MonoBehaviour {
         PlayerPrefs.SetInt("LulaDentroPartido", LulaDentroPartido);
     }
 
-// ------------------------------------------------------------------ //
+    // ------------------------------------------------------------------ //
 
     //CIRO
 
@@ -79,7 +81,7 @@ public class SelecaoPersonagens : MonoBehaviour {
 
     // ------------------------------------------------------------------ //
 
-    //BOLSORNARO
+    //BOLSONARO
 
     public void BolsonaroPartidoOn()
     {
@@ -106,5 +108,35 @@ public class SelecaoPersonagens : MonoBehaviour {
         print(MeuPartido[2]);
     }
 
-   
-}
+    public void minPartido()
+    {
+        PlayerPrefs.SetInt("DentroDoPartido", MeuPartido.Count);
+        print(PlayerPrefs.GetInt("DentroDoPartido"));
+
+        if (PlayerPrefs.GetInt("DentroDoPartido") == 1)
+        {
+            foreach (GameObject btn in TiraPartidoBtn)
+            {
+
+                btn.SetActive(false);
+            }
+           
+
+        }
+        else
+        {
+            foreach (GameObject btn in TiraPartidoBtn)
+            {
+
+                btn.SetActive(true);
+            }
+        }
+
+    }
+
+        public void Update()
+        {
+            minPartido();
+        }
+    }
+
