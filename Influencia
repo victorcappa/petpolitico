@@ -202,7 +202,7 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetInt("LevelLula", level);
                 i = 0;
                 PlayerPrefs.SetFloat("FichaLula", PlayerPrefs.GetFloat("FichaLula") + 10);
-
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
 
             }
 
@@ -242,6 +242,8 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetInt("LevelCiro", level);
                 i = 0; // reinicia o indice para perda de level 
                 PlayerPrefs.SetFloat("FichaCiro", PlayerPrefs.GetFloat("FichaCiro") + 10);
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
+
 
             }
             if (PlayerPrefs.GetFloat("InfluCiro") <= minInflu)
@@ -278,6 +280,8 @@ public class Influencia : MonoBehaviour
                 PlayerPrefs.SetInt("LevelBolso", level);
                 i = 0;
                 PlayerPrefs.SetFloat("FichaBolsonaro", PlayerPrefs.GetFloat("FichaBolsonaro") + 10);
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
+
 
 
             }
