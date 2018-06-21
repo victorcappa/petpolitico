@@ -1,0 +1,45 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DesbloqueioPersonagens : MonoBehaviour {
+
+    GameObject level;
+    //public GameObject dilma; // ativar
+    int i;
+    public Button dilma, eneas;
+
+ // inativar blocks
+
+
+	// Use this for initialization
+	void Start () {
+        DesbloquearPersonagem();
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        DesbloquearPersonagem();
+	}
+
+    public void DesbloquearPersonagem()
+    {
+        if (PlayerPrefs.GetInt("LevelIndice") >= 3)
+        {
+            i = 0;
+          
+            //dilma.gameObject.SetActive(true);
+            dilma.interactable = true;
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") >= 6)
+        {
+            i = 1;
+
+            //dilma.gameObject.SetActive(true);
+            eneas.interactable = true;
+        }
+    }
+
+  
+}
