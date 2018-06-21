@@ -30,6 +30,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoLula", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 70);
 
             }
 
@@ -38,6 +39,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoLula", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoLula");
                 PlayerPrefs.SetInt("PassouCargoLula", 1); // para verificar se ele já passou para esse cargo
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
 
             }
@@ -46,6 +48,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoLula", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoLula");
                 PlayerPrefs.SetInt("PassouCargoLula", 1);
+                PlayerPrefs.SetInt("MaxInflu", 120);
 
             }
 
@@ -54,6 +57,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoLula", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoLula");
                 PlayerPrefs.SetInt("PassouCargoLula", 1);
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
             }
 
@@ -62,6 +66,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoLula", "Governador");
                 cargo = PlayerPrefs.GetString("CargoLula");
                 PlayerPrefs.SetInt("PassouCargoLula", 1);
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
             }
 
@@ -70,6 +75,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoLula", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoLula");
                 PlayerPrefs.SetInt("PassouCargoLula", 1);
+                PlayerPrefs.SetInt("MaxInflu", 200);
 
             }
 
@@ -82,12 +88,14 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoLula", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
             }
             if (PlayerPrefs.GetInt("LevelLula") >= 6 && PlayerPrefs.GetInt("PassouCargoLula") == 1)
             {
                 PlayerPrefs.SetString("CargoLula", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 120);
 
             }
 
@@ -95,6 +103,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoLula", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
             }
 
@@ -102,6 +111,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoLula", "Governador");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
             }
 
@@ -109,6 +119,8 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoLula", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoLula");
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
 
             }
         }
@@ -126,6 +138,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoCiro", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoCiro");
+                PlayerPrefs.SetInt("MaxInflu", 70);
 
 
             }
@@ -135,6 +148,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("PassouCargoCiro", 1);
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
 
             }
@@ -143,6 +157,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("PassouCargoCiro", 1);
+                PlayerPrefs.SetInt("MaxInflu", 120);
 
             }
 
@@ -151,6 +166,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("PassouCargoCiro", 1);
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
             }
 
@@ -159,6 +175,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Governador");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("PassouCargoCiro", 1);
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
             }
 
@@ -167,6 +184,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("PassouCargoCiro", 1);
+                PlayerPrefs.SetInt("MaxInflu", 200);
 
             }
 
@@ -179,34 +197,35 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoCiro", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoCiro");
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
             }
             if (PlayerPrefs.GetInt("LevelCiro") >= 6 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
             {
                 PlayerPrefs.SetString("CargoCiro", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoCiro");
-
+                PlayerPrefs.SetInt("MaxInflu", 120);
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 10 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
             {
                 PlayerPrefs.SetString("CargoCiro", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoCiro");
-
+                PlayerPrefs.SetInt("MaxInflu", 150);
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 20 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
             {
                 PlayerPrefs.SetString("CargoCiro", "Governador");
                 cargo = PlayerPrefs.GetString("CargoCiro");
-
+                PlayerPrefs.SetInt("MaxInflu", 180);
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 30 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
             {
                 PlayerPrefs.SetString("CargoCiro", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoCiro");
-
+                PlayerPrefs.SetInt("MaxInflu", 200);
             }
 
 
@@ -230,6 +249,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoBolso");
+                PlayerPrefs.SetInt("MaxInflu", 70);
               
 
             }
@@ -238,6 +258,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoBolso", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
             }
             if (PlayerPrefs.GetInt("LevelBolso") == 6 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
@@ -245,6 +266,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoBolso", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                PlayerPrefs.SetInt("MaxInflu", 120);
 
             }
 
@@ -253,6 +275,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoBolso", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
             }
 
@@ -261,6 +284,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoBolso", "Governador");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
             }
 
@@ -269,6 +293,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoBolso", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                PlayerPrefs.SetInt("MaxInflu", 200);
 
             }
 
@@ -282,12 +307,14 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoBolso");
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
             }
             if (PlayerPrefs.GetInt("LevelBolso") >= 6 && PlayerPrefs.GetInt("PassouCargoBolso") == 1)
             {
                 PlayerPrefs.SetString("CargoBolso", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoBolso");
+                PlayerPrefs.SetInt("MaxInflu", 120);
 
             }
 
@@ -295,7 +322,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoBolso");
-
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
             }
 
@@ -303,6 +330,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Governador");
                 cargo = PlayerPrefs.GetString("CargoBolso");
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
             }
 
@@ -310,6 +338,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoBolso");
+                PlayerPrefs.SetInt("MaxInflu", 200);
 
             }
 
