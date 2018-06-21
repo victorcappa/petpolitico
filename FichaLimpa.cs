@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Security.Cryptography.X509Certificates;
 
 public class FichaLimpa : MonoBehaviour {
 
     public Text ficha_txtUI;
     public float veloPerdaFicha;
-    public float fichaLimpa = 50;
+    public float fichaLimpa = 100;
     public float max_ficha = 100;
     public float min_ficha = 0;
     public bool recuperarFicha = false;
@@ -99,7 +96,7 @@ public class FichaLimpa : MonoBehaviour {
 
 
             // INICIO DO JOGO
-            if (PlayerPrefs.GetInt("LevelLula") == 0 && PlayerPrefs.GetFloat("FichaLula") <= 1)
+            if (PlayerPrefs.GetInt("LevelLula") <=1 && PlayerPrefs.GetFloat("FichaLula") <= 100 && PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaLula", 100);
             }
@@ -130,7 +127,7 @@ public class FichaLimpa : MonoBehaviour {
                 PlayerPrefs.SetFloat("FichaCiro", 100);
             }
 
-            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 1)
+            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 100 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaCiro", 100);
             }
@@ -160,7 +157,7 @@ public class FichaLimpa : MonoBehaviour {
                 PlayerPrefs.SetFloat("FichaBolsonaro", 100);
             }
 
-                if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 1)
+            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 100 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0)
                 {
                     PlayerPrefs.SetFloat("FichaBolsonaro", 100);
                 }
