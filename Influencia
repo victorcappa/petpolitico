@@ -33,7 +33,6 @@ public class Influencia : MonoBehaviour
     void Start()
     {
         //PlayerPrefs.DeleteAll();
-
         InfluPersonagens();
         PerdaInflu();
     }
@@ -42,6 +41,7 @@ public class Influencia : MonoBehaviour
 
     void Update()
     {
+
         PerdaInflu();
         InfluPersonagens();
     }
@@ -184,6 +184,9 @@ public class Influencia : MonoBehaviour
 
             level_txtUI.text = "LVL: " + level.ToString();
 
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+
 
             influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluLula", influencia));
             influ_txtUI.text = (influencia.ToString() + "%");
@@ -193,6 +196,7 @@ public class Influencia : MonoBehaviour
             {
                 PlayerPrefs.SetInt("LevelLula", 0);
             }
+
 
 
             if (PlayerPrefs.GetFloat("InfluLula") >= maxInflu)
@@ -224,6 +228,8 @@ public class Influencia : MonoBehaviour
             level = PlayerPrefs.GetInt("LevelCiro");
 
             level_txtUI.text = "LVL: " + level.ToString();
+
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
             if (PlayerPrefs.GetInt("LevelCiro") <= 0)
             {
@@ -260,6 +266,8 @@ public class Influencia : MonoBehaviour
             indiceInfluPersonagens = 2;
 
             level = PlayerPrefs.GetInt("LevelBolso");
+
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
             level_txtUI.text = "LVL: " + level.ToString();
 
