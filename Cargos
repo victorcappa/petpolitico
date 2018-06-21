@@ -9,7 +9,8 @@ public class Cargos : MonoBehaviour {
 
 	void Start () {
         CargosPersonagens();
-       
+        //PlayerPrefs.DeleteAll();
+
 		
 	}
 	
@@ -33,6 +34,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetInt("MaxInflu", 70);
 
             }
+        
 
             if (PlayerPrefs.GetInt("LevelLula") == 3)
             {
@@ -60,14 +62,15 @@ public class Cargos : MonoBehaviour {
             }
 
             if (PlayerPrefs.GetInt("LevelLula") == 10)
-            { 
+            {
                 PlayerPrefs.SetInt("MaxInflu", 150);
 
                 if (PlayerPrefs.GetFloat("PopularidadeLula") >= 51)
-            {
-                PlayerPrefs.SetString("CargoLula", "Prefeito");
-                cargo = PlayerPrefs.GetString("CargoLula");
-                PlayerPrefs.SetInt("PassouCargoLula", 1);
+                {
+                    PlayerPrefs.SetString("CargoLula", "Prefeito");
+                    cargo = PlayerPrefs.GetString("CargoLula");
+                    PlayerPrefs.SetInt("PassouCargoLula", 1);
+                }
             }
 
                 if (PlayerPrefs.GetInt("LevelLula") == 20)
@@ -144,20 +147,18 @@ public class Cargos : MonoBehaviour {
 
 
 
-            if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            indiceCargoPersonagem = 1;
+            cargo_txtUI.text = cargo;
+
+            if (PlayerPrefs.GetInt("LevelCiro") < 3)
             {
-                indiceCargoPersonagem = 1;
-                cargo_txtUI.text = cargo;
-
-                if (PlayerPrefs.GetInt("LevelCiro") < 3)
-                {
-                    PlayerPrefs.SetString("CargoCiro", "Candidato");
-                    cargo = PlayerPrefs.GetString("CargoCiro");
-                    PlayerPrefs.SetInt("MaxInflu", 70);
-
-
-                }
+                PlayerPrefs.SetString("CargoCiro", "Candidato");
+                cargo = PlayerPrefs.GetString("CargoCiro");
+                PlayerPrefs.SetInt("MaxInflu", 70);
             }
+
 
             if (PlayerPrefs.GetInt("LevelCiro") == 3)
 
@@ -169,7 +170,6 @@ public class Cargos : MonoBehaviour {
                     PlayerPrefs.SetString("CargoCiro", "Vereador");
                     cargo = PlayerPrefs.GetString("CargoCiro");
                     PlayerPrefs.SetInt("PassouCargoCiro", 1);
-                    PlayerPrefs.SetInt("MaxInflu", 100);
                 }
 
             }
@@ -284,70 +284,70 @@ public class Cargos : MonoBehaviour {
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("MaxInflu", 70);
             }
-                if (PlayerPrefs.GetInt("LevelBolso") == 3)
-                { 
-                    PlayerPrefs.SetInt("MaxInflu", 100);
+            if (PlayerPrefs.GetInt("LevelBolso") == 3)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 100);
 
-                    if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoBolso", "Vereador");
-                        cargo = PlayerPrefs.GetString("CargoBolso");
-                        PlayerPrefs.SetInt("PassouCargoBolso", 1);
-                    }
-                }
-            if (PlayerPrefs.GetInt("LevelBolso") == 6 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
-                    PlayerPrefs.SetInt("MaxInflu", 120);
-
-                    if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoBolso", "Vereador");
-                        cargo = PlayerPrefs.GetString("CargoBolso");
-                        PlayerPrefs.SetInt("PassouCargoBolso", 1);
-                    }
+                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoBolso");
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
+            }
+            if (PlayerPrefs.GetInt("LevelBolso") == 6 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoBolso");
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                }
+            }
 
             if (PlayerPrefs.GetInt("LevelBolso") == 10 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                {
-                    PlayerPrefs.SetInt("MaxInflu", 150);
+            {
+                PlayerPrefs.SetInt("MaxInflu", 150);
 
-                    if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoBolso", "Vereador");
-                        cargo = PlayerPrefs.GetString("CargoBolso");
-                        PlayerPrefs.SetInt("PassouCargoBolso", 1);
-                    }
+                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoBolso");
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
+            }
 
             if (PlayerPrefs.GetInt("LevelBolso") == 20 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                {
-                    PlayerPrefs.SetInt("MaxInflu", 180);
+            {
+                PlayerPrefs.SetInt("MaxInflu", 180);
 
-                    if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoBolso", "Vereador");
-                        cargo = PlayerPrefs.GetString("CargoBolso");
-                        PlayerPrefs.SetInt("PassouCargoBolso", 1);
-                    }
+                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoBolso");
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
+            }
 
             if (PlayerPrefs.GetInt("LevelBolso") == 30 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                {
-                    PlayerPrefs.SetInt("MaxInflu", 200);
+            {
+                PlayerPrefs.SetInt("MaxInflu", 200);
 
-                    if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoBolso", "Vereador");
-                        cargo = PlayerPrefs.GetString("CargoBolso");
-                        PlayerPrefs.SetInt("PassouCargoBolso", 1);
-                    }
+                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoBolso");
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
+            }
 
             // ---------------------------------------------- //
 
-                          //  MANTER O CARGO BOLSO //
+            //  MANTER O CARGO BOLSO //
 
-         
+
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 3 && PlayerPrefs.GetInt("PassouCargoBolso") == 1)
             {
@@ -386,7 +386,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetInt("MaxInflu", 200);
 
 
-               if ( PlayerPrefs.GetInt("PassouCargoBolso") == 1)
+                if (PlayerPrefs.GetInt("PassouCargoBolso") == 1)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Presidente");
                     cargo = PlayerPrefs.GetString("CargoBolso");
@@ -396,6 +396,6 @@ public class Cargos : MonoBehaviour {
 
 
         }
-        
+
     }
 }
