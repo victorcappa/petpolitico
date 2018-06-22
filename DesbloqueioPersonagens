@@ -4,40 +4,56 @@ using UnityEngine.UI;
 public class DesbloqueioPersonagens : MonoBehaviour {
 
     GameObject level;
-    //public GameObject dilma; // ativar
     int i;
-    public Button dilma, eneas;
-
- // inativar blocks
+    public Button suplicy, eneas;
 
 
-	// Use this for initialization
+
 	void Start () {
         DesbloquearPersonagem();
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
         DesbloquearPersonagem();
+        //PlayerPrefs.DeleteAll();
+
 	}
 
     public void DesbloquearPersonagem()
     {
+        // SUPLICY
+
+
         if (PlayerPrefs.GetInt("LevelIndice") >= 3)
         {
             i = 0;
-          
-            //dilma.gameObject.SetActive(true);
-            dilma.interactable = true;
+            PlayerPrefs.SetInt("SuplicyDesblock", i);
+
+            if (PlayerPrefs.GetInt("SuplicyDesblock") == 0) 
+            {
+                suplicy.interactable = true;
+
+            }
+
         }
 
+      
+
+
+
+        // ENEAS
         if (PlayerPrefs.GetInt("LevelIndice") >= 6)
         {
             i = 1;
+            PlayerPrefs.SetInt("EneasDesblock", i);
 
-            //dilma.gameObject.SetActive(true);
-            eneas.interactable = true;
+            if (PlayerPrefs.GetInt("EneasDesblock") == 1)
+            {
+                eneas.interactable = true;
+
+            }
+
         }
     }
 
