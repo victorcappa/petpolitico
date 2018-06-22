@@ -121,9 +121,6 @@ public class Popularidade : MonoBehaviour
             float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
             pop_txtUI.text = (tempPopularidade.ToString() + "%");
 
-            int tempPopCiro = (int)tempPopularidade;
-            PlayerPrefs.SetInt("TempPopCiro", tempPopCiro);
-
             veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
             veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
 
@@ -239,9 +236,188 @@ public class Popularidade : MonoBehaviour
 
         }
 
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            popularidade = PlayerPrefs.GetFloat("PopularidadeDilma");
+            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"));
+            pop_txtUI.text = (tempPopularidade.ToString() + "%");
+
+            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
+            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
+
+            popularidade = PlayerPrefs.GetFloat("PopularidadeDilma");
+
+            //------------------------------------------------
+
+            // ganho ou perda de pop
+
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
+            {
+                popularidade -= Time.deltaTime * veloPerdaPop;
+
+            }
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
+            {
+                popularidade += Time.deltaTime * veloGanhaPop;
+
+            }
+
+            //------------------------------------------------
+
+            // min pop
+
+            PlayerPrefs.SetFloat("PopularidadeDilma", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeDilma") <= 0)
+            {
+                PlayerPrefs.SetFloat("PopularidadeDilma", 0);
+            }
+
+            // max pop
+
+            PlayerPrefs.SetFloat("PopularidadeDilma", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 100)
+            {
+                PlayerPrefs.SetFloat("PopularidadeDilma", 100);
+            }
 
 
 
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+            if (PlayerPrefs.GetInt("LevelDilma") <= 1 && PlayerPrefs.GetFloat("PopularidadeDilma") <= 1)
+            {
+                PlayerPrefs.SetFloat("PopularidadeDilma", 50);
+            }
+
+
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            popularidade = PlayerPrefs.GetFloat("PopularidadeSuplicy");
+            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"));
+            pop_txtUI.text = (tempPopularidade.ToString() + "%");
+
+            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
+            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
+
+            popularidade = PlayerPrefs.GetFloat("PopularidadeSuplicy");
+
+            //------------------------------------------------
+
+            // ganho ou perda de pop
+
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
+            {
+                popularidade -= Time.deltaTime * veloPerdaPop;
+
+            }
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
+            {
+                popularidade += Time.deltaTime * veloGanhaPop;
+
+            }
+
+            //------------------------------------------------
+
+            // min pop
+
+            PlayerPrefs.SetFloat("PopularidadeSuplicy", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 0)
+            {
+                PlayerPrefs.SetFloat("PopularidadeSuplicy", 0);
+            }
+
+            // max pop
+
+            PlayerPrefs.SetFloat("PopularidadeSuplicy", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 100)
+            {
+                PlayerPrefs.SetFloat("PopularidadeSuplicy", 100);
+            }
+
+
+
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") <= 1 && PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 1)
+            {
+                PlayerPrefs.SetFloat("PopularidadeSuplicy", 50);
+            }
+
+
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            popularidade = PlayerPrefs.GetFloat("PopularidadeEneas");
+            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"));
+            pop_txtUI.text = (tempPopularidade.ToString() + "%");
+
+            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
+            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
+
+            popularidade = PlayerPrefs.GetFloat("PopularidadeEneas");
+
+            //------------------------------------------------
+
+            // ganho ou perda de pop
+
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
+
+            {
+                popularidade -= Time.deltaTime * veloPerdaPop;
+
+            }
+
+            if (PlayerPrefs.GetInt("AlmaHonesta") == 1)
+            {
+                popularidade += Time.deltaTime * veloGanhaPop;
+
+            }
+
+            //------------------------------------------------
+
+            // min pop
+
+            PlayerPrefs.SetFloat("PopularidadeEneas", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeEneas") <= 0)
+            {
+                PlayerPrefs.SetFloat("PopularidadeEneas", 0);
+            }
+
+            // max pop
+
+            PlayerPrefs.SetFloat("PopularidadeEneas", popularidade);
+
+            if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 100)
+            {
+                PlayerPrefs.SetFloat("PopularidadeEneas", 100);
+            }
+
+
+
+            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+
+            if (PlayerPrefs.GetInt("LevelEneas") <= 1 && PlayerPrefs.GetFloat("PopularidadeEneas") <= 1)
+            {
+                PlayerPrefs.SetFloat("PopularidadeEneas", 50);
+            }
+
+
+        }
 
     }
 
