@@ -1,0 +1,175 @@
+using UnityEngine.UI;
+using UnityEngine;
+
+
+// ----------------------------------------------------------------------------------------- //
+using UnityEngine.SceneManagement;
+
+public class GameManager : MonoBehaviour {
+
+    // Na Unity, em Luz/abajur e Luz/abajurDesligado, coloquei dois eventos onClick. Esses eventos chamam as funções AbajurLigado e AbajurDesligado (quando clicamos
+    // nos sprites de abajur ligado e desligado.
+
+
+    public Image abajurLigado, abajurDesligado; // criei esses componentes, para linkar os estados de ligado e desligado do abajur, com as imagens de ligado e desligago
+    public Image luzDesligada; 
+    public Image creditos;
+    public GameObject pet; // esse gameObject é um componente para conectar o que acontece com o abajur (ligar e desligar) e as reações do pet (+energia ou -energia)
+    public GameObject canvas_alimentos; //canvas_costumizacao, canvas_menu, canvas_credito;
+    public GameObject canvas_menu;
+    public GameObject painelPersonagens;
+    public GameObject painelPartido;
+    public GameObject politico;
+    public GameObject Lula, Ciro, Bolsonaro, Dilma, Suplicy, Eneas;
+
+   
+    //private Light luzGeral;
+
+
+
+    // SISTEMAS DE ABAJUR (mudança de sprites / linkar o ligar e desligar do abajur, com a diminuição e
+    // aumento de energia, respectivamente)
+
+    public void AbajurLigado() 
+    {
+        abajurLigado.gameObject.SetActive(true); // com o sistema AbajurLigado, a variavel abajurLigado = true
+        abajurDesligado.gameObject.SetActive(false);
+        luzDesligada.gameObject.SetActive(false);
+
+        pet.gameObject.GetComponent<virtualPet>().PodeRecuperar_energia = false; // criamos a variavel temporaria "pet", dando o valor do script virtualPet
+        // dei o valor de PodeRecuperar_energia = false
+
+        // em suma: quando o abajur estiver ligado, a variavel abajurLigado será true e PodeRecuperar_energia será false, e o pet perderá energia
+    }
+
+    public void AbajurDesligado()
+    {
+        abajurLigado.gameObject.SetActive(false); // com o sistema AbajurDesligado, a variavel abajurLigado = false
+        abajurDesligado.gameObject.SetActive(true);
+        luzDesligada.gameObject.SetActive(true);
+        pet.gameObject.GetComponent<virtualPet>().PodeRecuperar_energia = true;
+
+        // com o sistema AbajurDesligado, o pet irá recuperar energia
+    }
+
+    public void Recompensas()
+
+    {
+        pet.gameObject.GetComponent<virtualPet>().sistema_Bonificacoes();
+
+    }
+
+    public void GanhaVerba()
+    {
+        
+        politico.gameObject.GetComponent<Verba>().GanhaVerba();
+    }
+
+    // GANHA INFLU (ATIVA O MÉTODO DO INFLUENCIA, ONDE O PERSONAGEM DA SCENE GANHA INFLU //
+    public void GanhaInflu()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            Lula.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            Ciro.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            Bolsonaro.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            Suplicy.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            Eneas.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+      
+    }
+
+    ////////////////////////// SISTEMA PARA CHAMAR MINI GAMES ///////////////////
+
+    public void miniGames() 
+
+    {
+        SceneManager.LoadScene(1);        
+    }
+
+    public void AlimentosAberto()
+    {
+        canvas_alimentos.SetActive(true);
+
+
+    }
+    public void AlimentosFechado()
+    {
+        canvas_alimentos.SetActive(false);
+
+    }
+
+    public void MenuAberto() 
+
+    {
+        canvas_menu.SetActive(true);
+
+
+    }
+
+    public void MenuFechado()
+
+    {
+        canvas_menu.SetActive(false);
+
+
+    }
+
+    public void SairJogo() 
+    {
+        Application.Quit();
+    }
+
+    public void CreditosOn()
+    {
+        creditos.gameObject.SetActive(true);
+    }
+
+    public void CreditosOff()
+    {
+        creditos.gameObject.SetActive(false);
+    }
+
+    public void PainelPersonagensOn()
+    {
+        painelPersonagens.SetActive(true);
+
+    }
+
+    public void PainelPersonagensOff()
+    {
+        painelPersonagens.SetActive(false);
+
+    }
+
+    public void PainelPartidoOn()
+    {
+        painelPartido.SetActive(true);
+
+    }
+
+    public void PainelPartidoOff()
+    {
+        painelPartido.SetActive(false);
+
+    }
+
+   
+}
+
