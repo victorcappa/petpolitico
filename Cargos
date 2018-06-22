@@ -20,6 +20,8 @@ public class Cargos : MonoBehaviour {
 
     public void CargosPersonagens()
     {
+        // --------------- CARGO LULA --------------- //
+
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
             indiceCargoPersonagem = 0;
@@ -143,83 +145,85 @@ public class Cargos : MonoBehaviour {
             }
         }
 
-            // MUDAR DE CARGO CIRO
 
-
+        // --------------- CARGO CIRO --------------- //
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
             indiceCargoPersonagem = 1;
             cargo_txtUI.text = cargo;
 
+            // MUDAR DE CARGO CIRO
+
             if (PlayerPrefs.GetInt("LevelCiro") < 3)
             {
                 PlayerPrefs.SetString("CargoCiro", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("MaxInflu", 70);
+
             }
 
 
             if (PlayerPrefs.GetInt("LevelCiro") == 3)
-
             {
-                PlayerPrefs.SetInt("MaxInflu", 100);
+                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
 
-               if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
                 {
                     PlayerPrefs.SetString("CargoCiro", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoCiro");
+                    PlayerPrefs.SetInt("PassouCargoCiro", 1); // para verificar se ele já passou para esse cargo
+                }
+
+            }
+            if (PlayerPrefs.GetInt("LevelCiro") == 6)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+                if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoCiro", "Deputado");
                     cargo = PlayerPrefs.GetString("CargoCiro");
                     PlayerPrefs.SetInt("PassouCargoCiro", 1);
                 }
 
             }
-                if (PlayerPrefs.GetInt("LevelCiro") == 6)
+
+            if (PlayerPrefs.GetInt("LevelCiro") == 10)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+                if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
                 {
-                    PlayerPrefs.SetInt("MaxInflu", 120);
-
-                    if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoCiro", "Deputado");
-                        cargo = PlayerPrefs.GetString("CargoCiro");
-                        PlayerPrefs.SetInt("PassouCargoCiro", 1);
-                    }
+                    PlayerPrefs.SetString("CargoCiro", "Prefeito");
+                    cargo = PlayerPrefs.GetString("CargoCiro");
+                    PlayerPrefs.SetInt("PassouCargoCiro", 1);
                 }
+            }
 
-                if (PlayerPrefs.GetInt("LevelCiro") == 10)
+            if (PlayerPrefs.GetInt("LevelCiro") == 20)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+                if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
                 {
-                    PlayerPrefs.SetInt("MaxInflu", 150);
-
-                    if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoCiro", "Deputado");
-                        cargo = PlayerPrefs.GetString("CargoCiro");
-                        PlayerPrefs.SetInt("PassouCargoCiro", 1);
-                    }
+                    PlayerPrefs.SetString("CargoCiro", "Governador");
+                    cargo = PlayerPrefs.GetString("CargoCiro");
+                    PlayerPrefs.SetInt("PassouCargoCiro", 1);
                 }
+            }
 
-                if (PlayerPrefs.GetInt("LevelCiro") == 20)
+            if (PlayerPrefs.GetInt("LevelCiro") == 30)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+                if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
                 {
-                    PlayerPrefs.SetInt("MaxInflu", 180);
-
-                    if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoCiro", "Deputado");
-                        cargo = PlayerPrefs.GetString("CargoCiro");
-                        PlayerPrefs.SetInt("PassouCargoCiro", 1);
-                    }
+                    PlayerPrefs.SetString("CargoCiro", "Presidente");
+                    cargo = PlayerPrefs.GetString("CargoCiro");
+                    PlayerPrefs.SetInt("PassouCargoCiro", 1);
                 }
-
-            if (PlayerPrefs.GetInt("LevelCiro") == 30 && PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
-                {
-                    PlayerPrefs.SetInt("MaxInflu", 200);
-
-                    if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 51)
-                    {
-                        PlayerPrefs.SetString("CargoCiro", "Deputado");
-                        cargo = PlayerPrefs.GetString("CargoCiro");
-                        PlayerPrefs.SetInt("PassouCargoCiro", 1);
-                    }
-                }
+            }
 
             // ---------------------------------------------- //
 
@@ -238,6 +242,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Deputado");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("MaxInflu", 120);
+
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 10 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
@@ -245,6 +250,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Prefeito");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("MaxInflu", 150);
+
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 20 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
@@ -252,6 +258,7 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Governador");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("MaxInflu", 180);
+
             }
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 30 && PlayerPrefs.GetInt("PassouCargoCiro") == 1)
@@ -259,12 +266,13 @@ public class Cargos : MonoBehaviour {
                 PlayerPrefs.SetString("CargoCiro", "Presidente");
                 cargo = PlayerPrefs.GetString("CargoCiro");
                 PlayerPrefs.SetInt("MaxInflu", 200);
+
+
             }
-
-
         }
 
-        // CARGO BOLSONARO
+        //  --------------- CARGO BOLSONARO ---------- //
+
         /* Foi necessário fazer duas condicionais diferentes
          * uma verifica se ele atingiu o level limite e se a popularidade >=51
          * a outra verifica se o level >= ao limite e se ele ja passou de cargo
@@ -276,68 +284,73 @@ public class Cargos : MonoBehaviour {
             indiceCargoPersonagem = 2;
             cargo_txtUI.text = cargo;
 
-            // MUDAR DE CARGO BOLSO
+            // MUDAR DE CARGO BOLSONARO
 
             if (PlayerPrefs.GetInt("LevelBolso") < 3)
             {
                 PlayerPrefs.SetString("CargoBolso", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("MaxInflu", 70);
+
             }
+
+
             if (PlayerPrefs.GetInt("LevelBolso") == 3)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100);
+                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
 
                 if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Vereador");
                     cargo = PlayerPrefs.GetString("CargoBolso");
-                    PlayerPrefs.SetInt("PassouCargoBolso", 1);
+                    PlayerPrefs.SetInt("PassouCargoBolso", 1); // para verificar se ele já passou para esse cargo
                 }
+
             }
-            if (PlayerPrefs.GetInt("LevelBolso") == 6 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+            if (PlayerPrefs.GetInt("LevelBolso") == 6)
             {
                 PlayerPrefs.SetInt("MaxInflu", 120);
 
                 if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
-                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    PlayerPrefs.SetString("CargoBolso", "Deputado");
                     cargo = PlayerPrefs.GetString("CargoBolso");
                     PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
+
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") == 10 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+            if (PlayerPrefs.GetInt("LevelBolso") == 10)
             {
                 PlayerPrefs.SetInt("MaxInflu", 150);
 
                 if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
-                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    PlayerPrefs.SetString("CargoBolso", "Prefeito");
                     cargo = PlayerPrefs.GetString("CargoBolso");
                     PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") == 20 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+            if (PlayerPrefs.GetInt("LevelBolso") == 20)
             {
                 PlayerPrefs.SetInt("MaxInflu", 180);
 
                 if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
-                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    PlayerPrefs.SetString("CargoBolso", "Governador");
                     cargo = PlayerPrefs.GetString("CargoBolso");
                     PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") == 30 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+            if (PlayerPrefs.GetInt("LevelBolso") == 30)
             {
                 PlayerPrefs.SetInt("MaxInflu", 200);
 
                 if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
                 {
-                    PlayerPrefs.SetString("CargoBolso", "Vereador");
+                    PlayerPrefs.SetString("CargoBolso", "Presidente");
                     cargo = PlayerPrefs.GetString("CargoBolso");
                     PlayerPrefs.SetInt("PassouCargoBolso", 1);
                 }
@@ -345,11 +358,10 @@ public class Cargos : MonoBehaviour {
 
             // ---------------------------------------------- //
 
-            //  MANTER O CARGO BOLSO //
-
-
+            //  MANTER O CARGO BOLSONARO //
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 3 && PlayerPrefs.GetInt("PassouCargoBolso") == 1)
+
             {
                 PlayerPrefs.SetString("CargoBolso", "Vereador");
                 cargo = PlayerPrefs.GetString("CargoBolso");
@@ -380,22 +392,389 @@ public class Cargos : MonoBehaviour {
 
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") >= 30)
-
+            if (PlayerPrefs.GetInt("LevelBolso") >= 30 && PlayerPrefs.GetInt("PassouCargoBolso") == 1)
             {
+                PlayerPrefs.SetString("CargoBolso", "Presidente");
+                cargo = PlayerPrefs.GetString("CargoBolso");
                 PlayerPrefs.SetInt("MaxInflu", 200);
 
 
-                if (PlayerPrefs.GetInt("PassouCargoBolso") == 1)
-                {
-                    PlayerPrefs.SetString("CargoBolso", "Presidente");
-                    cargo = PlayerPrefs.GetString("CargoBolso");
-                }
+            }
+        }
+
+        // --------------- CARGO DILMA --------------- //
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            indiceCargoPersonagem = 3;
+            cargo_txtUI.text = cargo;
+
+            // MUDAR DE CARGO DILMA
+
+            if (PlayerPrefs.GetInt("LevelDilma") < 3)
+            {
+                PlayerPrefs.SetString("CargoDilma", "Candidata");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 70);
 
             }
 
 
+            if (PlayerPrefs.GetInt("LevelDilma") == 3)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+
+                if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoDilma", "Vereadora");
+                    cargo = PlayerPrefs.GetString("CargoDilma");
+                    PlayerPrefs.SetInt("PassouCargoDilma", 1); // para verificar se ele já passou para esse cargo
+                }
+
+            }
+            if (PlayerPrefs.GetInt("LevelDilma") == 6)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+                if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoDilma", "Deputada");
+                    cargo = PlayerPrefs.GetString("CargoDilma");
+                    PlayerPrefs.SetInt("PassouCargoDilma", 1);
+                }
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") == 10)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+                if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoDilma", "Prefeita");
+                    cargo = PlayerPrefs.GetString("CargoDilma");
+                    PlayerPrefs.SetInt("PassouCargoDilma", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") == 20)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+                if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoDilma", "Governadora");
+                    cargo = PlayerPrefs.GetString("CargoDilma");
+                    PlayerPrefs.SetInt("PassouCargoDilma", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") == 30)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+                if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoDilma", "Presidenta");
+                    cargo = PlayerPrefs.GetString("CargoDilma");
+                    PlayerPrefs.SetInt("PassouCargoDilma", 1);
+                }
+            }
+
+            // ---------------------------------------------- //
+
+            //  MANTER O CARGO DILMA //
+
+            if (PlayerPrefs.GetInt("LevelDilma") >= 3 && PlayerPrefs.GetInt("PassouCargoDilma") == 1)
+
+            {
+                PlayerPrefs.SetString("CargoDilma", "Vereadora");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 100);
+
+            }
+            if (PlayerPrefs.GetInt("LevelDilma") >= 6 && PlayerPrefs.GetInt("PassouCargoDilma") == 1)
+            {
+                PlayerPrefs.SetString("CargoDilma", "Deputada");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") >= 10 && PlayerPrefs.GetInt("PassouCargoDilma") == 1)
+            {
+                PlayerPrefs.SetString("CargoDilma", "Prefeita");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") >= 20 && PlayerPrefs.GetInt("PassouCargoDilma") == 1)
+            {
+                PlayerPrefs.SetString("CargoDilma", "Governadora");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelDilma") >= 30 && PlayerPrefs.GetInt("PassouCargoDilma") == 1)
+            {
+                PlayerPrefs.SetString("CargoDilma", "Presidenta");
+                cargo = PlayerPrefs.GetString("CargoDilma");
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+
+            }
         }
 
+        // --------------- CARGO SUPLICY --------------- //
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            indiceCargoPersonagem = 4;
+            cargo_txtUI.text = cargo;
+
+            // MUDAR DE CARGO SUPLICY
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") < 3)
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Candidato");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 70);
+
+            }
+
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") == 3)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+
+                if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoSuplicy", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoSuplicy");
+                    PlayerPrefs.SetInt("PassouCargoSuplicy", 1); // para verificar se ele já passou para esse cargo
+                }
+
+            }
+            if (PlayerPrefs.GetInt("LevelSuplicy") == 6)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+                if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoSuplicy", "Deputado");
+                    cargo = PlayerPrefs.GetString("CargoSuplicy");
+                    PlayerPrefs.SetInt("PassouCargoSuplicy", 1);
+                }
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") == 10)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+                if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoSuplicy", "Prefeito");
+                    cargo = PlayerPrefs.GetString("CargoSuplicy");
+                    PlayerPrefs.SetInt("PassouCargoSuplicy", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") == 20)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+                if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoSuplicy", "Governador");
+                    cargo = PlayerPrefs.GetString("CargoSuplicy");
+                    PlayerPrefs.SetInt("PassouCargoSuplicy", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") == 30)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+                if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoSuplicy", "Presidente");
+                    cargo = PlayerPrefs.GetString("CargoSuplicy");
+                    PlayerPrefs.SetInt("PassouCargoSuplicy", 1);
+                }
+            }
+
+            // ---------------------------------------------- //
+
+            //  MANTER O CARGO SUPLICY //
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") >= 3 && PlayerPrefs.GetInt("PassouCargoSuplicy") == 1)
+
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Vereador");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 100);
+
+            }
+            if (PlayerPrefs.GetInt("LevelSuplicy") >= 6 && PlayerPrefs.GetInt("PassouCargoSuplicy") == 1)
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Deputado");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") >= 10 && PlayerPrefs.GetInt("PassouCargoSuplicy") == 1)
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Prefeito");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") >= 20 && PlayerPrefs.GetInt("PassouCargoSuplicy") == 1)
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Governador");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") >= 30 && PlayerPrefs.GetInt("PassouCargoSuplicy") == 1)
+            {
+                PlayerPrefs.SetString("CargoSuplicy", "Presidente");
+                cargo = PlayerPrefs.GetString("CargoSuplicy");
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+
+            }
+        }
+
+        // --------------- CARGO ENEAS --------------- //
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            indiceCargoPersonagem = 5;
+            cargo_txtUI.text = cargo;
+
+            // MUDAR DE CARGO ENEAS
+
+            if (PlayerPrefs.GetInt("LevelEneas") < 3)
+            {
+                PlayerPrefs.SetString("CargoEneas", "Candidato");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 70);
+
+            }
+
+
+            if (PlayerPrefs.GetInt("LevelEneas") == 3)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+
+                if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoEneas", "Vereador");
+                    cargo = PlayerPrefs.GetString("CargoEneas");
+                    PlayerPrefs.SetInt("PassouCargoEneas", 1); // para verificar se ele já passou para esse cargo
+                }
+
+            }
+            if (PlayerPrefs.GetInt("LevelEneas") == 6)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+                if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoEneas", "Deputado");
+                    cargo = PlayerPrefs.GetString("CargoEneas");
+                    PlayerPrefs.SetInt("PassouCargoEneas", 1);
+                }
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") == 10)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+                if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoEneas", "Prefeito");
+                    cargo = PlayerPrefs.GetString("CargoEneas");
+                    PlayerPrefs.SetInt("PassouCargoEneas", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") == 20)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+                if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoEneas", "Governador");
+                    cargo = PlayerPrefs.GetString("CargoEneas");
+                    PlayerPrefs.SetInt("PassouCargoEneas", 1);
+                }
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") == 30)
+            {
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+                if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 51)
+                {
+                    PlayerPrefs.SetString("CargoEneas", "Presidente");
+                    cargo = PlayerPrefs.GetString("CargoEneas");
+                    PlayerPrefs.SetInt("PassouCargoEneas", 1);
+                }
+            }
+
+            // ---------------------------------------------- //
+
+            //  MANTER O CARGO ENEAS //
+
+            if (PlayerPrefs.GetInt("LevelEneas") >= 3 && PlayerPrefs.GetInt("PassouCargoEneas") == 1)
+
+            {
+                PlayerPrefs.SetString("CargoEneas", "Vereador");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 100);
+
+            }
+            if (PlayerPrefs.GetInt("LevelEneas") >= 6 && PlayerPrefs.GetInt("PassouCargoEneas") == 1)
+            {
+                PlayerPrefs.SetString("CargoEneas", "Deputado");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 120);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") >= 10 && PlayerPrefs.GetInt("PassouCargoEneas") == 1)
+            {
+                PlayerPrefs.SetString("CargoEneas", "Prefeito");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 150);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") >= 20 && PlayerPrefs.GetInt("PassouCargoEneas") == 1)
+            {
+                PlayerPrefs.SetString("CargoEneas", "Governador");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 180);
+
+            }
+
+            if (PlayerPrefs.GetInt("LevelEneas") >= 30 && PlayerPrefs.GetInt("PassouCargoEneas") == 1)
+            {
+                PlayerPrefs.SetString("CargoEneas", "Presidente");
+                cargo = PlayerPrefs.GetString("CargoEneas");
+                PlayerPrefs.SetInt("MaxInflu", 200);
+
+
+            }
+        }
     }
 }
