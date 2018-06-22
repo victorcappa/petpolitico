@@ -136,6 +136,90 @@ public class Influencia : MonoBehaviour
 
 
                     break;
+
+                case 3:
+                    PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") - Time.deltaTime * veloPerdaInflu);
+
+                    tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"));
+                    if (tempPop == 20 && perdeuLevel == false)
+                    {
+                        perdeuLevel = true;
+
+                        level = PlayerPrefs.GetInt("LevelDilma");
+                        PlayerPrefs.SetInt("LevelPerdeuDilma", Math.Abs(level - 1));
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelDilma", PlayerPrefs.GetInt("LevelPerdeuDilma"));
+                            i++;
+                            PlayerPrefs.SetFloat("FichaDilma", PlayerPrefs.GetFloat("FichaDilma") - 10);
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        perdeuLevel = false;
+                    }
+
+
+                    break;
+
+                case 4:
+                    PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") - Time.deltaTime * veloPerdaInflu);
+
+                    tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"));
+                    if (tempPop == 20 && perdeuLevel == false)
+                    {
+                        perdeuLevel = true;
+
+                        level = PlayerPrefs.GetInt("LevelSuplicy");
+                        PlayerPrefs.SetInt("LevelPerdeuSuplicy", Math.Abs(level - 1));
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelSuplicy", PlayerPrefs.GetInt("LevelPerdeuSuplicy"));
+                            i++;
+                            PlayerPrefs.SetFloat("FichaSuplicy", PlayerPrefs.GetFloat("FichaSuplicy") - 10);
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        perdeuLevel = false;
+                    }
+
+
+                    break;
+
+                case 5:
+                    PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") - Time.deltaTime * veloPerdaInflu);
+
+                    tempPop = (int)Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"));
+                    if (tempPop == 20 && perdeuLevel == false)
+                    {
+                        perdeuLevel = true;
+
+                        level = PlayerPrefs.GetInt("LevelEneas");
+                        PlayerPrefs.SetInt("LevelPerdeuEneas", Math.Abs(level - 1));
+                        if (i < 1)
+                        {
+                            PlayerPrefs.SetInt("LevelEneas", PlayerPrefs.GetInt("LevelPerdeuEneas"));
+                            i++;
+                            PlayerPrefs.SetFloat("FichaEneas", PlayerPrefs.GetFloat("FichaEneas") - 10);
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        perdeuLevel = false;
+                    }
+
+
+                    break;
             }
 
         }
@@ -165,7 +249,15 @@ public class Influencia : MonoBehaviour
             case 2:
                 PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + cresceInflu);
                 break;
-
+            case 3:
+                PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") + cresceInflu);
+                break;
+            case 4:
+                PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") + cresceInflu);
+                break;
+            case 5:
+                PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") + cresceInflu);
+                break;
         }
 
     }
@@ -174,7 +266,6 @@ public class Influencia : MonoBehaviour
     public void InfluPersonagens()
 
     {
-
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
 
         {
@@ -215,10 +306,9 @@ public class Influencia : MonoBehaviour
 
             }
 
-
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelLula"));
 
         }
-
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
@@ -256,9 +346,10 @@ public class Influencia : MonoBehaviour
 
             }
 
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelCiro"));
+
         }
-
-
+       
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             indiceInfluPersonagens = 2;
@@ -302,17 +393,151 @@ public class Influencia : MonoBehaviour
             }
 
 
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelBolso"));
 
         }
 
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            indiceInfluPersonagens = 3;
+
+            level = PlayerPrefs.GetInt("LevelDilma");
+
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+            if (PlayerPrefs.GetInt("LevelDilma") <= 0)
+            {
+                PlayerPrefs.SetInt("LevelDilma", 0);
+            }
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluDilma", influencia));
+            influ_txtUI.text = (influencia.ToString() + "/" + PlayerPrefs.GetInt("MaxInflu"));
 
 
 
+            if (PlayerPrefs.GetFloat("InfluDilma") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluDilma", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelDilma", level);
+                i = 0;
+                PlayerPrefs.SetFloat("FichaDilma", PlayerPrefs.GetFloat("FichaDilma") + 10);
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
+
+
+
+            }
+
+
+
+
+            if (PlayerPrefs.GetFloat("InfluDilma") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluDilma", minInflu);
+
+            }
+
+
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelDilma"));
+
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            indiceInfluPersonagens = 4;
+
+            level = PlayerPrefs.GetInt("LevelSuplicy");
+
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+            if (PlayerPrefs.GetInt("LevelSuplicy") <= 0)
+            {
+                PlayerPrefs.SetInt("LevelSuplicy", 0);
+            }
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluSuplicy", influencia));
+            influ_txtUI.text = (influencia.ToString() + "/" + PlayerPrefs.GetInt("MaxInflu"));
+
+
+
+            if (PlayerPrefs.GetFloat("InfluSuplicy") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluSuplicy", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelSuplicy", level);
+                i = 0;
+                PlayerPrefs.SetFloat("FichaSuplicy", PlayerPrefs.GetFloat("FichaSuplicy") + 10);
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
+
+
+
+            }
+
+
+
+
+            if (PlayerPrefs.GetFloat("InfluSuplicy") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluSuplicy", minInflu);
+
+            }
+
+
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelSuplicy"));
+
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            indiceInfluPersonagens = 5;
+
+            level = PlayerPrefs.GetInt("LevelEneas");
+
+            maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+            level_txtUI.text = "LVL: " + level.ToString();
+
+            if (PlayerPrefs.GetInt("LevelEneas") <= 0)
+            {
+                PlayerPrefs.SetInt("LevelEneas", 0);
+            }
+
+            influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluEneas", influencia));
+            influ_txtUI.text = (influencia.ToString() + "/" + PlayerPrefs.GetInt("MaxInflu"));
+
+
+
+            if (PlayerPrefs.GetFloat("InfluEneas") >= maxInflu)
+            {
+                PlayerPrefs.SetFloat("InfluEneas", 0);
+                level += 1;
+                PlayerPrefs.SetInt("LevelEneas", level);
+                i = 0;
+                PlayerPrefs.SetFloat("FichaEneas", PlayerPrefs.GetFloat("FichaEneas") + 10);
+                PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 100);
+
+
+
+            }
+
+
+
+
+            if (PlayerPrefs.GetFloat("InfluEneas") <= minInflu)
+            {
+                PlayerPrefs.SetFloat("InfluEneas", minInflu);
+
+            }
+
+
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelEneas"));
+
+        }
 
     }
 
-
-
 }
-
-
