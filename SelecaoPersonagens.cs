@@ -44,15 +44,16 @@ public class SelecaoPersonagens : MonoBehaviour
             DilmaPartidoOn();
         }
 
+        if (SuplicyDentroPartido == 1)
+        {
+            SuplicyPartidoOn();
+        }
+
         if (EneasDentroPartido == 1)
         {
             EneasPartidoOn();
         }
 
-        if (SuplicyDentroPartido == 1)
-        {
-            SuplicyPartidoOn();
-        }
     }
 
     // -------------- LULA -------------- //
@@ -76,13 +77,13 @@ public class SelecaoPersonagens : MonoBehaviour
         {
             // se tem menos de 4 no partido e o personagem ainda não foi comprado
 
-            if (MeuPartido.Count < 4 && PlayerPrefs.GetInt("LulaComprado") == 0) 
+            if (MeuPartido.Count < 4 && PlayerPrefs.GetInt("LulaComprado") == 0)
             {
                 PlayerPrefs.SetInt("Verba", (PlayerPrefs.GetInt("Verba") - precoLula));
                 lulaComprado = 1;
                 PlayerPrefs.SetInt("LulaComprado", lulaComprado);
             }
-            if (MeuPartido.Count >=4)
+            if (MeuPartido.Count >= 4)
             {
                 print("O partido pode contar apenas 4 políticos.");
             }
@@ -97,12 +98,18 @@ public class SelecaoPersonagens : MonoBehaviour
             // se tem menos de 4 no partido, ele é adicionado 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Lula);
                 LulaPartido.SetActive(true);
                 LulaDentroPartido = 1;
                 PlayerPrefs.SetInt("LulaDentroPartido", LulaDentroPartido);
+
+                if (!MeuPartido.Contains(Lula))
+                {
+                    MeuPartido.Add(Lula);
+
+                }
             }
-           
+
+
         }
 
 
@@ -159,10 +166,15 @@ public class SelecaoPersonagens : MonoBehaviour
 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Ciro);
                 CiroPartido.SetActive(true);
                 CiroDentroPartido = 1;
                 PlayerPrefs.SetInt("CiroDentroPartido", CiroDentroPartido);
+
+                if (!MeuPartido.Contains(Ciro))
+                {
+                    MeuPartido.Add(Ciro);
+
+                }
             }
 
         }
@@ -219,10 +231,15 @@ public class SelecaoPersonagens : MonoBehaviour
 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Bolsonaro);
                 BolsoPartido.SetActive(true);
                 BolsoDentroPartido = 1;
                 PlayerPrefs.SetInt("BolsoDentroPartido", BolsoDentroPartido);
+
+                if (!MeuPartido.Contains(Bolsonaro))
+                {
+                    MeuPartido.Add(Bolsonaro);
+
+                }
             }
         }
     }
@@ -273,10 +290,15 @@ public class SelecaoPersonagens : MonoBehaviour
 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Dilma);
                 DilmaPartido.SetActive(true);
                 DilmaDentroPartido = 1;
                 PlayerPrefs.SetInt("DilmaDentroPartido", DilmaDentroPartido);
+
+                if (!MeuPartido.Contains(Dilma))
+                {
+                    MeuPartido.Add(Dilma);
+
+                }
             }
         }
     }
@@ -327,10 +349,15 @@ public class SelecaoPersonagens : MonoBehaviour
 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Suplicy);
                 SuplicyPartido.SetActive(true);
                 SuplicyDentroPartido = 1;
                 PlayerPrefs.SetInt("SuplicyDentroPartido", SuplicyDentroPartido);
+
+                if (!MeuPartido.Contains(Suplicy))
+                {
+                    MeuPartido.Add(Suplicy);
+
+                }
             }
         }
     }
@@ -383,10 +410,15 @@ public class SelecaoPersonagens : MonoBehaviour
 
             if (MeuPartido.Count < 4)
             {
-                MeuPartido.Add(Eneas);
                 EneasPartido.SetActive(true);
                 EneasDentroPartido = 1;
                 PlayerPrefs.SetInt("EneasDentroPartido", EneasDentroPartido);
+
+                if (!MeuPartido.Contains(Eneas))
+                {
+                    MeuPartido.Add(Eneas);
+
+                }
             }
         }
     }
@@ -423,7 +455,7 @@ public class SelecaoPersonagens : MonoBehaviour
 
                 btn.SetActive(false);
             }
-           
+
 
         }
         else
