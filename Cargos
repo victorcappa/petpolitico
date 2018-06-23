@@ -299,7 +299,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
 
-                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Vereador");
                     cargo = PlayerPrefs.GetString("CargoBolso");
@@ -311,7 +311,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxInflu", 120);
 
-                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Deputado");
                     cargo = PlayerPrefs.GetString("CargoBolso");
@@ -324,7 +324,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxInflu", 150);
 
-                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Prefeito");
                     cargo = PlayerPrefs.GetString("CargoBolso");
@@ -336,7 +336,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxInflu", 180);
 
-                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Governador");
                     cargo = PlayerPrefs.GetString("CargoBolso");
@@ -348,7 +348,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxInflu", 200);
 
-                if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 51)
+                if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 51)
                 {
                     PlayerPrefs.SetString("CargoBolso", "Presidente");
                     cargo = PlayerPrefs.GetString("CargoBolso");
