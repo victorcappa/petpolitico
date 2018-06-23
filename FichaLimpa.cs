@@ -17,7 +17,7 @@ public class FichaLimpa : MonoBehaviour {
 
     void Start()
     {
-
+        //PlayerPrefs.DeleteAll();
         FichaPersonagens();
         CPI();
         AlmaHonesta();
@@ -136,27 +136,27 @@ public class FichaLimpa : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            fichaLimpa = PlayerPrefs.GetFloat("FichaBolsonaro");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaBolsonaro"));
+            fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
+            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaBolso"));
             ficha_txtUI.text = (tempFicha.ToString() + "%");
 
-            fichaLimpa = PlayerPrefs.GetFloat("FichaBolsonaro");
+            fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
-            PlayerPrefs.SetFloat("FichaBolsonaro", fichaLimpa);
+            PlayerPrefs.SetFloat("FichaBolso", fichaLimpa);
 
-            if (PlayerPrefs.GetFloat("FichaBolsonaro") <= 0)
+            if (PlayerPrefs.GetFloat("FichaBolso") <= 0)
             {
-                PlayerPrefs.SetFloat("FichaBolsonaro", 0);
+                PlayerPrefs.SetFloat("FichaBolso", 0);
             }
 
-            if (PlayerPrefs.GetFloat("FichaBolsonaro") >= 100)
+            if (PlayerPrefs.GetFloat("FichaBolso") >= 100)
             {
-                PlayerPrefs.SetFloat("FichaBolsonaro", 100);
+                PlayerPrefs.SetFloat("FichaBolso", 100);
             }
 
-            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolsonaro") <= 100 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 50)
+            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolso") <= 100 && PlayerPrefs.GetFloat("PopularidadeBolso") <= 50)
                 {
-                    PlayerPrefs.SetFloat("FichaBolsonaro", 100);
+                    PlayerPrefs.SetFloat("FichaBolso", 100);
                 }
 
         }
