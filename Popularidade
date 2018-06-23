@@ -21,7 +21,7 @@ public class Popularidade : MonoBehaviour
 
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
+       //PlayerPrefs.DeleteAll();
 
         PopPersonagens();
   
@@ -180,15 +180,15 @@ public class Popularidade : MonoBehaviour
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             
-            popularidade = PlayerPrefs.GetFloat("PopularidadeBolsonaro");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolsonaro"));
+            popularidade = PlayerPrefs.GetFloat("PopularidadeBolso");
+            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"));
             pop_txtUI.text = (tempPopularidade.ToString() + "%");
 
             veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
             veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
 
 
-            popularidade = PlayerPrefs.GetFloat("PopularidadeBolsonaro");
+            popularidade = PlayerPrefs.GetFloat("PopularidadeBolso");
             popularidade -= Time.deltaTime * veloPerdaPop;
 
             // ganho ou perda de pop
@@ -210,28 +210,28 @@ public class Popularidade : MonoBehaviour
 
             // MIN POP
 
-            PlayerPrefs.SetFloat("PopularidadeBolsonaro", popularidade);
+            PlayerPrefs.SetFloat("PopularidadeBolso", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 0)
+            if (PlayerPrefs.GetFloat("PopularidadeBolso") <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 0);
+                PlayerPrefs.SetFloat("PopularidadeBolso", 0);
             }
 
             // MAX POP 
 
-            PlayerPrefs.SetFloat("PopularidadeBolsonaro", popularidade);
+            PlayerPrefs.SetFloat("PopularidadeBolso", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeBolsonaro") >= 100)
+            if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 100)
             {
-                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 100);
+                PlayerPrefs.SetFloat("PopularidadeBolso", 100);
             }
 
             // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
 
 
-            if (PlayerPrefs.GetInt("LevelBolso") <= 1 && PlayerPrefs.GetFloat("PopularidadeBolsonaro") <= 1)
+            if (PlayerPrefs.GetInt("LevelBolso") <= 1 && PlayerPrefs.GetFloat("PopularidadeBolso") <= 1)
             {
-                PlayerPrefs.SetFloat("PopularidadeBolsonaro", 50);
+                PlayerPrefs.SetFloat("PopularidadeBolso", 50);
             }
 
         }
