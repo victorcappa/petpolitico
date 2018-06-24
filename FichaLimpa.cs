@@ -1,6 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/* 
+
+SISTEMA FICHA LIMPA
+
+- é um dos status do jogo
+- é medido em % (de 0 - 100)
+- cada personagem começa com 100% de ficha limpa
+- vai reduzindo ao longo do tempo, com uma velocidade de 0.1f
+- ao atingir 80, desencadeia o método AlmaHonesta (ganho de popularidade com velocidade 0.5)
+- ao atingir 20, desencadeia o método CPI (perda de influencia e popularidade)
+- Com perda de levels (perda de popularidade abaixo de 20) é perdido 10 de ficha limpa
+
+*/
+
+
 public class FichaLimpa : MonoBehaviour {
 
     public Text ficha_txtUI;
