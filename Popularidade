@@ -1,23 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/* 
+
+SISTEMA POPULARIDADE
+
+- é um dos status do jogo
+- se inicia em 50%
+- tem uma velocidade de perda de 0.1
+- quando FichaLimpa está acima de 80 (método AlmaHonesta), tem uma velocidade de ganho de 0.5
+- O método CPI aumenta a velocidade de perda 
+- o método AlmaHonesta aumenta a velocidade de ganho
+- ambos os métodos estão na classe FichaLimpa
+
+
+*/
+
 public class Popularidade : MonoBehaviour
 {
 
     public Text pop_txtUI;
-    //public Sprite iconPopularidade; COLOCAR ISSO NO SCRIPT MENU STATUS
     public float veloPerdaPop = 0.1f;
-    public float veloGanhaPop = 0;
+    public float veloGanhaPop = 0.5f;
     public float popularidade = 50;
     public float max_pop = 100;
     public float min_pop = 0;
-    //public GameObject tempPersonagem;
 
-   /* private void Awake()
-    {
-        PlayerPrefs.SetFloat("VeloPerdaPop", veloPerdaPop);
-
-    }*/
 
     void Start()
     {
@@ -28,13 +36,11 @@ public class Popularidade : MonoBehaviour
 
     }
 
-    // Update is called once per frame1 
     void Update()
     {
 
         PopPersonagens();
 
-       // GanhaPopularidade();       
         MaxMinPop();
     }
 
