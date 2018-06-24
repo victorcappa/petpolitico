@@ -2,6 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/* 
+ VERBA
+
+- não pertence ao personagem individualmente, mas ao jogador
+- não há mudança de verba na mudança de personagem
+- o jogo é iniciado com 200 de verba (para comprar o primeiro personagem)
+- Ao passar de de level, ganha 100 de verba
+
+*/
+
 public class Verba : MonoBehaviour {
 
     public int verba;
