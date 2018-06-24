@@ -1,6 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/* 
+SISTEMA DE CARGOS
+
+- cada personagem possuí um cargo
+- cada cargo possuí um teto de Influência a ser atingido para passar para o próximo level
+- cada cargo adiciona um prefixo ao nome do personagem (ex.: vereador, deputado etc)
+*/
+
+
 public class Cargos : MonoBehaviour {
     int indiceCargoPersonagem;
     public string cargo;
