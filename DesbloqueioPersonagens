@@ -1,19 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/* 
+
+SISTEMA DE DESBLOQUEIO DE PERSONAGENS
+
+- Ao atingir determinado level, com qualquer personagem, é possível desbloquear outros personagens
+- Uma vez desbloqueado, o personagem não é mais bloqueado (mesmo que volte de level)
+- Mesmo desbloqueado, o personagem possuí um preço de verba
+
+*/
+
 public class DesbloqueioPersonagens : MonoBehaviour {
 
     GameObject level;
+    //public GameObject dilma; // ativar
     int i;
     public Button suplicy, eneas;
 
+ // inativar blocks
 
 
+	// Use this for initialization
 	void Start () {
         DesbloquearPersonagem();
 		
 	}
 	
+	// Update is called once per frame
 	void Update () {
         DesbloquearPersonagem();
         //PlayerPrefs.DeleteAll();
@@ -30,11 +44,11 @@ public class DesbloqueioPersonagens : MonoBehaviour {
             i = 0;
             PlayerPrefs.SetInt("SuplicyDesblock", i);
 
-            if (PlayerPrefs.GetInt("SuplicyDesblock") == 0) 
-            {
-                suplicy.interactable = true;
+        }
 
-            }
+        if (PlayerPrefs.GetInt("SuplicyDesblock") == 0)
+        {
+            suplicy.interactable = true;
 
         }
 
@@ -48,11 +62,11 @@ public class DesbloqueioPersonagens : MonoBehaviour {
             i = 1;
             PlayerPrefs.SetInt("EneasDesblock", i);
 
-            if (PlayerPrefs.GetInt("EneasDesblock") == 1)
-            {
-                eneas.interactable = true;
+        }
 
-            }
+        if (PlayerPrefs.GetInt("EneasDesblock") == 1)
+        {
+            eneas.interactable = true;
 
         }
     }
