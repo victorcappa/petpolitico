@@ -1,6 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* SELEÇÃO DE PERSONAGENS
+ * 
+ * Selecionar personagens para colocar no partido
+ * Cada personagem possuí um valor de compra
+ * Ao ser comprado, o valor é zerado
+ * Só é possível adicionar quartro personagens ao partido
+ * O sistema também permite retirar personagens do partido
+ * 
+ */
+
 public class SelecaoPersonagens : MonoBehaviour
 {
 
@@ -9,6 +19,7 @@ public class SelecaoPersonagens : MonoBehaviour
     public GameObject LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido;
     public int LulaDentroPartido, CiroDentroPartido, BolsoDentroPartido, DilmaDentroPartido, SuplicyDentroPartido, EneasDentroPartido;
     public GameObject[] TiraPartidoBtn;
+
 
     private void Awake()
 
