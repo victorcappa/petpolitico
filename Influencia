@@ -2,6 +2,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+/* 
+
+SISTEMA DE INFLUÊNCIA
+
+- Cada personagem começa com 0 de influência
+- Influência:
+
+        - tem um teto para cada cargo (70, 100, 120...)
+        
+        - é guardada para cada personagem
+        
+        - é sempre alterada para o personagem da scene
+        
+        - pode ser perdida com o método CPI ativado (dentro de FichaLimpa)
+*/
+
 
 public class Influencia : MonoBehaviour
 {
