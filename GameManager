@@ -1,6 +1,13 @@
 using UnityEngine.UI;
 using UnityEngine;
 
+/* 
+ GERENCIADOR DO JOGO
+
+- gerencia menus e botões do HUD, GUI etc
+
+
+*/
 
 // ----------------------------------------------------------------------------------------- //
 using UnityEngine.SceneManagement;
@@ -81,6 +88,11 @@ public class GameManager : MonoBehaviour {
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             Bolsonaro.gameObject.GetComponent<Influencia>().GanhaInflu();
+        }
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            Dilma.gameObject.GetComponent<Influencia>().GanhaInflu();
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
