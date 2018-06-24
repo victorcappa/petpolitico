@@ -1,11 +1,17 @@
 using UnityEngine;
 
+/* 
+SISTEMA PARTIDO
+
+    - É possível selecionar qualquer personagem de dentro do partido para a scene
+    - Apenas um personagem pode ir para a scene, por vez
+*/
+
 public class Partido : MonoBehaviour {
     
      GameObject[] PersonagensScene = new GameObject[20];
-    public GameObject LulaScene, CiroScene, BolsonaroScene, DilmaScene, SuplicyScene, EneasScene;
+    public GameObject LulaScene, CiroScene, BolsoScene, DilmaScene, SuplicyScene, EneasScene;
     public int LulaDentroScene, CiroDentroScene, BolsoDentroScene, DilmaDentroScene, SuplicyDentroScene, EneasDentroScene;
-    //public GameObject[] ArrayPoliticos;
 
     void Awake()
     {
@@ -27,7 +33,7 @@ public class Partido : MonoBehaviour {
 
         if (BolsoDentroScene == 1)
         {
-            AtivaBolsonaro();
+            AtivaBolso();
         }
 
         if (DilmaDentroScene == 1)
@@ -47,7 +53,7 @@ public class Partido : MonoBehaviour {
 
         PersonagensScene[0] = LulaScene;
         PersonagensScene[1] = CiroScene;
-        PersonagensScene[2] = BolsonaroScene;
+        PersonagensScene[2] = BolsoScene;
         PersonagensScene[3] = DilmaScene;
         PersonagensScene[4] = SuplicyScene;
         PersonagensScene[5] = EneasScene;
@@ -104,17 +110,17 @@ public class Partido : MonoBehaviour {
 
     // BOLSONARO
 
-    public void AtivaBolsonaro()
+    public void AtivaBolso()
     {
         int i = 2;
-        PersonagensScene[i] = BolsonaroScene;
+        PersonagensScene[i] = BolsoScene;
         PersonagensScene[i].SetActive(true);
         BolsoDentroScene = 1;
         PlayerPrefs.SetInt("BolsoDentroScene", BolsoDentroScene);
 
     }
 
-    public void DesativaBolsonaro()
+    public void DesativaBolso()
     {
         PersonagensScene[2].SetActive(false);
         BolsoDentroScene = 0;
