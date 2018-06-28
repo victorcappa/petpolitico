@@ -169,16 +169,16 @@ public class GameManagerMinistroDiz : MonoBehaviour
         print("gameover");
         //bleepCount = 3;
 
-        if (placarVerba >= 0)
+        if (placarVerba <= 0)
         {
             telaGameOver.gameObject.SetActive(true);
 
         }
 
-        if (placarVerba < 0)
-        {
+        //if (placarVerba < 0)
+       // {
             // comprar mais influ
-        }
+        //}
 
 
     }
