@@ -13,7 +13,7 @@ SISTEMA DE DESBLOQUEIO DE PERSONAGENS
 
 public class DesbloqueioPersonagens : MonoBehaviour {
 
-    GameObject level;
+   /// GameObject level;
     //public GameObject dilma; // ativar
     int i;
     public Button suplicy, eneas;
@@ -30,7 +30,6 @@ public class DesbloqueioPersonagens : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         DesbloquearPersonagem();
-        //PlayerPrefs.DeleteAll();
 
 	}
 
@@ -41,16 +40,24 @@ public class DesbloqueioPersonagens : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("LevelIndice") >= 3)
         {
-            i = 0;
+            i = 1;
             PlayerPrefs.SetInt("SuplicyDesblock", i);
 
         }
 
-        if (PlayerPrefs.GetInt("SuplicyDesblock") == 0)
+        if (PlayerPrefs.GetInt("SuplicyDesblock") == 1)
         {
             suplicy.interactable = true;
 
         }
+
+        if (PlayerPrefs.GetInt("SuplicyDesblock") != 1)
+        {
+            suplicy.interactable = false;
+
+        }
+
+
 
       
 
@@ -59,16 +66,27 @@ public class DesbloqueioPersonagens : MonoBehaviour {
         // ENEAS
         if (PlayerPrefs.GetInt("LevelIndice") >= 6)
         {
-            i = 1;
+            i = 2;
             PlayerPrefs.SetInt("EneasDesblock", i);
 
         }
 
-        if (PlayerPrefs.GetInt("EneasDesblock") == 1)
+        if (PlayerPrefs.GetInt("EneasDesblock") == 2)
         {
             eneas.interactable = true;
+        }
+
+        if (PlayerPrefs.GetInt("EneasDesblock") != 2)
+        {
+            eneas.interactable = false;
 
         }
+    }
+
+    public void deletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
     }
 
   
