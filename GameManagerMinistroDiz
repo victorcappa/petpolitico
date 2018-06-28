@@ -20,7 +20,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
     bool gameOver = false;
     System.Random randomNumberGenerator = new System.Random();
 
-    public int placarVerba;
+    public float placarVerba;
     public Text placarVerba_txtUI;
 
     public Text chances_txtUI;
@@ -30,6 +30,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
     public GameObject telaGameOver;
 
 
+    //int ganhouInflu;
 
     public void Start()
     {
@@ -45,7 +46,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
         chances = 3;
         chances_txtUI.text = chances.ToString();
-        PlayerPrefs.SetInt("Chances",chances);
+        PlayerPrefs.SetInt("Chances", chances);
 
         bleepCount = 3;
 
@@ -77,7 +78,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
         {
             placarVerba = 0;
         }
-            
+
     }
 
     void CreateGameButton(int index, Vector3 position)
@@ -90,7 +91,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
         gameButton.GetComponent<Image>().color = buttonSettings[index].normalColor;
         gameButton.GetComponent<Button>().onClick.AddListener(() => {
             OnGameButtonClick(index);
-        } );
+        });
 
         gameButtons.Add(gameButton);
     }
@@ -137,7 +138,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
                 GameOver();
 
             }
-            if (chances >0)
+            if (chances > 0)
             {
                 StartCoroutine(SimonSays());
 
@@ -151,15 +152,14 @@ public class GameManagerMinistroDiz : MonoBehaviour
         {
             PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 10);
 
-            } 
-            
+
             StartCoroutine(SimonSays());
 
-                     
+
 
             print("parabens");
         }
-
+    }
 
     public void GameOver()
     {
@@ -175,7 +175,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
         }
 
-        if (placarVerba <0)
+        if (placarVerba < 0)
         {
             // comprar mais influ
         }
@@ -183,39 +183,39 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
     }
 
-        IEnumerator SimonSays()
-{
-    inputEnabled = false;
-    var randomNumber = randomNumberGenerator;
-    rg = new System.Random(randomNumber.GetHashCode());
-
-    SetBleeps();
-
-    yield return new WaitForSeconds(1f);
-
-    for (int i = 0; i < bleeps.Count; i++)
+    IEnumerator SimonSays()
     {
-        Bleep(bleeps[i]);
+        inputEnabled = false;
+        var randomNumber = randomNumberGenerator;
+        rg = new System.Random(randomNumber.GetHashCode());
 
-        yield return new WaitForSeconds(0.6f);
+        SetBleeps();
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < bleeps.Count; i++)
+        {
+            Bleep(bleeps[i]);
+
+            yield return new WaitForSeconds(0.6f);
+        }
+
+        inputEnabled = true;
+
+        yield return null;
     }
-
-    inputEnabled = true;
-
-    yield return null;
-}
 
     void Bleep(int index)
     {
         LeanTween.value(gameButtons[index], buttonSettings[index].normalColor, buttonSettings[index].highlightColor, 0.25f).setOnUpdate((Color color) => {
             gameButtons[index].GetComponent<Image>().color = color;
-        } );
+        });
 
         LeanTween.value(gameButtons[index], buttonSettings[index].highlightColor, buttonSettings[index].normalColor, 0.25f)
             .setDelay(0.5f)
             .setOnUpdate((Color color) => {
                 gameButtons[index].GetComponent<Image>().color = color;
-            } );
+            });
 
         PlayAudio(index);
     }
@@ -233,4 +233,3 @@ public class GameManagerMinistroDiz : MonoBehaviour
         bleepCount++;
     }
 }
-
