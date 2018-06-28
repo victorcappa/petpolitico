@@ -20,8 +20,8 @@ public class GameManagerMinistroDiz : MonoBehaviour
     bool gameOver = false;
     System.Random randomNumberGenerator = new System.Random();
 
-    public float placarInflu;
-    public Text placarInflu_txtUI;
+    public int placarVerba;
+    public Text placarVerba_txtUI;
 
     public Text chances_txtUI;
 
@@ -30,7 +30,6 @@ public class GameManagerMinistroDiz : MonoBehaviour
     public GameObject telaGameOver;
 
 
-    //int ganhouInflu;
 
     public void Start()
     {
@@ -69,41 +68,14 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
     public void NoPlacar()
     {
-        int dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
-        placarInflu_txtUI.text = placarInflu.ToString();
+        placarVerba_txtUI.text = placarVerba.ToString();
 
 
-        switch (dentroDaScene)
-            {
-                case 0:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluLula"));
-               
-                    break;
-                case 1:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluCiro"));
+        placarVerba = PlayerPrefs.GetInt("Verba");
 
-                    break;
-                case 2:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluBolso"));
-
-                    break;
-                case 3:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluDilma"));
-
-                    break;
-                case 4:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluSuplicy"));
-
-                    break;
-                case 5:
-                placarInflu = Mathf.Round(PlayerPrefs.GetFloat("InfluEneas"));
-
-                    break;
-            } 
-
-        if (placarInflu <= 0)
+        if (placarVerba <= 0)
         {
-            placarInflu = 0;
+            placarVerba = 0;
         }
             
     }
@@ -118,7 +90,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
         gameButton.GetComponent<Image>().color = buttonSettings[index].normalColor;
         gameButton.GetComponent<Button>().onClick.AddListener(() => {
             OnGameButtonClick(index);
-        });
+        } );
 
         gameButtons.Add(gameButton);
     }
@@ -158,35 +130,9 @@ public class GameManagerMinistroDiz : MonoBehaviour
             chances_txtUI.text = chances.ToString();
             PlayerPrefs.SetInt("Chances", chances);
 
-            int dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
-            switch (dentroDaScene)
-            {
-                case 0:
-                    PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") - 5);
-                    break;
-                case 1:
-                    PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") - 5);
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - 5);
 
-                    break;
-                case 2:
-                    PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") - 5);
-
-                    break;
-                case 3:
-                    PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") - 5);
-
-                    break;
-                case 4:
-                    PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") - 5);
-
-                    break;
-                case 5:
-                    PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") - 5);
-
-                    break;
-            } 
-
-            if (chances <= 0 || placarInflu <= 0)
+            if (chances <= 0 || placarVerba <= 0)
             {
                 GameOver();
 
@@ -203,28 +149,8 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
         if (bleeps.Count == playerBleeps.Count)
         {
-            int dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
-            switch (dentroDaScene)
-            {
-                case 0:
-                    PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + 10);
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + 10);
 
-                    break;
-                case 1:
-                    PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") + 10);
-                    break;
-                case 2:
-                    PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + 10);
-                    break;
-                case 3:
-                    PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") + 10);
-                    break;
-                case 4:
-                    PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") + 10);
-                    break;
-                case 5:
-                    PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") + 10);
-                    break;
             } 
             
             StartCoroutine(SimonSays());
@@ -233,7 +159,7 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
             print("parabens");
         }
-    }
+
 
     public void GameOver()
     {
@@ -243,13 +169,13 @@ public class GameManagerMinistroDiz : MonoBehaviour
         print("gameover");
         //bleepCount = 3;
 
-        if (placarInflu >= 0)
+        if (placarVerba >= 0)
         {
             telaGameOver.gameObject.SetActive(true);
 
         }
 
-        if (placarInflu <0)
+        if (placarVerba <0)
         {
             // comprar mais influ
         }
@@ -257,39 +183,39 @@ public class GameManagerMinistroDiz : MonoBehaviour
 
     }
 
-    IEnumerator SimonSays()
+        IEnumerator SimonSays()
+{
+    inputEnabled = false;
+    var randomNumber = randomNumberGenerator;
+    rg = new System.Random(randomNumber.GetHashCode());
+
+    SetBleeps();
+
+    yield return new WaitForSeconds(1f);
+
+    for (int i = 0; i < bleeps.Count; i++)
     {
-        inputEnabled = false;
-        var randomNumber = randomNumberGenerator;
-        rg = new System.Random(randomNumber.GetHashCode());
+        Bleep(bleeps[i]);
 
-        SetBleeps();
-
-        yield return new WaitForSeconds(1f);
-
-        for (int i = 0; i < bleeps.Count; i++)
-        {
-            Bleep(bleeps[i]);
-
-            yield return new WaitForSeconds(0.6f);
-        }
-
-        inputEnabled = true;
-
-        yield return null;
+        yield return new WaitForSeconds(0.6f);
     }
+
+    inputEnabled = true;
+
+    yield return null;
+}
 
     void Bleep(int index)
     {
         LeanTween.value(gameButtons[index], buttonSettings[index].normalColor, buttonSettings[index].highlightColor, 0.25f).setOnUpdate((Color color) => {
             gameButtons[index].GetComponent<Image>().color = color;
-        });
+        } );
 
         LeanTween.value(gameButtons[index], buttonSettings[index].highlightColor, buttonSettings[index].normalColor, 0.25f)
             .setDelay(0.5f)
             .setOnUpdate((Color color) => {
                 gameButtons[index].GetComponent<Image>().color = color;
-            });
+            } );
 
         PlayAudio(index);
     }
@@ -307,3 +233,4 @@ public class GameManagerMinistroDiz : MonoBehaviour
         bleepCount++;
     }
 }
+
