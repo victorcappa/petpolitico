@@ -8,7 +8,7 @@ SISTEMA FICHA LIMPA
 - é um dos status do jogo
 - é medido em % (de 0 - 100)
 - cada personagem começa com 100% de ficha limpa
-- vai reduzindo ao longo do tempo, com uma velocidade de 0.1f
+- vai reduzindo ao longo do tempo, com uma velocidade de 0.2f
 - ao atingir 80, desencadeia o método AlmaHonesta (ganho de popularidade com velocidade 0.5)
 - ao atingir 20, desencadeia o método CPI (perda de influencia e popularidade)
 - Com perda de levels (perda de popularidade abaixo de 20) é perdido 10 de ficha limpa
@@ -32,7 +32,6 @@ public class FichaLimpa : MonoBehaviour {
 
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
         FichaPersonagens();
         CPI();
         AlmaHonesta();
@@ -88,7 +87,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaLula"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -123,7 +122,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaCiro");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaCiro"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaCiro");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -153,7 +152,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaBolso"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -180,7 +179,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaDilma");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaDilma"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaDilma");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -207,7 +206,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaSuplicy");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaSuplicy"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString()); //) + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaSuplicy");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -235,7 +234,7 @@ public class FichaLimpa : MonoBehaviour {
         {
             fichaLimpa = PlayerPrefs.GetFloat("FichaEneas");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaEneas"));
-            ficha_txtUI.text = (tempFicha.ToString() + "%");
+            ficha_txtUI.text = (tempFicha.ToString());// + "%");
 
             fichaLimpa = PlayerPrefs.GetFloat("FichaEneas");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
@@ -294,20 +293,37 @@ public class FichaLimpa : MonoBehaviour {
     // METODO DE GANHO DE POPULARIDADE COM FICHA LIMPA ALTA
     public void AlmaHonesta()
     {
-        if (fichaLimpa >= 80)
+        if (fichaLimpa >= 90)
         {
-            PlayerPrefs.SetFloat("VeloGanhaPop", 0.5f);
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 51)
+            {
+                PlayerPrefs.SetFloat("VeloGanhaPop", 0.5f);
+
+            }
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+            {
+                PlayerPrefs.SetFloat("VeloGanhaPop", 0f);
+
+            }
+
             almaHonesta = 1;
             PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
 
         }
-        if (fichaLimpa < 80 && fichaLimpa > 20 )
+        if (fichaLimpa < 90 && fichaLimpa > 20)
         {
             PlayerPrefs.SetFloat("VeloGanhaPop", 0);
             almaHonesta = 0;
             PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
 
         }
+
         PlayerPrefs.SetFloat("VeloGanhaPop", PlayerPrefs.GetFloat("VeloGanhaPop"));
+    }
+
+    public void deletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
     }
 }
