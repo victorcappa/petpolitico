@@ -14,6 +14,8 @@ public class InteraFicha : MonoBehaviour
     public Text ficha_txtUI, info, txtDelação, txtHeaderDelacao;
     string nomePoli;
 
+    bool FichaMax;
+
 
     public GameObject msg;
 
@@ -58,21 +60,32 @@ public class InteraFicha : MonoBehaviour
 
     public void DepositaVerba()
     {
-        if (fichaLimpa <= 90)
+        verba = PlayerPrefs.GetInt("Verba");
+        if (fichaLimpa <= 90 && verba >= 10)
         {
             verba = PlayerPrefs.GetInt("Verba") - 10;
             PlayerPrefs.SetInt("Verba", verba);
             depositou = true;
-
+            FichaMax = false;
           
+        }
+        if (verba < 10)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
         }
         if (fichaLimpa >= 91)
         {
+             FichaMax = true;
             msg.gameObject.SetActive(true);
             info.text = ("Você já é a alma mais honesta do Brasil");
 
             StartCoroutine(tempo());
+        }
 
+        if (fichaLimpa <= 90)
+        {
+            FichaMax = false;
 
         }
 
@@ -83,7 +96,11 @@ public class InteraFicha : MonoBehaviour
     public void GanhaFicha()
     {
 
+        if (fichaLimpa <= 90)
+        {
+            FichaMax = false;
 
+        }
         if (depositou == true)
 
         {
@@ -220,70 +237,74 @@ public class InteraFicha : MonoBehaviour
     public void QuemTaNaScene()
     {
         //dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
-        if (jaPagou == false || depositou == false)
+        if (FichaMax == false)
         {
-            switch (dentroDaScene)
+            if (jaPagou == false || depositou == false)
             {
+                switch (dentroDaScene)
+                {
 
 
-                case 0:
+                    case 0:
 
-                    nomePoli = ("Mr. Nine");
+                        nomePoli = ("Mr. Nine");
 
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
 
-                    break;
-                case 1:
+                        break;
+                    case 1:
 
-                    nomePoli = ("Ciro");
+                        nomePoli = ("Ciro");
 
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
-
-
-
-
-                    break;
-                case 2:
-
-                    nomePoli = ("Bolsonitro");
-
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
-
-
-                    break;
-                case 3:
-
-                    nomePoli = ("Dilmãe");
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
-
-
-
-                    break;
-                case 4:
-
-                    nomePoli = ("Papito");
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
-
-
-
-                    break;
-                case 5:
-
-                    nomePoli = ("RIP Eneas");
-                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
-                    txtHeaderDelacao.text = ("Delação Premiada");
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
 
 
 
 
-                    break;
+                        break;
+                    case 2:
 
-            }
+                        nomePoli = ("Bolsonitro");
+
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
+
+
+                        break;
+                    case 3:
+
+                        nomePoli = ("Dilmãe");
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+                        break;
+                    case 4:
+
+                        nomePoli = ("Papito");
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+                        break;
+                    case 5:
+
+                        nomePoli = ("RIP Eneas");
+                        txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                        txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+
+                        break;
+
+                }
+        }
+
         }
 
         if (jaPagou == true)
