@@ -1,0 +1,353 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class InteraFicha : MonoBehaviour
+{
+    
+    public GameObject verbaBtn;
+    public int verba;
+    public Text verba_txtUI;
+    int dentroDaScene;
+    bool depositou, jaPagou;
+    public float fichaLimpa;
+    public Text ficha_txtUI, info, txtDelação, txtHeaderDelacao;
+    string nomePoli;
+
+
+    public GameObject msg;
+
+
+
+    private void Awake()
+    {
+        depositou = false;
+        jaPagou = false;
+       
+        msg.gameObject.SetActive(false);
+
+        GanhaFicha();
+        MostraPop();
+
+        QuemTaNaScene();
+
+
+
+
+    }
+    void Start()
+    {
+        verba = PlayerPrefs.GetInt("Verba");
+        verba_txtUI.text = verba.ToString();
+    
+
+
+
+    }
+
+    void Update()
+    {
+        verba = PlayerPrefs.GetInt("Verba");
+        verba_txtUI.text = verba.ToString();
+        GanhaFicha();
+        MostraPop();
+        QuemTaNaScene();
+
+
+    }
+
+    public void DepositaVerba()
+    {
+        if (fichaLimpa <= 90)
+        {
+            verba = PlayerPrefs.GetInt("Verba") - 10;
+            PlayerPrefs.SetInt("Verba", verba);
+            depositou = true;
+
+          
+        }
+        if (fichaLimpa >= 91)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você já é a alma mais honesta do Brasil");
+
+            StartCoroutine(tempo());
+
+
+        }
+
+
+
+    }
+
+    public void GanhaFicha()
+    {
+
+
+        if (depositou == true)
+
+        {
+
+
+            switch (dentroDaScene)
+
+            {
+
+                case 0:
+                    PlayerPrefs.SetFloat("FichaLula", PlayerPrefs.GetFloat("FichaLula") + 10);
+                    depositou = false;
+                    jaPagou = true;
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " tirou 2 trilhões de brasileiros da pobreza. É um feito histórico do maior político dessa nação");
+
+
+                    break;
+                case 1:
+                    PlayerPrefs.SetFloat("FichaCiro", PlayerPrefs.GetFloat("FichaCiro") + 10);
+                    depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " imprimiu mais de 3 TRILHÕES de reais, acabando com a pobreza em 15 países da África e no Brasil");
+
+
+                    break;
+                case 2:
+                    PlayerPrefs.SetFloat("FichaBolso", PlayerPrefs.GetFloat("FichaBolso") + 10);
+                    depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " prendeu mais de 40 milhões de estupradores. O feito lhe rendeu o nobel da paz.");
+
+                    break;
+                case 3:
+                    PlayerPrefs.SetFloat("FichaDilma", PlayerPrefs.GetFloat("FichaDilma") + 10);
+                    depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + "  empoderou mais de 200 mil mulheres por todo o continente sul americano, que é o continente onde mais se cultiva milho e soja, desde a crise do petróleo na década de 1970, que foi muito prejudicial ao país.");
+
+                    break;
+                case 4:
+                    PlayerPrefs.SetFloat("FichaSuplicy", PlayerPrefs.GetFloat("FichaSuplicy") + 10);
+                    depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " cantou mais de 5 mil albuns de RAP, encantando jovens da periferia da Vila Madalena, que o carregaram nos ombros.");
+
+                    break;
+                case 5:
+                    PlayerPrefs.SetFloat("FichaEneas", PlayerPrefs.GetFloat("FichaEneas") + 10);
+                    depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " saiu de sua tumba para salvar a nação de todos os males");
+
+                    break;
+
+            }
+
+        }
+    }
+
+    public void MostraPop()
+    {
+        dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
+        switch (dentroDaScene)
+
+        {
+
+            case 0:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaLula"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+                break;
+            case 1:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaCiro"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+
+
+                break;
+            case 2:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaBolso"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+
+
+                break;
+            case 3:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaDilma"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+
+                break;
+            case 4:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaSuplicy"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+
+
+                break;
+            case 5:
+                fichaLimpa = Mathf.Round(PlayerPrefs.GetFloat("FichaEneas"));
+                ficha_txtUI.text = fichaLimpa.ToString();
+
+
+
+                break;
+
+        }
+    }
+
+
+    IEnumerator tempo() // criado para que a mensagem desapareç apó 3 segundos (3f)
+    {
+
+        yield return new WaitForSeconds(3f);
+        msg.gameObject.SetActive(false);
+        info.text = ""; // apó 3 segundos, info.text e bg_msg ficará vazio
+
+    }
+
+    public void Apagatxt()
+    {
+       
+        msg.gameObject.SetActive(false);
+        info.text = ("");
+        jaPagou = false;
+    }
+
+
+    public void QuemTaNaScene()
+    {
+        //dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
+        if (jaPagou == false || depositou == false)
+        {
+            switch (dentroDaScene)
+            {
+
+
+                case 0:
+
+                    nomePoli = ("Mr. Nine");
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+                    break;
+                case 1:
+
+                    nomePoli = ("Ciro");
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+
+                    break;
+                case 2:
+
+                    nomePoli = ("Bolsonitro");
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+
+                    break;
+                case 3:
+
+                    nomePoli = ("Dilmãe");
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+                    break;
+                case 4:
+
+                    nomePoli = ("Papito");
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+                    break;
+                case 5:
+
+                    nomePoli = ("RIP Eneas");
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " matou 5000 pessoas e deixou 200 feridos.");
+                    txtHeaderDelacao.text = ("Delação Premiada");
+
+
+
+
+                    break;
+
+            }
+        }
+
+        if (jaPagou == true)
+
+        {
+
+
+            switch (dentroDaScene)
+
+            {
+
+                case 0:
+                    //depositou = false;
+                    jaPagou = true;
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " tirou 2 trilhões de brasileiros da pobreza. É um feito histórico do maior político dessa nação");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+
+                    break;
+                case 1:
+                    //depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " imprimiu mais de 3 TRILHÕES de reais, acabando com a pobreza em 15 países da África e no Brasil");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+
+                    break;
+                case 2:
+                    //  depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " prendeu mais de 40 milhões de estupradores. O feito lhe rendeu o nobel da paz.");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+                    break;
+                case 3:
+                    //depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + "  empoderou mais de 200 mil mulheres por todo o continente sul americano, que é o continente onde mais se cultiva milho e soja, desde a crise do petróleo na década de 1970, que foi muito prejudicial ao país.");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+                    break;
+                case 4:
+                    //depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " cantou mais de 5 mil albuns de RAP, encantando jovens da periferia da Vila Madalena, que o carregaram nos ombros.");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+                    break;
+                case 5:
+                    // depositou = false;
+                    jaPagou = true;
+
+                    txtDelação.text = ("Nessa semana, " + nomePoli + " saiu de sua tumba para salvar a nação de todos os males");
+                    txtHeaderDelacao.text = ("Bilhete Premiado");
+
+                    break;
+
+            }
+
+        }
+    }
+
+} // fimClass
