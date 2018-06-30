@@ -4,7 +4,7 @@ using System;
 
 /* 
 
-SISTEMA DE INFLUÊNCIA
+SISTEMA DE INFLUÊNCIA (E LEVEL)
 
 - Cada personagem começa com 0 de influência
 - Influência:
@@ -16,6 +16,10 @@ SISTEMA DE INFLUÊNCIA
         - é sempre alterada para o personagem da scene
         
         - pode ser perdida com o método CPI ativado (dentro de FichaLimpa)
+
+- Level é perdido quando popularidade atinge 20
+
+- Ao passar de level, ganha 100 de verba
 */
 
 
@@ -44,7 +48,12 @@ public class Influencia : MonoBehaviour
 
     public bool perdeuLevel = false;
 
+    public Slider barraInflu;
 
+    private void Awake()
+    {
+
+    }
 
     void Start()
     {
@@ -293,7 +302,12 @@ public class Influencia : MonoBehaviour
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
+            // BARRA INFLU
 
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
 
             influencia = Mathf.Round(PlayerPrefs.GetFloat("InfluLula", influencia));
             influ_txtUI.text = (influencia.ToString() + "/" + PlayerPrefs.GetInt("MaxInflu"));
@@ -336,6 +350,13 @@ public class Influencia : MonoBehaviour
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
+            // BARRA INFLU
+
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
+
             if (PlayerPrefs.GetInt("LevelCiro") <= 0)
             {
                 PlayerPrefs.SetInt("LevelCiro", 0);
@@ -373,6 +394,13 @@ public class Influencia : MonoBehaviour
             level = PlayerPrefs.GetInt("LevelBolso");
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+            // BARRA INFLU
+
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
 
             level_txtUI.text = "LVL: " + level.ToString();
 
@@ -421,6 +449,13 @@ public class Influencia : MonoBehaviour
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
+            // BARRA INFLU
+
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
+
             level_txtUI.text = "LVL: " + level.ToString();
 
             if (PlayerPrefs.GetInt("LevelDilma") <= 0)
@@ -467,6 +502,13 @@ public class Influencia : MonoBehaviour
             level = PlayerPrefs.GetInt("LevelSuplicy");
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+            // BARRA INFLU
+
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
 
             level_txtUI.text = "LVL: " + level.ToString();
 
@@ -515,6 +557,13 @@ public class Influencia : MonoBehaviour
 
             maxInflu = PlayerPrefs.GetInt("MaxInflu");
 
+            // BARRA INFLU
+
+            barraInflu.maxValue = maxInflu;
+            barraInflu.value = influencia;
+
+            //
+
             level_txtUI.text = "LVL: " + level.ToString();
 
             if (PlayerPrefs.GetInt("LevelEneas") <= 0)
@@ -555,6 +604,13 @@ public class Influencia : MonoBehaviour
         }
 
     }
+
+    public void deletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
+    }
+
 
 
 
