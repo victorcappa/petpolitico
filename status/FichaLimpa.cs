@@ -27,6 +27,7 @@ public class FichaLimpa : MonoBehaviour {
     public int cpi;
     public int almaHonesta;
     //public GameObject tempPersonagem;
+    public Slider barraFicha;
 
 
 
@@ -85,6 +86,7 @@ public class FichaLimpa : MonoBehaviour {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
 
         {
+
             fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
             float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaLula"));
             ficha_txtUI.text = (tempFicha.ToString()); // + "%");
@@ -92,6 +94,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaLula", fichaLimpa);
+
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
 
             //MIN E MAX
 
@@ -128,6 +137,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaCiro", fichaLimpa);
 
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
+
             if (PlayerPrefs.GetFloat("FichaCiro") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaCiro", 0);
@@ -158,6 +174,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaBolso", fichaLimpa);
 
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
+
             if (PlayerPrefs.GetFloat("FichaBolso") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaBolso", 0);
@@ -184,6 +207,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa = PlayerPrefs.GetFloat("FichaDilma");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaDilma", fichaLimpa);
+
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
 
             if (PlayerPrefs.GetFloat("FichaDilma") <= 0)
             {
@@ -212,6 +242,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaSuplicy", fichaLimpa);
 
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
+
             if (PlayerPrefs.GetFloat("FichaSuplicy") <= 0)
             {
                 PlayerPrefs.SetFloat("FichaSuplicy", 0);
@@ -239,6 +276,13 @@ public class FichaLimpa : MonoBehaviour {
             fichaLimpa = PlayerPrefs.GetFloat("FichaEneas");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaEneas", fichaLimpa);
+
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
 
             if (PlayerPrefs.GetFloat("FichaEneas") <= 0)
             {
