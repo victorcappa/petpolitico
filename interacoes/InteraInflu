@@ -26,6 +26,9 @@ public class InteraInflu : MonoBehaviour {
 
     public Text info;
 
+    public Slider barraInflu;
+
+    float maxInflu;
 
     public void Awake()
     {
@@ -157,10 +160,12 @@ public class InteraInflu : MonoBehaviour {
                     influencia = PlayerPrefs.GetFloat("InfluLula");
                     depositou = false;
                     jaPagou = true;
+                   
 
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + 10);
+                        ApagaTudo();
 
                     }
 
@@ -177,6 +182,7 @@ public class InteraInflu : MonoBehaviour {
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluLCiro") + 10);
+                        ApagaTudo();
 
                     }
 
@@ -192,6 +198,7 @@ public class InteraInflu : MonoBehaviour {
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + 10);
+                        ApagaTudo();
 
                     }
 
@@ -207,6 +214,7 @@ public class InteraInflu : MonoBehaviour {
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") + 10);
+                        ApagaTudo();
 
                     }
 
@@ -222,6 +230,8 @@ public class InteraInflu : MonoBehaviour {
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") + 10);
+                        somaVida = 0;
+                        ApagaTudo();
 
                     }
 
@@ -235,6 +245,7 @@ public class InteraInflu : MonoBehaviour {
                     if (somaVida == 300)
                     {
                         PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") + 10);
+                        ApagaTudo();
 
                     }
 
@@ -326,6 +337,13 @@ public class InteraInflu : MonoBehaviour {
 
     void MostraInflu()
     {
+        // BARRA INFLU
+        maxInflu = PlayerPrefs.GetInt("MaxInflu");
+
+        barraInflu.maxValue = maxInflu;
+        barraInflu.value = influencia;
+
+        //
             switch (dentroDaScene)
 
             {
