@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class InteraFicha : MonoBehaviour
 {
-    
+
     public GameObject verbaBtn;
     public int verba;
     public Text verba_txtUI;
@@ -23,11 +23,11 @@ public class InteraFicha : MonoBehaviour
     {
         depositou = false;
         jaPagou = false;
-       
+
         msg.gameObject.SetActive(false);
 
         GanhaFicha();
-        MostraPop();
+        MostraFicha();
 
         QuemTaNaScene();
 
@@ -39,7 +39,7 @@ public class InteraFicha : MonoBehaviour
     {
         verba = PlayerPrefs.GetInt("Verba");
         verba_txtUI.text = verba.ToString();
-    
+
 
 
 
@@ -50,7 +50,7 @@ public class InteraFicha : MonoBehaviour
         verba = PlayerPrefs.GetInt("Verba");
         verba_txtUI.text = verba.ToString();
         GanhaFicha();
-        MostraPop();
+        MostraFicha();
         QuemTaNaScene();
 
 
@@ -58,14 +58,22 @@ public class InteraFicha : MonoBehaviour
 
     public void DepositaVerba()
     {
-        if (fichaLimpa <= 90)
+        verba = PlayerPrefs.GetInt("Verba");
+
+        if (fichaLimpa <= 90 && verba >= 10)
         {
             verba = PlayerPrefs.GetInt("Verba") - 10;
             PlayerPrefs.SetInt("Verba", verba);
             depositou = true;
 
-          
         }
+
+        if (verba < 10)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
+        }
+
         if (fichaLimpa >= 91)
         {
             msg.gameObject.SetActive(true);
@@ -148,7 +156,7 @@ public class InteraFicha : MonoBehaviour
         }
     }
 
-    public void MostraPop()
+    public void MostraFicha()
     {
         dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
         switch (dentroDaScene)
@@ -210,7 +218,7 @@ public class InteraFicha : MonoBehaviour
 
     public void Apagatxt()
     {
-       
+
         msg.gameObject.SetActive(false);
         info.text = ("");
         jaPagou = false;
@@ -298,6 +306,8 @@ public class InteraFicha : MonoBehaviour
                 case 0:
                     //depositou = false;
                     jaPagou = true;
+                    depositou = false;
+
                     txtDelação.text = ("Nessa semana, " + nomePoli + " tirou 2 trilhões de brasileiros da pobreza. É um feito histórico do maior político dessa nação");
                     txtHeaderDelacao.text = ("Bilhete Premiado");
 
@@ -306,6 +316,8 @@ public class InteraFicha : MonoBehaviour
                 case 1:
                     //depositou = false;
                     jaPagou = true;
+                    depositou = false;
+
 
                     txtDelação.text = ("Nessa semana, " + nomePoli + " imprimiu mais de 3 TRILHÕES de reais, acabando com a pobreza em 15 países da África e no Brasil");
                     txtHeaderDelacao.text = ("Bilhete Premiado");
@@ -315,6 +327,8 @@ public class InteraFicha : MonoBehaviour
                 case 2:
                     //  depositou = false;
                     jaPagou = true;
+                    depositou = false;
+
 
                     txtDelação.text = ("Nessa semana, " + nomePoli + " prendeu mais de 40 milhões de estupradores. O feito lhe rendeu o nobel da paz.");
                     txtHeaderDelacao.text = ("Bilhete Premiado");
