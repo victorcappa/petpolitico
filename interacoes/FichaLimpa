@@ -14,6 +14,7 @@ public class InteraFicha : MonoBehaviour
     public Text ficha_txtUI, info, txtDelação, txtHeaderDelacao;
     string nomePoli;
 
+    public Slider barraFicha;
 
     public GameObject msg;
 
@@ -72,6 +73,8 @@ public class InteraFicha : MonoBehaviour
         {
             msg.gameObject.SetActive(true);
             info.text = ("Você não tem verba suficiente");
+            StartCoroutine(tempo());
+
         }
 
         if (fichaLimpa >= 91)
@@ -158,6 +161,13 @@ public class InteraFicha : MonoBehaviour
 
     public void MostraFicha()
     {
+        // BARRA Ficha
+
+        barraFicha.maxValue = 100;
+        barraFicha.value = fichaLimpa;
+
+        //
+
         dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
         switch (dentroDaScene)
 
