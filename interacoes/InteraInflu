@@ -1,0 +1,382 @@
+using UnityEngine.UI;
+using UnityEngine;
+using System.Collections;
+
+public class InteraInflu : MonoBehaviour {
+
+    public Sprite[] img_vida;
+    public Image vida1_imageUI,vida2_imageUI,vida3_imageUI;
+    int vida1, vida2, vida3;
+
+    public int somaVida;
+
+
+    public Text verba_txtUI, influ_txtUI;
+
+    //public GameObject verbaBtn;
+    public int verba, propina1, propina2, propina3;
+
+    int dentroDaScene;
+
+    bool depositou, jaPagou;
+
+    public GameObject msg;
+
+    float influencia;
+
+    public Text info;
+
+
+    public void Awake()
+    {
+
+        influ_txtUI.text = influencia.ToString();
+
+        vida1 = 0;
+        vida2 = 0;
+        vida3 = 0;
+        propina1 = 0;
+        propina2 = 0;
+        propina3 = 0;
+
+
+        GanhaInflu();
+        MostraInflu();
+
+        verba = PlayerPrefs.GetInt("Verba");
+        verba_txtUI.text = verba.ToString();
+
+    }
+
+    public void Update()
+    {
+
+        influ_txtUI.text = influencia.ToString();
+
+        mudaSpriteVida();
+        GanhaInflu();
+        MostraInflu();
+
+
+        verba = PlayerPrefs.GetInt("Verba");
+        verba_txtUI.text = verba.ToString();
+
+
+
+    }
+
+
+    public void mudaSpriteVida()
+    {
+        //vida1
+        if (vida1 < 25)
+        {
+            vida1_imageUI.sprite = img_vida[0];
+
+        }
+        if (vida1 >= 25)
+        {
+            vida1_imageUI.sprite = img_vida[1];
+        }
+        if (vida1 >= 50)
+        {
+            vida1_imageUI.sprite = img_vida[2];
+        }
+        if (vida1 >= 75)
+        {
+            vida1_imageUI.sprite = img_vida[3];
+        }
+        if (vida1 >= 100)
+        {
+            vida1_imageUI.sprite = img_vida[4];
+        }
+
+        //vida2
+        if (vida2 < 25)
+        {
+            vida2_imageUI.sprite = img_vida[0];
+        }
+
+        if (vida2 >= 25)
+        {
+            vida2_imageUI.sprite = img_vida[1];
+        }
+        if (vida2 >= 50)
+        {
+            vida2_imageUI.sprite = img_vida[2];
+        }
+        if (vida2 >= 75)
+        {
+            vida2_imageUI.sprite = img_vida[3];
+        }
+        if (vida2 >= 100)
+        {
+            vida2_imageUI.sprite = img_vida[4];
+        }
+
+        // vida3
+        if (vida3 < 25)
+        {
+            vida3_imageUI.sprite = img_vida[0];
+        }
+        if (vida3 >= 25)
+        {
+            vida3_imageUI.sprite = img_vida[1];
+        }
+        if (vida3 >= 50)
+        {
+            vida3_imageUI.sprite = img_vida[2];
+        }
+        if (vida3 >= 75)
+        {
+            vida3_imageUI.sprite = img_vida[3];
+        }
+        if (vida3 >= 100)
+        {
+            vida3_imageUI.sprite = img_vida[4];
+        }
+    }
+
+    public void GanhaInflu()
+    {
+
+        dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
+        influ_txtUI.text = influencia.ToString();
+        somaVida = vida1 + vida2 + vida3;
+
+        if (depositou == true) 
+
+        {
+
+
+            switch (dentroDaScene)
+
+            {
+
+                case 0:
+                    influencia = PlayerPrefs.GetFloat("InfluLula");
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + 10);
+
+                    }
+
+
+                    break;
+                case 1:
+                    influencia = PlayerPrefs.GetFloat("InfluCiro");
+
+
+
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluLCiro") + 10);
+
+                    }
+
+
+                    break;
+                case 2:
+                    influencia = PlayerPrefs.GetFloat("InfluBolso");
+
+
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + 10);
+
+                    }
+
+
+                    break;
+                case 3:
+                    influencia = PlayerPrefs.GetFloat("InfluDilma");
+
+
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") + 10);
+
+                    }
+
+
+                    break;
+                case 4:
+                    influencia = PlayerPrefs.GetFloat("InfluSuplicy");
+
+
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") + 10);
+
+                    }
+
+                    break;
+                case 5:
+                    influencia = PlayerPrefs.GetFloat("InfluEneas");
+
+                    depositou = false;
+                    jaPagou = true;
+
+                    if (somaVida == 300)
+                    {
+                        PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") + 10);
+
+                    }
+
+
+                    break;
+
+            }
+
+        }
+    }
+
+
+    IEnumerator tempo() // criado para que a mensagem desapareç apó 3 segundos (3f)
+    {
+
+        yield return new WaitForSeconds(3f);
+        msg.gameObject.SetActive(false);
+        info.text = ""; // apó 3 segundos, info.text e bg_msg ficará vazio
+
+    }
+
+    public void Propina1()
+    {
+        if (verba >= 5 && vida1 < 100)
+        {
+            propina1 = 5;
+            verba = PlayerPrefs.GetInt("Verba");
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - propina1);
+            vida1 = vida1 + 25;
+            depositou = true;
+
+        }
+
+        if (verba < 5)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
+            StartCoroutine(tempo());
+
+        }
+           
+
+     
+    } 
+
+    public void Propina2()
+    {
+        if (verba >=5 && vida2 < 100)
+        {
+            verba = PlayerPrefs.GetInt("Verba");
+
+            propina2 = 5;
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - propina2);
+            vida2 = vida2 + 25;
+            depositou = true;
+        }
+            
+        if (verba < 5)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
+            StartCoroutine(tempo());
+
+        }
+
+     
+    } 
+
+    public void Propina3()
+    {
+       if (verba >=5 && vida3 < 100)
+        {
+            verba = PlayerPrefs.GetInt("Verba");
+
+            propina3 = 5;
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - propina3);
+            vida3 = vida3 + 25;
+            depositou = true;  
+        }
+            
+        if (verba < 5)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
+            StartCoroutine(tempo());
+
+        }
+    } 
+
+    void MostraInflu()
+    {
+            switch (dentroDaScene)
+
+            {
+
+                case 0:
+                influencia = PlayerPrefs.GetFloat("InfluLula");
+
+                    break;
+                case 1:
+                    influencia = PlayerPrefs.GetFloat("InfluCiro");
+
+                    break;
+                case 2:
+                    influencia = PlayerPrefs.GetFloat("InfluBolso");
+
+                    break;
+                case 3:
+                    influencia = PlayerPrefs.GetFloat("InfluDilma");
+
+                    break;
+                case 4:
+                    influencia = PlayerPrefs.GetFloat("InfluSuplicy");
+
+                    break;
+                case 5:
+                    influencia = PlayerPrefs.GetFloat("InfluEneas");
+
+                    break;
+                     
+
+        }
+    }
+
+    public void ApagaTudo()
+    {
+        if (somaVida == 300)
+        {
+            vida1 = 0;
+            vida2 = 0;
+            vida3 = 0;
+            propina1 = 0;
+            propina2 = 0;
+            propina3 = 0; 
+        }
+     
+
+        msg.gameObject.SetActive(false);
+        info.text = ("");
+    }
+
+   
+
+
+} // fim classe
