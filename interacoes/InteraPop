@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +13,7 @@ public class InteraPop : MonoBehaviour {
     public Text pop_txtUI, info, txtReporter;
     string nomePoli;
 
+    public Slider barraPop;
 
     public GameObject feliz, triste, msg;
 
@@ -23,8 +23,10 @@ public class InteraPop : MonoBehaviour {
     {
         depositou = false;
         jaPagou = false;
+
         feliz.gameObject.SetActive(false);
         triste.gameObject.SetActive(true);
+
         msg.gameObject.SetActive(false);
 
         GanhaPop();
@@ -58,14 +60,23 @@ public class InteraPop : MonoBehaviour {
 
     public void DepositaVerba()
     {
-        if (popularidade <= 90)
+        verba = PlayerPrefs.GetInt("Verba");
+        if (popularidade <= 90 && verba >= 10)
         {
-            verba = PlayerPrefs.GetInt("Verba") - 5;
+            verba = PlayerPrefs.GetInt("Verba") - 10;
             PlayerPrefs.SetInt("Verba", verba);
             depositou = true;
 
             feliz.gameObject.SetActive(true);
             triste.gameObject.SetActive(false);
+        }
+
+        if (verba < 10)
+        {
+            msg.gameObject.SetActive(true);
+            info.text = ("Você não tem verba suficiente");
+            StartCoroutine(tempo());
+
         }
         if (popularidade >= 91)
         {
@@ -151,6 +162,12 @@ public class InteraPop : MonoBehaviour {
 
     public void MostraPop()
     {
+        // BARRA POP
+
+        barraPop.maxValue = 100;
+        barraPop.value = popularidade;
+
+        //
         dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
         switch (dentroDaScene)
 
@@ -221,7 +238,6 @@ public class InteraPop : MonoBehaviour {
 
 public void QuemTaNaScene()
     {
-        //dentroDaScene = PlayerPrefs.GetInt("DentroDaScene");
         if (jaPagou == false || depositou == false)
         {
         switch (dentroDaScene)
