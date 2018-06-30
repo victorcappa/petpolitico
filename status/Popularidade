@@ -24,7 +24,9 @@ public class Popularidade : MonoBehaviour
     public float popularidade = 50;
     public float max_pop = 100;
     public float min_pop = 0;
+    public Slider barraPop;
 
+  
 
     void Start()
     {
@@ -66,6 +68,13 @@ public class Popularidade : MonoBehaviour
         {
             popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
             float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
+
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
             if (tempPopularidade <= 0)
 
             {
@@ -142,6 +151,13 @@ public class Popularidade : MonoBehaviour
 
             popularidade = PlayerPrefs.GetFloat("PopularidadeCiro");
 
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
+
             //------------------------------------------------
 
             // ganho ou perda de pop
@@ -213,6 +229,13 @@ public class Popularidade : MonoBehaviour
             popularidade = PlayerPrefs.GetFloat("PopularidadeBolso");
             popularidade -= Time.deltaTime * veloPerdaPop;
 
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
+
             // ganho ou perda de pop
 
             if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
@@ -274,6 +297,13 @@ public class Popularidade : MonoBehaviour
             veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
 
             popularidade = PlayerPrefs.GetFloat("PopularidadeDilma");
+
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
 
             //------------------------------------------------
 
@@ -342,6 +372,13 @@ public class Popularidade : MonoBehaviour
 
             popularidade = PlayerPrefs.GetFloat("PopularidadeSuplicy");
 
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
+
             //------------------------------------------------
 
             // ganho ou perda de pop
@@ -408,6 +445,13 @@ public class Popularidade : MonoBehaviour
             veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
 
             popularidade = PlayerPrefs.GetFloat("PopularidadeEneas");
+
+            // BARRA POP
+
+            barraPop.maxValue = max_pop;
+            barraPop.value = popularidade;
+
+            //
 
             //------------------------------------------------
 
