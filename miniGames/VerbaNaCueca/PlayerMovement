@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour {
+
+
+    public float speed = 10f;
+    private Rigidbody2D mybody;
+
+    void Awake()
+    {
+        mybody = GetComponent<Rigidbody2D>();
+    }
+
+    void FixedUpdate() // FixedUpdate não é chamado em todo frame
+    {
+        Vector2 vel = mybody.velocity;
+        vel.x = Input.GetAxis("Horizontal") * speed;
+        mybody.velocity = vel;
+    }
+
+
+}// class
