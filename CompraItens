@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking.NetworkSystem;
+using System.Security.Cryptography.X509Certificates;
 
 public class CompraItens : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class CompraItens : MonoBehaviour
 
     public GameObject Itensdecoracao;
 
-    bool comprado;
+    bool comprado, naScene;
 
 
     private void Awake()
@@ -23,16 +24,7 @@ public class CompraItens : MonoBehaviour
         
         FoiComprado();
 
-        if (comprado == true)
-        {
-            Itensdecoracao.gameObject.SetActive(true);
-
-        }
-        else
-        {
-            Itensdecoracao.gameObject.SetActive(false);
-
-        }
+  
     }
     private void Start()
     {
@@ -59,9 +51,11 @@ public class CompraItens : MonoBehaviour
             PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - preco);
             Itensdecoracao.gameObject.SetActive(true);
             comprado = true;
+            naScene = true;
 
-            PlayerPrefs.SetInt("Item" + nome, 1);
+            PlayerPrefs.SetInt("ItemComprado" + nome, 1);
 
+            PlayerPrefs.SetInt("ItemNaScene" + nome, 1);
 
         }
 
@@ -72,8 +66,8 @@ public class CompraItens : MonoBehaviour
             info.text = "Você não tem verba o suficiente";
             StartCoroutine(tempo());
             comprado = false;
-
-            PlayerPrefs.SetInt("Item" + nome, 0);
+            naScene = false;
+            PlayerPrefs.SetInt("ItemComprado" + nome, 0);
 
         }
 
@@ -82,17 +76,39 @@ public class CompraItens : MonoBehaviour
 
     public void FoiComprado()
     {
-        if (PlayerPrefs.GetInt("Item" + nome) == 1)
+        if (PlayerPrefs.GetInt("ItemComprado" + nome) == 1)
         {
             comprado = true;
-            Itensdecoracao.gameObject.SetActive(true);
             preco = 0;
+            txt_preco.text = preco.ToString();
             bg_moeda.gameObject.SetActive(false);
+
+            if (PlayerPrefs.GetInt("ItemNaScene" + nome) == 1)
+            {
+                Itensdecoracao.gameObject.SetActive(true);
+
+            }
+
+            if (PlayerPrefs.GetInt("ItemNaScene" + nome) == 0)
+            {
+                Itensdecoracao.gameObject.SetActive(false);
+
+            }
         }
+
+
+
 
     }
 
+ 
 
+    public void ForaScene()
+    {
+        PlayerPrefs.SetInt("ItemNaScene" + nome, 0);
 
+        Itensdecoracao.gameObject.SetActive(false);
+
+    }
 
 } // FIM DA CLASSE
