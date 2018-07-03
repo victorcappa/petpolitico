@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NaScene : MonoBehaviour {
+    
+    public int LulaDentroScene, CiroDentroScene, BolsoDentroScene, DilmaDentroScene, SuplicyDentroScene, EneasDentroScene;
+    public GameObject partido;
+    public void Awake()
+    {
+        LulaDentroScene = PlayerPrefs.GetInt("LulaDentroScene");
+        CiroDentroScene = PlayerPrefs.GetInt("CiroDentroScene");
+        BolsoDentroScene = PlayerPrefs.GetInt("BolsoDentroScene");
+        DilmaDentroScene = PlayerPrefs.GetInt("DilmaDentroScene");
+        SuplicyDentroScene = PlayerPrefs.GetInt("SuplicyDentroScene");
+
+        if (LulaDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaLula();
+        }
+
+        if (CiroDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaCiro();
+        }
+
+        if (BolsoDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaBolso();
+        }
+
+        if (DilmaDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaDilma();
+        }
+
+        if (SuplicyDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaSuplicy();
+        }
+
+        if (EneasDentroScene == 1)
+        {
+            partido.gameObject.GetComponent<Partido>().AtivaEneas();
+        }
+
+     
+
+
+    }
+}
