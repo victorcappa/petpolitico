@@ -1,0 +1,98 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Networking.NetworkSystem;
+
+public class CompraItens : MonoBehaviour
+{
+    public string nome;
+    public int preco;
+    private int verba;
+    public Text txt_preco;
+    public Image bg_msg,bg_moeda;
+    public Text info;
+
+    public GameObject Itensdecoracao;
+
+    bool comprado;
+
+
+    private void Awake()
+    {
+        
+        FoiComprado();
+
+        if (comprado == true)
+        {
+            Itensdecoracao.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            Itensdecoracao.gameObject.SetActive(false);
+
+        }
+    }
+    private void Start()
+    {
+        txt_preco.text = preco.ToString();
+    }
+
+    IEnumerator tempo() // criado para que a mensagem desapareça após 3 segundos (3f)
+    {
+
+        yield return new WaitForSeconds(2f);
+
+        info.text = ""; // apó 3 segundos, info.text ficará vazio
+        bg_msg.gameObject.SetActive(false);
+
+    }
+
+    public void AtivaFuncoes()
+    {
+        verba = PlayerPrefs.GetInt("Verba");
+
+        if (verba >= preco)
+
+        {
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - preco);
+            Itensdecoracao.gameObject.SetActive(true);
+            comprado = true;
+
+            PlayerPrefs.SetInt("Item" + nome, 1);
+
+
+        }
+
+        else if (verba < preco)
+        {
+            bg_msg.gameObject.SetActive(true);
+
+            info.text = "Você não tem verba o suficiente";
+            StartCoroutine(tempo());
+            comprado = false;
+
+            PlayerPrefs.SetInt("Item" + nome, 0);
+
+        }
+
+
+    }
+
+    public void FoiComprado()
+    {
+        if (PlayerPrefs.GetInt("Item" + nome) == 1)
+        {
+            comprado = true;
+            Itensdecoracao.gameObject.SetActive(true);
+            preco = 0;
+            bg_moeda.gameObject.SetActive(false);
+        }
+
+    }
+
+
+
+
+} // FIM DA CLASSE
