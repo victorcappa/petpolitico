@@ -17,18 +17,25 @@ public class Verba : MonoBehaviour {
     public int verba;
     public Text verba_txtUI;
     public bool primeiraVez;
+    public GameObject[] itens;
 
     public void Awake()
     {
         verba = PlayerPrefs.GetInt("Verba");
         minVerba();
         verbaInicial();
-       
+
+        // Colocar os itens comprados, na scene
+        for (int i = 0; i < itens.Length; i++ )
+        {
+            itens[i].gameObject.GetComponent<CompraItens>().FoiComprado();
+
+        }
+
     }
 
     public void Update()
     {        
-        //PlayerPrefs.DeleteAll();
 
 
         verba = PlayerPrefs.GetInt("Verba");
@@ -61,7 +68,7 @@ public class Verba : MonoBehaviour {
 
             if (primeiraVez == true && PlayerPrefs.GetInt("DentroDoPartido") == 0 )
             {
-                verba = 200;
+                verba = 230;
                 PlayerPrefs.SetInt("Verba", verba);
             }
             if (primeiraVez == true && PlayerPrefs.GetInt("DentroDoPartido") > 0 && verba > 0 )
@@ -74,6 +81,11 @@ public class Verba : MonoBehaviour {
         }
     }
 
+    public void deletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
+    }
 
 
-}
+} // fim da classe
