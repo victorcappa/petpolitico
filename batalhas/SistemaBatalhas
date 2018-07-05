@@ -11,7 +11,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     int ataque = 10;
     public float popularidade;
-    public int popularidadePlayer;
+    public float popularidadePlayer;
 
     public float maxPopInimigo;
     public float popularidadeInimigo;
@@ -56,16 +56,15 @@ public class SistemaBatalhas : MonoBehaviour
         barraPopInimigo.maxValue = PlayerPrefs.GetFloat("PopInimigos");
 
         popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
-        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); 
 
 
         FluxoBatalha();
 
 
-
-        popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
-        popularidadePlayer = (int)popularidade;
-        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+        popularidade = PlayerPrefs.GetFloat("PopularidaNaScene");
+        popularidadePlayer = popularidade;
+        PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
 
         currentState = BattleStates.START;
 
@@ -82,7 +81,7 @@ public class SistemaBatalhas : MonoBehaviour
     public void FluxoBatalha()
     {
         popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
-        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); 
         PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
 
 
@@ -173,7 +172,7 @@ public class SistemaBatalhas : MonoBehaviour
     void VerificaHpPlayer()
     {
 
-        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+        PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
 
 
@@ -210,7 +209,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     void VerificaHpInimigo()
     {
-        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+        PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
 
 
