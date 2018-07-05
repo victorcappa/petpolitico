@@ -1,0 +1,261 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SistemaBatalhas : MonoBehaviour
+{
+    public GameObject canvasBatalhas;
+    public BattleStates currentState;
+    public TipoBatalha tipoDessaBatalha;
+
+    int ataque = 10;
+    public float popularidade;
+    public int popularidadePlayer;
+
+    public float maxPopInimigo;
+    public float popularidadeInimigo;
+
+    bool playerAtacou, inimigoAtacou;
+    public Text popInimigo_txtUI;
+    public Slider barraPopInimigo;
+
+    public int quantosInimigos;
+
+    public enum BattleStates
+    {
+        START,
+        ESCOLHAJOGADOR,
+        ESCOLHAINIMIGO,
+        PERDEU,
+        GANHOU
+    }
+
+    public enum TipoBatalha
+    {
+        ELEICAO,
+        IMPEACHMENT,
+        MILITANTES,
+        LAVAJATO
+    }
+  
+
+
+      
+
+  
+
+    // Use this for initialization
+    void Start()
+    {
+        quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
+        PlayerPrefs.SetFloat("QuantosInimigos", quantosInimigos);
+
+        popInimigo_txtUI.text = popularidadeInimigo.ToString();
+        barraPopInimigo.value = popularidadeInimigo;
+        barraPopInimigo.maxValue = PlayerPrefs.GetFloat("PopInimigos");
+
+        popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+
+
+        FluxoBatalha();
+
+
+
+        popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
+        popularidadePlayer = (int)popularidade;
+        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+
+        currentState = BattleStates.START;
+
+    }
+    // Update is called once per frame
+    void Update()
+    {
+
+
+        FluxoBatalha();
+
+    } // fim update
+
+    public void FluxoBatalha()
+    {
+        popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+        PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
+
+
+        popInimigo_txtUI.text = popularidadeInimigo.ToString();
+        barraPopInimigo.value = popularidadeInimigo;
+
+        Debug.Log(currentState);
+
+       
+
+        switch (currentState)
+        {
+            case BattleStates.START:
+                popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
+
+                print(PlayerPrefs.GetFloat("PopInimigos"));
+
+                currentState = BattleStates.ESCOLHAJOGADOR;
+                break;
+
+            case BattleStates.ESCOLHAJOGADOR:
+                if (playerAtacou == true)
+                {
+                    VerificaHpPlayer();
+                    playerAtacou = false;
+                }
+                break;
+
+            case BattleStates.ESCOLHAINIMIGO:
+
+                AtaqueInimigo();
+                if (inimigoAtacou == true)
+                {
+                    VerificaHpInimigo();
+                    inimigoAtacou = false;
+                }
+
+
+                break;
+
+            case BattleStates.PERDEU:
+                print("você perdeu");
+                break;
+
+            case BattleStates.GANHOU:
+                print("você ganhou");
+                break;
+
+        }
+    }
+
+    public void Inicia()
+    {
+        currentState = BattleStates.START;
+    }
+
+    public void AtaqueJogador()
+    {
+        
+
+
+        print("inimigo perdeu 10 de hp");
+        popularidadeInimigo = popularidadeInimigo - ataque;
+
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
+        popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
+
+        playerAtacou = true;
+
+
+       
+    }
+
+    public void AtaqueInimigo()
+    {
+      
+
+        print("Jogador perdeu 10 de hp");
+        popularidadePlayer = popularidadePlayer - 1;
+        inimigoAtacou = true;
+
+
+     
+    }
+
+
+
+    void VerificaHpPlayer()
+    {
+
+        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+
+
+
+        if (popularidadePlayer > 0 && popularidadeInimigo > 0)
+        {
+
+            currentState = BattleStates.ESCOLHAINIMIGO;
+        }
+        if (popularidadePlayer <= 0 )
+        {
+
+            currentState = BattleStates.PERDEU;
+
+        }
+       
+
+        if (popularidadeInimigo <= 0 && PlayerPrefs.GetInt("PrimeiraVez") == 0)
+        {
+            quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos") - 1;
+            PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
+            // quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
+            print("trocou inimigo");
+
+            if (quantosInimigos == 0)
+            {
+
+                currentState = BattleStates.GANHOU;
+
+            }
+
+        }
+    }
+
+    void VerificaHpInimigo()
+    {
+        PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
+
+
+        if (popularidadePlayer > 0 && popularidadeInimigo > 0)
+        {
+
+            currentState = BattleStates.ESCOLHAJOGADOR;
+
+
+
+        }
+        if (popularidadePlayer <= 0)
+        {
+
+            currentState = BattleStates.PERDEU;
+
+        }
+
+        if (popularidadeInimigo <= 0 && PlayerPrefs.GetInt("PrimeiraVez") == 0)
+        {
+            quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos") - 1;
+            PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
+            // quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
+            print("trocou inimigo");
+            barraPopInimigo.value = popularidadeInimigo;
+
+
+            if (quantosInimigos == 0)
+            {
+
+                currentState = BattleStates.GANHOU;
+
+            }
+
+
+        }
+
+       
+    }
+
+
+
+   
+
+
+
+
+} // FIM DA CLASSE
