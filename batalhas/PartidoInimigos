@@ -1,0 +1,363 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class PartidoInimigo : MonoBehaviour
+{
+    
+
+    public enum TipoDePartidoInimigo
+    {
+        ELEICAO,
+        IMPEACHMENT,
+        MILITANTES,
+        LAVAJATO
+    }
+
+    // Imagem que aparece no partido do inimigo
+    public GameObject LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido;
+
+    // numero 0 ou 1, que define se o personagem está no partido
+    public int LulaDentroPartido, CiroDentroPartido, BolsoDentroPartido, DilmaDentroPartido, SuplicyDentroPartido, EneasDentroPartido;
+
+    // Lista que define quem vai estar na scene, em cada situação
+    public List<GameObject> NessaScene = new List<GameObject>();
+
+    // Inimigos na Scene
+    public GameObject LulaInimigo, CiroInimigo, BolsoInimigo, DilmaInimigo, SuplicyInimigo, EneasInimigo;
+
+    public float popInimigoLula, popInimigoCiro, popInimigoBolsonaro, popInimigoDilma, popInimigoSuplicy, popInimigoEneas;
+
+   // public float popularidadeInimigoScene;
+    // enum que define qual será o tipo de partido
+    public TipoDePartidoInimigo partidoInimigoAtual;
+
+    // enum que define qual o tipo da batalha 
+    public SistemaBatalhas tipoDaBatalha;
+
+    public int primeiraVez;
+    public bool podeTrocarInimigo;
+
+
+    /*  
+        0 LULA
+        1 CIRO
+        2 BOLSO
+        3 DILMA
+        4 SUPLICY
+        5 ENEAS
+
+    */
+    public void Awake()
+    {
+        QualPartido();
+        QualBatalha();
+
+        primeiraVez = 1;
+        popInimigoLula = 50;
+        popInimigoDilma = 30;
+
+    }
+    private void Start()
+    {
+        QualBatalha();
+
+        QualPartido();
+
+       
+
+    } // FIM START
+
+    private void Update()
+    {
+        QualBatalha();
+
+        QualPartido();
+    }
+
+
+
+    public void QualBatalha()
+    {
+        tipoDaBatalha = GetComponent<SistemaBatalhas>();
+
+
+        switch (tipoDaBatalha.tipoDessaBatalha)
+        {
+            case SistemaBatalhas.TipoBatalha.ELEICAO:
+
+                partidoInimigoAtual = TipoDePartidoInimigo.ELEICAO;
+
+                break;
+
+            case SistemaBatalhas.TipoBatalha.IMPEACHMENT:
+                partidoInimigoAtual = TipoDePartidoInimigo.IMPEACHMENT;
+
+
+                break;
+
+            case SistemaBatalhas.TipoBatalha.LAVAJATO:
+                partidoInimigoAtual = TipoDePartidoInimigo.LAVAJATO;
+
+
+                break;
+
+            case SistemaBatalhas.TipoBatalha.MILITANTES:
+                partidoInimigoAtual = TipoDePartidoInimigo.MILITANTES;
+
+
+                break;
+
+        }
+    }
+
+    public void QualPartido()
+    {
+
+        switch (partidoInimigoAtual)
+        {
+            case TipoDePartidoInimigo.ELEICAO:
+
+                PartidoEleicao();
+
+
+                break;
+
+            case TipoDePartidoInimigo.IMPEACHMENT:
+                PartidoImpeachment();
+
+                break;
+
+            case TipoDePartidoInimigo.LAVAJATO:
+                PartidoLavaJato();
+                break;
+
+            case TipoDePartidoInimigo.MILITANTES:
+                PartidoMilitantes();
+                break;
+        }
+    }
+
+
+
+
+    public void PartidoEleicao()
+    {
+
+        if (primeiraVez == 1)
+        {
+            //DENTRO
+            LulaPartidoOn();
+            DilmaPartidoOn();
+
+
+            //FORA
+            CiroPartidoOff();
+            BolsoPartidoOff();
+            EneasPartidoOff();
+            SuplicyPartidoOff();
+
+            // -------- //
+         
+
+            PlayerPrefs.SetFloat("PopInimigos", 0);
+
+            PlayerPrefs.SetInt("QuantosInimigos", 2);
+
+            if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
+        {
+            NaSceneOn(LulaInimigo);
+            popInimigoLula = 50;
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
+
+            print("essa é a primeira vez. PopInimigos = ");
+            print(PlayerPrefs.GetFloat("PopInimigos"));
+        }
+      
+
+            primeiraVez = 0;
+
+            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
+
+            podeTrocarInimigo = true;
+
+        }
+
+
+
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
+        {
+            NaSceneOff(LulaInimigo);
+            NaSceneOn(DilmaInimigo);
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
+            podeTrocarInimigo = false;
+
+        }
+
+
+
+
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
+        {
+            NaSceneOff(DilmaInimigo);
+            NaSceneOff(LulaInimigo);
+
+            PlayerPrefs.SetFloat("PopInimigos", 0);
+        }
+
+
+
+      
+
+    }
+
+    public void PartidoImpeachment()
+    {
+        // DENTRO
+        CiroPartidoOn();
+        EneasPartidoOn();
+
+        // FORA
+
+        LulaPartidoOff();
+        DilmaPartidoOff();
+        BolsoPartidoOff();
+        SuplicyPartidoOff();
+    }
+
+    public void PartidoMilitantes()
+    {
+        //DENTRO
+        SuplicyPartidoOn();
+        LulaPartidoOn();
+
+        //FORA
+
+        CiroPartidoOff();
+        BolsoPartidoOff();
+        EneasPartidoOff();
+        DilmaPartidoOff();
+
+    }
+
+    public void PartidoLavaJato()
+    {
+        //DENTRO
+        BolsoPartidoOn();
+
+        //FORA
+        CiroPartidoOff();
+        LulaPartidoOff();
+        EneasPartidoOff();
+        DilmaPartidoOff();
+        SuplicyPartidoOff();
+    }
+
+    // LULA DENTRO DO PARTIDO
+
+    public void LulaPartidoOn()
+    {
+        LulaPartido.SetActive(true);
+        LulaDentroPartido = 1;
+        NessaScene.Add(LulaInimigo);
+    }
+
+    public void LulaPartidoOff()
+    {
+        LulaPartido.SetActive(false);
+        LulaDentroPartido = 0;
+        NessaScene.Remove(LulaInimigo);
+    }
+
+    // CIRO DENTRO DO PARTIDO
+
+    public void CiroPartidoOn()
+    {
+        CiroPartido.SetActive(true);
+        CiroDentroPartido = 1;
+        NessaScene.Add(CiroInimigo);
+    }
+
+    public void CiroPartidoOff()
+    {
+        CiroPartido.SetActive(false);
+        CiroDentroPartido = 0;
+        NessaScene.Remove(CiroInimigo);
+    }
+
+    // BOLSONARO DENTRO DO PARTIDO
+
+    public void BolsoPartidoOn()
+    {
+        BolsoPartido.SetActive(true);
+        BolsoDentroPartido = 1;
+        NessaScene.Add(BolsoInimigo);
+    }
+
+    public void BolsoPartidoOff()
+    {
+        BolsoPartido.SetActive(false);
+        BolsoDentroPartido = 0;
+        NessaScene.Remove(BolsoInimigo);
+    }
+
+    // DILMA DENTRO DO PARTIDO
+
+    public void DilmaPartidoOn()
+    {
+        DilmaPartido.SetActive(true);
+        DilmaDentroPartido = 1;
+        NessaScene.Add(DilmaInimigo);
+    }
+
+    public void DilmaPartidoOff()
+    {
+        DilmaPartido.SetActive(false);
+        DilmaDentroPartido = 0;
+        NessaScene.Remove(DilmaInimigo);
+    }
+
+    // SUPLICY DENTRO DO PARTIDO
+
+    public void SuplicyPartidoOn()
+    {
+        SuplicyPartido.SetActive(true);
+        SuplicyDentroPartido = 1;
+        NessaScene.Add(SuplicyInimigo);
+    }
+
+    public void SuplicyPartidoOff()
+    {
+        SuplicyPartido.SetActive(false);
+        SuplicyDentroPartido = 0;
+        NessaScene.Remove(SuplicyInimigo);
+    }
+
+    // ENEAS DENTRO DO PARTIDO
+
+    public void EneasPartidoOn()
+    {
+        EneasPartido.SetActive(true);
+        EneasDentroPartido = 1;
+        NessaScene.Add(EneasInimigo);
+    }
+
+    public void EneasPartidoOff()
+    {
+        EneasPartido.SetActive(false);
+        EneasDentroPartido = 0;
+        NessaScene.Remove(EneasInimigo);
+    }
+
+    public void NaSceneOn(GameObject inimigoScene)
+    {
+        inimigoScene.SetActive(true);
+    }
+
+    public void NaSceneOff(GameObject inimigoScene)
+    {
+        inimigoScene.SetActive(false);
+    }
+
+} // FIM DA CLASSE
