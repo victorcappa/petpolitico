@@ -11,7 +11,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     int ataque = 10;
     // public float popularidade;
-    //public float popularidadePlayer;
+    public float popularidadePlayer;
 
     public float maxPopInimigo;
     public float popularidadeInimigo;
@@ -23,7 +23,9 @@ public class SistemaBatalhas : MonoBehaviour
 
     public int quantosInimigos;
 
-    public float somaPopPartido;
+    public Button botao1, botao2;
+
+    //public float somaPopPartido;
 
 
     public enum BattleStates
@@ -48,8 +50,10 @@ public class SistemaBatalhas : MonoBehaviour
     private void Awake()
     {
 
-        SomaPop();
-
+        popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+        barraPop.maxValue = popularidadePlayer;
 
     }
 
@@ -73,12 +77,12 @@ public class SistemaBatalhas : MonoBehaviour
 
         FluxoBatalha();
 
-     
 
 
-        pop_txtUI.text = Mathf.Round(somaPopPartido).ToString();
-        barraPop.value = somaPopPartido;
-        barraPop.maxValue = somaPopPartido;
+        popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+        barraPop.maxValue = popularidadePlayer;
 
         currentState = BattleStates.START;
 
@@ -86,8 +90,10 @@ public class SistemaBatalhas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pop_txtUI.text = somaPopPartido.ToString();
-        barraPop.value = somaPopPartido;
+       
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+       
 
 
         FluxoBatalha();
@@ -106,8 +112,9 @@ public class SistemaBatalhas : MonoBehaviour
         //popularidadePlayer = PlayerPrefs.GetFloat("PopularidaNaScene");
         //PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
 
-        pop_txtUI.text = Mathf.Round(somaPopPartido).ToString();
-        barraPop.value = somaPopPartido;
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+    
 
         Debug.Log(currentState);
 
@@ -119,25 +126,30 @@ public class SistemaBatalhas : MonoBehaviour
                 popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
               
                 print(PlayerPrefs.GetFloat("PopInimigos"));
-
+               
                 currentState = BattleStates.ESCOLHAJOGADOR;
                 break;
 
             case BattleStates.ESCOLHAJOGADOR:
+
+                   
                 if (playerAtacou == true)
-                {
+                {   DesabilitaBotoes();
                     VerificaHpPlayer();
                     playerAtacou = false;
+
+
                 }
                 if (trocouPersonagem == true)
-                {
+                {   DesabilitaBotoes();
                     VerificaHpPlayer();
                     trocouPersonagem = false;
+
                 }
                 break;
 
             case BattleStates.ESCOLHAINIMIGO:
-
+                DesabilitaBotoes();
                 AtaqueInimigo();
                 if (inimigoAtacou == true)
                 {
@@ -151,12 +163,14 @@ public class SistemaBatalhas : MonoBehaviour
             case BattleStates.PERDEU:
                 print("você perdeu");
                 PlayerPrefs.SetInt("NaBatalha", 0);
+                HabilitaBotoes();
 
                 break;
 
             case BattleStates.GANHOU:
                 print("você ganhou");
                 PlayerPrefs.SetInt("NaBatalha", 0);
+                HabilitaBotoes();
 
                 break;
 
@@ -171,7 +185,7 @@ public class SistemaBatalhas : MonoBehaviour
     public void AtaqueJogador()
     {
 
-
+        //canvasBatalhas.guiElement.
 
         print("inimigo perdeu 10 de hp");
         popularidadeInimigo = popularidadeInimigo - ataque;
@@ -182,8 +196,9 @@ public class SistemaBatalhas : MonoBehaviour
         popInimigo_txtUI.text = popularidadeInimigo.ToString();
         barraPopInimigo.value = popularidadeInimigo;
 
-        pop_txtUI.text = Mathf.Round(somaPopPartido).ToString();
-        barraPop.value = somaPopPartido;
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+    
 
         playerAtacou = true;
 
@@ -195,17 +210,18 @@ public class SistemaBatalhas : MonoBehaviour
     public void AtaqueInimigo()
     {
 
+        DesabilitaBotoes();
 
-        print("Jogador perdeu 10 de hp");
-        somaPopPartido = somaPopPartido - 5;
+        print("Jogador perdeu 5 de hp");
+        popularidadePlayer = popularidadePlayer - 5;
         inimigoAtacou = true;
 
         popInimigo_txtUI.text = popularidadeInimigo.ToString();
         barraPopInimigo.value = popularidadeInimigo;
 
-        pop_txtUI.text = Mathf.Round(somaPopPartido).ToString();
-        barraPop.value = somaPopPartido;
-        // popularidadePlayer = PlayerPrefs.GetFloat("PopularidaNaScene");
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+       // PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
 
     }
 
@@ -213,19 +229,21 @@ public class SistemaBatalhas : MonoBehaviour
 
     void VerificaHpPlayer()
     {
-
+        DesabilitaBotoes();
 
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo); //
 
+        PlayerPrefs.SetFloat("PopularidadeNaScene",popularidadePlayer);
 
 
-
-        if (somaPopPartido > 0 && popularidadeInimigo > 0)
+        if (popularidadePlayer > 0 && popularidadeInimigo > 0)
         {
+            StartCoroutine(VezInimigo());
+            //currentState = BattleStates.ESCOLHAINIMIGO;
+           
 
-            currentState = BattleStates.ESCOLHAINIMIGO;
         }
-        if (somaPopPartido <= 0)
+        if (popularidadePlayer <= 0)
         {
 
             currentState = BattleStates.PERDEU;
@@ -253,17 +271,20 @@ public class SistemaBatalhas : MonoBehaviour
     void VerificaHpInimigo()
     {
 
+        DesabilitaBotoes(); 
 
+        PlayerPrefs.SetFloat("PopularidadeNaScene", popularidadePlayer);
 
-        if (somaPopPartido > 0 && popularidadeInimigo > 0)
+        if (popularidadePlayer > 0 && popularidadeInimigo > 0)
         {
-
+            
             currentState = BattleStates.ESCOLHAJOGADOR;
 
+        
 
 
         }
-        if (somaPopPartido <= 0)
+        if (popularidadePlayer <= 0)
         {
 
             currentState = BattleStates.PERDEU;
@@ -281,7 +302,6 @@ public class SistemaBatalhas : MonoBehaviour
 
             if (quantosInimigos == 0)
             {
-
                 currentState = BattleStates.GANHOU;
 
             }
@@ -290,7 +310,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
 
 
-
+        HabilitaBotoes();
     }
 
 
@@ -299,36 +319,33 @@ public class SistemaBatalhas : MonoBehaviour
     {
         trocouPersonagem = true;
 
-       
+        popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+        pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+        barraPop.value = popularidadePlayer;
+        barraPop.maxValue = popularidadePlayer;
+
+
     }
 
-    public void SomaPop()
+    IEnumerator VezInimigo() 
     {
-        if (PlayerPrefs.GetInt("LulaDentroPartido") == 1)
-        {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeLula");
-        }
-     
 
-        if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1)
-        {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeBolso");
-        }
+        yield return new WaitForSeconds(2f);
 
+        currentState = BattleStates.ESCOLHAINIMIGO;
+        print(currentState);
+    }
 
-        if (PlayerPrefs.GetInt("EneasDentroPartido") == 1)
-        {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeEneas");
-        }
-        print(Mathf.Round(somaPopPartido));
-
-        pop_txtUI.text = Mathf.Round(somaPopPartido).ToString();
-        barraPop.value = somaPopPartido;
-        barraPop.maxValue = somaPopPartido;
-
-      
-    }  
-
+    public void DesabilitaBotoes()
+    {
+        botao1.interactable = false;
+        botao2.interactable = false;
+    }
+    public void HabilitaBotoes()
+    {
+        botao1.interactable = true;
+        botao2.interactable = true;
+    }
 
 
 } // FIM DA CLASSE
