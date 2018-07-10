@@ -27,7 +27,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public float somaPopPartido;
 
-    public GameObject painelPartido, fecharPainel;
+    public GameObject painelPartido, fecharPainel, canvasBatalha, canvasGame;
 
 
     public List<float> popPersonagens = new List<float>();
@@ -99,7 +99,7 @@ public class SistemaBatalhas : MonoBehaviour
     void Update()
     {
         print(somaPopPartido);
-       //print("Partido " +  quantosPartido);
+        //print("Partido " +  quantosPartido);
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
 
@@ -157,7 +157,7 @@ public class SistemaBatalhas : MonoBehaviour
                 }
                 if (trocouPersonagem == true)
                 {
-                  
+
                     VerificaHpPlayer();
                     trocouPersonagem = false;
 
@@ -176,7 +176,7 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     VerificaHpInimigo();
                     trocouInimigo = false;
-                    
+
                 }
 
 
@@ -209,7 +209,7 @@ public class SistemaBatalhas : MonoBehaviour
         ataque = 20;
         if (popularidadeInimigo >= ataque)
         {
-            
+
             print("inimigo perdeu 20 de hp");
             popularidadeInimigo = popularidadeInimigo - ataque;
 
@@ -251,7 +251,7 @@ public class SistemaBatalhas : MonoBehaviour
             playerAtacou = true;
             print("player atacou 2");
         }
-      
+
 
         // popularidadePlayer = PlayerPrefs.GetFloat("PopularidaNaScene");
 
@@ -266,8 +266,8 @@ public class SistemaBatalhas : MonoBehaviour
         {
             popularidadePlayer = 0;
         }
-     
-        if ( popularidadePlayer >= ataque)
+
+        if (popularidadePlayer >= ataque)
         {
             ataque = 20;
 
@@ -292,13 +292,13 @@ public class SistemaBatalhas : MonoBehaviour
 
             print("atacou 1");
 
-                
+
         }
         if (popularidadePlayer < ataque && inimigoAtacou == false)
         {
             ataque = (int)Mathf.Round(popularidadePlayer);
 
-            print("Jogador perdeu " + popularidadePlayer +  " de hp");
+            print("Jogador perdeu " + popularidadePlayer + " de hp");
             popularidadePlayer = popularidadePlayer - ataque;
             somaPopPartido = somaPopPartido - ataque;
 
@@ -330,7 +330,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     void VerificaHpPlayer()
     {
-      
+
 
         if (popularidadePlayer < 0)
         {
@@ -339,7 +339,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
 
-      
+
 
 
         if (popularidadePlayer > 0 && popularidadeInimigo > 0)
@@ -353,10 +353,13 @@ public class SistemaBatalhas : MonoBehaviour
             // abre painel para trocar de personagem
             painelPartido.gameObject.SetActive(true);
             fecharPainel.gameObject.SetActive(true);
-        
+
             if (somaPopPartido <= 0)
             {
                 currentState = BattleStates.PERDEU;
+
+
+                StartCoroutine(TiraTodosDaScene()); 
 
             }
 
@@ -380,10 +383,12 @@ public class SistemaBatalhas : MonoBehaviour
 
                 currentState = BattleStates.GANHOU;
 
+                StartCoroutine(TiraTodosDaScene()); 
+
             }
 
         }
-    } 
+    }
 
     void VerificaHpInimigo()
     {
@@ -408,11 +413,15 @@ public class SistemaBatalhas : MonoBehaviour
 
             painelPartido.gameObject.SetActive(true);
             fecharPainel.gameObject.SetActive(true);
-         
 
-            if ( somaPopPartido <= 0)
+
+            if (somaPopPartido <= 0)
             {
                 currentState = BattleStates.PERDEU;
+
+                StartCoroutine(TiraTodosDaScene()); 
+
+
 
             }
 
@@ -433,6 +442,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.GANHOU;
 
+                StartCoroutine(TiraTodosDaScene()); 
             }
 
 
@@ -466,7 +476,43 @@ public class SistemaBatalhas : MonoBehaviour
 
         currentState = BattleStates.ESCOLHAINIMIGO;
         print(currentState);
- 
+
+    }
+
+    IEnumerator TiraTodosDaScene()
+    {
+        yield return new WaitForSeconds(2f);
+
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+        }
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+
+        }
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+        }
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+        }
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+        }
+
+        canvasBatalha.gameObject.SetActive(false);
+        canvasGame.gameObject.SetActive(true);
+
     }
 
     public void DesabilitaBotoes()
@@ -484,26 +530,23 @@ public class SistemaBatalhas : MonoBehaviour
     //PARA VERIFICAR SE ACABOU A POPULARIDADE DE TODOS DENTRO DO PARTIDO
     public void SomaPartido()
     {
-       // quantosPartido = meuPartido.Count;
+        // quantosPartido = meuPartido.Count;
 
 
         if (PlayerPrefs.GetInt("LulaDentroPartido") == 1)
         {
             somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeLula");
-            //meuPartido.Add(LulaPartido);
 
         }
 
         if (PlayerPrefs.GetInt("CiroDentroPartido") == 1)
         {
-             somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeCiro");
-            //meuPartido.Add(CiroPartido);
+            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeCiro");
 
         }
         if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1)
         {
             somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeBolso");
-           // meuPartido.Add(BolsoPartido);
         }
         if (PlayerPrefs.GetInt("DilmaDentroPartido") == 1)
         {
@@ -538,6 +581,7 @@ public class SistemaBatalhas : MonoBehaviour
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"));
+
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
@@ -574,7 +618,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeBolso",popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeBolso", popularidadePlayer);
             if (PlayerPrefs.GetFloat("PopularidadeBolso") <= 0)
             {
                 BolsoPartido.interactable = false;
@@ -605,6 +649,36 @@ public class SistemaBatalhas : MonoBehaviour
             }
         }
     }
+
+    /*public void TiraTodosDaScene()
+      {
+          if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("LulaDentroScene", 0);      
+          }
+
+          if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("CiroDentroScene", 0);      
+          }
+          if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("BolsoDentroScene", 0);      
+
+          }
+          if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("DilmaDentroScene", 0);      
+          }
+          if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("SuplicyDentroScene", 0);      
+          }
+          if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+          {
+              PlayerPrefs.SetInt("EneasDentroScene", 0);      
+          }
+      } */
 
 
 } // FIM DA CLASSE
