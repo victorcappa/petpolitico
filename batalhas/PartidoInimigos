@@ -55,8 +55,9 @@ public class PartidoInimigo : MonoBehaviour
         QualBatalha();
 
         primeiraVez = 1;
-        popInimigoLula = 50;
-        popInimigoDilma = 30;
+
+        PlayerPrefs.SetInt("PrimeiraVez", 1);
+
 
     }
     private void Start()
@@ -144,6 +145,16 @@ public class PartidoInimigo : MonoBehaviour
 
     public void PartidoEleicao()
     {
+        popInimigoLula = 50;
+        popInimigoDilma = 30;
+
+         PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 40);
+         PlayerPrefs.SetInt("LevelLulaInimigo", 10);
+         PlayerPrefs.SetFloat("ApoioMidiaLulaInimigo", 20);
+
+         PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 40);
+         PlayerPrefs.SetInt("LevelDilmaInimigo", 8);
+         PlayerPrefs.SetFloat("ApoioMidiaDilmaInimigo", 20);
 
         if (primeiraVez == 1)
         {
@@ -167,6 +178,8 @@ public class PartidoInimigo : MonoBehaviour
 
             if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
         {
+                
+            PlayerPrefs.SetInt("LulaInimigoScene", 1);    
             NaSceneOn(LulaInimigo);
             popInimigoLula = 50;
             PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
@@ -187,7 +200,10 @@ public class PartidoInimigo : MonoBehaviour
 
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
-        {
+        { 
+            PlayerPrefs.SetInt("LulaInimigoScene", 0);    
+            PlayerPrefs.SetInt("DilmaInimigoScene", 1);    
+
             NaSceneOff(LulaInimigo);
             NaSceneOn(DilmaInimigo);
             PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
@@ -200,6 +216,8 @@ public class PartidoInimigo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
+            PlayerPrefs.SetInt("LulaInimigoScene", 0);    
+            PlayerPrefs.SetInt("DilmaInimigoScene", 0);  
             NaSceneOff(DilmaInimigo);
             NaSceneOff(LulaInimigo);
 
