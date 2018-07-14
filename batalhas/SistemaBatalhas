@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 
 public class SistemaBatalhas : MonoBehaviour
 {
@@ -14,13 +15,15 @@ public class SistemaBatalhas : MonoBehaviour
     // STATUS
     // -------------------------------
 
-    public float popularidadePlayer, danoPlayer, autoridadePlayer, apoioMidiaPlayer;
+    public float popularidadePlayer, danoPlayer, autoridadePlayer, apoioMidiaPlayer, retoricaPlayer;
     public int levelPlayer;
+    public int confiancaPlayer;
 
     public float autoridadeAtaque;
 
     public int levelInimigo;
-    public float popularidadeInimigo, danoInimigo, autoridadeInimigo, apoioMidiaInimigo;
+    public float popularidadeInimigo, danoInimigo, autoridadeInimigo, apoioMidiaInimigo, retoricaInimigo;
+    public int confiancaInimigo;
     // -------------------------------
 
     bool playerAtacou, inimigoAtacou;
@@ -55,6 +58,10 @@ public class SistemaBatalhas : MonoBehaviour
     // Botoes de ataque (desabilitam quando não tem mais a quantidade)
     public Button ataquePopulismo, ataqueHabeasCorpus, ataqueMilitancia;
 
+    public int chanceMitarLacrar, calculoConfianca, confianca;
+    public float mitouLacrou;
+    public bool direita, esquerda;
+
     public enum BattleStates
     {
         START,
@@ -76,7 +83,6 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void Awake()
     {
-        //
 
 
         if (canvasBatalha.GetComponent<Canvas>().enabled == true)
@@ -85,8 +91,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
 
-        //
-        //popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+
         PopPersonagens();
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
@@ -103,7 +108,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void Start()
     {
-        
+
         QuantidadeAtaques();
         quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
         PlayerPrefs.SetFloat("QuantosInimigos", quantosInimigos);
@@ -114,7 +119,7 @@ public class SistemaBatalhas : MonoBehaviour
         barraPopInimigo.value = popularidadeInimigo;
         barraPopInimigo.maxValue = 100;
 
-      
+
 
         tipoDessaBatalha = TipoBatalha.ELEICAO;
 
@@ -128,7 +133,7 @@ public class SistemaBatalhas : MonoBehaviour
         barraPop.value = popularidadePlayer;
         barraPop.maxValue = 100;
 
-       // currentState = BattleStates.START;
+        // currentState = BattleStates.START;
 
     } // FIM START
 
@@ -178,15 +183,24 @@ public class SistemaBatalhas : MonoBehaviour
 
                 PopPersonagens();
 
-                currentState = BattleStates.ESCOLHAJOGADOR;
+                CalculoRetorica();
+
                 break;
 
             case BattleStates.ESCOLHAJOGADOR:
-                
+
                 dialogo.text = "O que você irá fazer?";
+
                 if (playerAtacou == true)
                 {
                     VerificaHpPlayer();
+                    if (popularidadePlayer > 0 && popularidadeInimigo > 0)
+                    {
+                        StartCoroutine(VezInimigo());
+
+
+                    }
+
                     playerAtacou = false;
                     MovimentosPlayer.gameObject.SetActive(false);
 
@@ -197,7 +211,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                     VerificaHpPlayer();
                     trocouPersonagem = false;
-
+                    CalculoRetorica();
                 }
                 break;
 
@@ -208,6 +222,13 @@ public class SistemaBatalhas : MonoBehaviour
                 if (inimigoAtacou == true)
                 {
                     VerificaHpInimigo();
+
+                    if (popularidadePlayer > 0 && popularidadeInimigo > 0)
+                    {
+                        currentState = BattleStates.ESCOLHAJOGADOR;
+
+
+                    }
                     inimigoAtacou = false;
                 }
                 if (trocouInimigo == true)
@@ -215,7 +236,7 @@ public class SistemaBatalhas : MonoBehaviour
                     VerificaHpInimigo();
                     trocouInimigo = false;
                     StatusDeBatalhaInimigos();
-
+                    CalculoRetorica();
                 }
 
 
@@ -245,7 +266,7 @@ public class SistemaBatalhas : MonoBehaviour
     }
 
 
-   
+
 
     void VerificaHpPlayer()
     {
@@ -261,12 +282,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        if (popularidadePlayer > 0 && popularidadeInimigo > 0)
-        {
-            StartCoroutine(VezInimigo());
-
-
-        }
+      
         if (popularidadePlayer <= 0)
         {
             // abre painel para trocar de personagem
@@ -334,7 +350,7 @@ public class SistemaBatalhas : MonoBehaviour
             fecharPainel.gameObject.SetActive(true);
 
 
-            if (Mathf.Round(somaPopPartido)  <= 0)
+            if (Mathf.Round(somaPopPartido) <= 0)
             {
                 currentState = BattleStates.PERDEU;
 
@@ -401,7 +417,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     }
 
-  
+
 
     IEnumerator TiraTodosDaScene()
     {
@@ -435,7 +451,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
 
         //canvasBatalha.gameObject.SetActive(false);
-       // canvasGame.gameObject.SetActive(true);
+        // canvasGame.gameObject.SetActive(true);
 
     }
 
@@ -496,6 +512,7 @@ public class SistemaBatalhas : MonoBehaviour
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
             popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
+
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
@@ -657,6 +674,7 @@ public class SistemaBatalhas : MonoBehaviour
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeLula");
             levelPlayer = PlayerPrefs.GetInt("LevelLula");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaLula");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaLula");
 
         }
 
@@ -665,12 +683,15 @@ public class SistemaBatalhas : MonoBehaviour
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeCiro");
             levelPlayer = PlayerPrefs.GetInt("LevelCiro");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaCiro");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaCiro");
+
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeBolso");
             levelPlayer = PlayerPrefs.GetInt("LevelBolso");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaBolso");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaBolso");
 
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
@@ -678,21 +699,27 @@ public class SistemaBatalhas : MonoBehaviour
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeDilma");
             levelPlayer = PlayerPrefs.GetInt("LevelDilma");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaDilma");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaDilma");
+
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeSuplicy");
             levelPlayer = PlayerPrefs.GetInt("LevelSuplicy");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaSuplicy");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaSuplicy");
+
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeEneas");
             levelPlayer = PlayerPrefs.GetInt("LevelEneas");
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaEneas");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaEneas");
+
         }
     }
-   
+
     public void StatusDeBatalhaInimigos()
     {
         if (PlayerPrefs.GetInt("LulaInimigoScene") == 1)
@@ -725,7 +752,7 @@ public class SistemaBatalhas : MonoBehaviour
         if (PlayerPrefs.GetInt("SuplicyInimigoScene") == 1)
         {
             autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeSuplicyInimigo");
-            levelInimigo= PlayerPrefs.GetInt("LevelSuplicyInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelSuplicyInimigo");
             apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaSuplicyInimigo");
         }
         if (PlayerPrefs.GetInt("EneasInimigoScene") == 1)
@@ -743,12 +770,18 @@ public class SistemaBatalhas : MonoBehaviour
     // ataque
     public void AtaquePopulismo()
     {
+        MitouLacrou();
+
+        CalculoConfiança();
+
         autoridadeAtaque = 40;
-        danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / apoioMidiaInimigo) / 50) + 2;
+        danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / apoioMidiaInimigo) / 50) + 2) * mitouLacrou) * confianca;
         print("Esse é o dano " + danoPlayer);
         print("autoridade" + autoridadePlayer);
         print("apoio da midia do inimigo" + apoioMidiaInimigo);
         print("level player" + levelPlayer);
+
+
 
         if (qtePopulismo <= 0)
         {
@@ -828,7 +861,7 @@ public class SistemaBatalhas : MonoBehaviour
     public void AtaqueHabeasCorpus()
     {
 
-            
+
         if (qteHabeasCorpus <= 0)
         {
             ataqueHabeasCorpus.interactable = false;
@@ -848,11 +881,11 @@ public class SistemaBatalhas : MonoBehaviour
             qteHabeasCorpus = qteHabeasCorpus - 1;
         }
 
-         
-            DesabilitaBotoes();
 
-            playerAtacou = true;
-            print("Ataque Habeas finalizado");
+        DesabilitaBotoes();
+
+        playerAtacou = true;
+        print("Ataque Habeas finalizado");
 
     }
 
@@ -1038,6 +1071,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueInimigoPopulismo()
     {
+
         autoridadeAtaque = 40;
         danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(2 * levelInimigo / 5 + 2) * autoridadeInimigo * autoridadeAtaque / apoioMidiaPlayer) / 50) + 2;
         print("Esse é o dano inimigo " + danoInimigo);
@@ -1052,7 +1086,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (popularidadePlayer >= ataque)
         {
-  
+
 
             print("Jogador perdeu " + danoInimigo + " de popularidade");
             somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
@@ -1116,6 +1150,112 @@ public class SistemaBatalhas : MonoBehaviour
         AtaqueInimigoPopulismo();
     }
 
+    public void MitouLacrou()
+    {
+        chanceMitarLacrar = Random.Range(1, 16);
 
- 
+        if (chanceMitarLacrar == 16)
+        {
+            mitouLacrou = 1.5f;
+        }
+
+        if (chanceMitarLacrar != 16)
+        {
+            mitouLacrou = 1;
+        }
+
+        print("chance de mitarLacrar " + chanceMitarLacrar);
+        print("mitouLacrou " + mitouLacrou);
+
+        if (direita == true)
+        {
+            print("MITO! Seu personagem mitou!");
+
+        }
+        if (esquerda == true)
+        {
+            print("Que tiro foi esse?! Seu personagem lacrou!");
+
+        }
+
+    }
+
+    public void CalculoConfiança()
+    {
+        calculoConfianca = Random.Range(0, confiancaPlayer);
+
+        if (calculoConfianca == 0)
+        {
+            confianca = 0;
+            print("Seu político errou o ataque porque não foi confiante");
+        }
+
+        if (calculoConfianca != 0)
+        {
+            confianca = 1;
+            print("O ataque foi confiante");
+        }
+    }
+
+    public void DireitaEsquerda()
+    {
+        if (direita == true)
+        {
+            esquerda = false;
+        }
+        if (esquerda == true)
+        {
+            direita = false;
+        }
+
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            esquerda = true;
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            esquerda = true;
+        }
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            direita = true;
+
+        }
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            esquerda = true;
+        }
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            esquerda = true;
+        }
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            direita = true;
+        }
+
+
+    }
+
+    public void CalculoRetorica()
+    {
+        if (retoricaPlayer >= retoricaInimigo)
+        {
+            currentState = BattleStates.ESCOLHAJOGADOR;
+            print("retorica do player foi maior");
+            MovimentosPlayer.gameObject.SetActive(true);
+
+        }
+
+        if (retoricaPlayer < retoricaInimigo)
+        {
+            currentState = BattleStates.ESCOLHAINIMIGO;
+            print("retorica do inimigo foi maior");
+            MovimentosPlayer.gameObject.SetActive(false);
+
+
+        }
+    }
+
 } // FIM DA CLASSE
