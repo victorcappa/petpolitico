@@ -59,14 +59,15 @@ public class PartidoInimigo : MonoBehaviour
         PlayerPrefs.SetInt("PrimeiraVez", 1);
 
 
+
     }
-    private void Start()
+     public void Start()
     {
         QualBatalha();
 
         QualPartido();
 
-       
+        print(PlayerPrefs.GetFloat("AutoridadeLulaInimigo"));
 
     } // FIM START
 
@@ -75,8 +76,9 @@ public class PartidoInimigo : MonoBehaviour
         QualBatalha();
 
         QualPartido();
-    }
 
+        Debug.Log("funcionando");
+    }
 
 
     public void QualBatalha()
@@ -138,9 +140,11 @@ public class PartidoInimigo : MonoBehaviour
                 PartidoMilitantes();
                 break;
         }
+
+
     }
 
-
+   
 
 
     public void PartidoEleicao()
@@ -377,5 +381,8 @@ public class PartidoInimigo : MonoBehaviour
     {
         inimigoScene.SetActive(false);
     }
+
+
+   
 
 } // FIM DA CLASSE
