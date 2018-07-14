@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Security.Cryptography.X509Certificates;
 
 public class SistemaBatalhas : MonoBehaviour
 {
-    public GameObject canvasBatalhas;
     public BattleStates currentState;
     public TipoBatalha tipoDessaBatalha;
 
     float ataque = 20;
-    // public float popularidade;
-    public float popularidadePlayer;
 
-    public float maxPopInimigo;
-    public float popularidadeInimigo;
+    // STATUS
+    // -------------------------------
+
+    public float popularidadePlayer, danoPlayer, autoridadePlayer, apoioMidiaPlayer;
+    public int levelPlayer;
+
+    public float autoridadeAtaque;
+
+    public int levelInimigo;
+    public float popularidadeInimigo, danoInimigo, autoridadeInimigo, apoioMidiaInimigo;
+    // -------------------------------
 
     bool playerAtacou, inimigoAtacou;
     public Text popInimigo_txtUI, pop_txtUI;
@@ -30,11 +37,23 @@ public class SistemaBatalhas : MonoBehaviour
     public GameObject painelPartido, fecharPainel, canvasBatalha, canvasGame;
 
 
-    public List<float> popPersonagens = new List<float>();
+    //public List<float> popPersonagens = new List<float>();
     public float popLula, popCiro, popBolso, popDilma, popSuplicy, popEneas;
     public Button LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido;
-    public List<Button> meuPartido = new List<Button>();
+    //public List<Button> meuPartido = new List<Button>();
 
+    public GameObject MovimentosLula, MovimentosCiro, MovimentosBolso, MovimentosDilma, MovimentosSuplicy, MovimentosEneas, MovimentosPlayer;
+
+    public Text dialogo, infoAtaque, qte_Ataque;
+
+    // QUANTIDADES DE CADA ATAQUE PARA CADA PERSONAGEM
+    public int qtePopulismo, qteHabeasCorpus, qteMilitancia;
+    public int qtePopulismoLula, qtePopulismoCiro, qtePopulismoBolso, qtePopulismoDilma, qtePopulismoSuplicy, qtePopulismoEneas;
+    public int qteHabeasLula, qteHabeasCiro, qteHabeasBolso, qteHabeasDilma, qteHabeasSuplicy, qteHabeasEneas;
+    public int qteMilitanciaLula, qteMilitanciaCiro, qteMilitanciaBolso, qteMilitanciaDilma, qteMilitanciaSuplicy, qteMilitanciaEneas;
+
+    // Botoes de ataque (desabilitam quando não tem mais a quantidade)
+    public Button ataquePopulismo, ataqueHabeasCorpus, ataqueMilitancia;
 
     public enum BattleStates
     {
@@ -55,31 +74,49 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-    private void Awake()
+    public void Awake()
     {
-        popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+        //
+
+
+        if (canvasBatalha.GetComponent<Canvas>().enabled == true)
+        {
+            SomaPartido();
+
+        }
+
+        //
+        //popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+        PopPersonagens();
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
         barraPop.maxValue = 100;
 
-        SomaPartido();
 
+        StatusDeBatalha();
+        StatusDeBatalhaInimigos();
+        QuantidadeAtaques();
+        ResetaQuantidadeAtaques();
     }
 
 
 
-    void Start()
+    public void Start()
     {
-
+        
+        QuantidadeAtaques();
         quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
         PlayerPrefs.SetFloat("QuantosInimigos", quantosInimigos);
 
+        popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
+        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
         popInimigo_txtUI.text = popularidadeInimigo.ToString();
         barraPopInimigo.value = popularidadeInimigo;
         barraPopInimigo.maxValue = 100;
 
-        popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
-        PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
+      
+
+        tipoDessaBatalha = TipoBatalha.ELEICAO;
 
 
         FluxoBatalha();
@@ -91,7 +128,7 @@ public class SistemaBatalhas : MonoBehaviour
         barraPop.value = popularidadePlayer;
         barraPop.maxValue = 100;
 
-        currentState = BattleStates.START;
+       // currentState = BattleStates.START;
 
     } // FIM START
 
@@ -99,7 +136,6 @@ public class SistemaBatalhas : MonoBehaviour
     void Update()
     {
         print(somaPopPartido);
-        //print("Partido " +  quantosPartido);
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
 
@@ -146,12 +182,13 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
             case BattleStates.ESCOLHAJOGADOR:
-
-
+                
+                dialogo.text = "O que você irá fazer?";
                 if (playerAtacou == true)
                 {
                     VerificaHpPlayer();
                     playerAtacou = false;
+                    MovimentosPlayer.gameObject.SetActive(false);
 
 
                 }
@@ -165,7 +202,8 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
             case BattleStates.ESCOLHAINIMIGO:
-                AtaqueInimigo();
+
+                AtaquesInimigo();
 
                 if (inimigoAtacou == true)
                 {
@@ -176,6 +214,7 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     VerificaHpInimigo();
                     trocouInimigo = false;
+                    StatusDeBatalhaInimigos();
 
                 }
 
@@ -186,13 +225,14 @@ public class SistemaBatalhas : MonoBehaviour
                 print("você perdeu");
                 PlayerPrefs.SetInt("NaBatalha", 0);
                 DesabilitaBotoes();
-
+                ResetaSomaPop();
                 break;
 
             case BattleStates.GANHOU:
                 print("você ganhou");
                 PlayerPrefs.SetInt("NaBatalha", 0);
                 DesabilitaBotoes();
+                ResetaSomaPop();
 
                 break;
 
@@ -204,129 +244,8 @@ public class SistemaBatalhas : MonoBehaviour
         currentState = BattleStates.START;
     }
 
-    public void AtaqueJogador()
-    {
-        ataque = 20;
-        if (popularidadeInimigo >= ataque)
-        {
 
-            print("inimigo perdeu 20 de hp");
-            popularidadeInimigo = popularidadeInimigo - ataque;
-
-            PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
-            popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
-
-            popInimigo_txtUI.text = popularidadeInimigo.ToString();
-            barraPopInimigo.value = popularidadeInimigo;
-
-            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
-            barraPop.value = popularidadePlayer;
-
-
-            DesabilitaBotoes();
-
-            playerAtacou = true;
-            print("player atacou 1");
-
-        }
-
-        if (popularidadeInimigo < ataque && playerAtacou == false)
-        {
-            ataque = popularidadeInimigo;
-            print("inimigo perdeu " + popularidadeInimigo + " de hp");
-            popularidadeInimigo = popularidadeInimigo - ataque;
-
-            PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
-            popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
-
-            popInimigo_txtUI.text = popularidadeInimigo.ToString();
-            barraPopInimigo.value = popularidadeInimigo;
-
-            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
-            barraPop.value = popularidadePlayer;
-
-
-            DesabilitaBotoes();
-
-            playerAtacou = true;
-            print("player atacou 2");
-        }
-
-
-        // popularidadePlayer = PlayerPrefs.GetFloat("PopularidaNaScene");
-
-
-    }
-
-    public void AtaqueInimigo()
-    {
-        //ataque = 20;
-
-        if (popularidadePlayer <= 0)
-        {
-            popularidadePlayer = 0;
-        }
-
-        if (popularidadePlayer >= ataque)
-        {
-            ataque = 20;
-
-            print("Jogador perdeu 20 de hp");
-            popularidadePlayer = popularidadePlayer - ataque;
-            somaPopPartido = somaPopPartido - ataque;
-
-
-            AtualizaPopPersonagens();
-
-            popInimigo_txtUI.text = popularidadeInimigo.ToString();
-            barraPopInimigo.value = popularidadeInimigo;
-
-            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
-            barraPop.value = popularidadePlayer;
-
-
-
-            HabilitaBotoes();
-
-            inimigoAtacou = true;
-
-            print("atacou 1");
-
-
-        }
-        if (popularidadePlayer < ataque && inimigoAtacou == false)
-        {
-            ataque = (int)Mathf.Round(popularidadePlayer);
-
-            print("Jogador perdeu " + popularidadePlayer + " de hp");
-            popularidadePlayer = popularidadePlayer - ataque;
-            somaPopPartido = somaPopPartido - ataque;
-
-
-            AtualizaPopPersonagens();
-
-            popInimigo_txtUI.text = popularidadeInimigo.ToString();
-            barraPopInimigo.value = popularidadeInimigo;
-
-            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
-            barraPop.value = popularidadePlayer;
-
-
-
-            HabilitaBotoes();
-
-            inimigoAtacou = true;
-            print("atacou 2");
-
-
-        }
-
-
-
-
-    } // FIM ATAQUE INIMIGO
-
-
+   
 
     void VerificaHpPlayer()
     {
@@ -354,12 +273,12 @@ public class SistemaBatalhas : MonoBehaviour
             painelPartido.gameObject.SetActive(true);
             fecharPainel.gameObject.SetActive(true);
 
-            if (somaPopPartido <= 0)
+            if (Mathf.Round(somaPopPartido) <= 0)
             {
                 currentState = BattleStates.PERDEU;
 
 
-                StartCoroutine(TiraTodosDaScene()); 
+                StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -383,7 +302,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 currentState = BattleStates.GANHOU;
 
-                StartCoroutine(TiraTodosDaScene()); 
+                StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -415,11 +334,11 @@ public class SistemaBatalhas : MonoBehaviour
             fecharPainel.gameObject.SetActive(true);
 
 
-            if (somaPopPartido <= 0)
+            if (Mathf.Round(somaPopPartido)  <= 0)
             {
                 currentState = BattleStates.PERDEU;
 
-                StartCoroutine(TiraTodosDaScene()); 
+                StartCoroutine(TiraTodosDaScene());
 
 
 
@@ -442,7 +361,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.GANHOU;
 
-                StartCoroutine(TiraTodosDaScene()); 
+                StartCoroutine(TiraTodosDaScene());
             }
 
 
@@ -456,16 +375,19 @@ public class SistemaBatalhas : MonoBehaviour
     public void TrocouDePersonagem()
     {
         trocouPersonagem = true;
-
+        StatusDeBatalha();
         PopPersonagens();
 
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
-        barraPop.value = popularidadePlayer;
+        barraPop.value = Mathf.Round(popularidadePlayer);
         barraPop.maxValue = 100;
         painelPartido.gameObject.SetActive(false);
         fecharPainel.gameObject.SetActive(false);
 
+        QuantidadeAtaques();
+
         DesabilitaBotoes();
+
 
     }
 
@@ -478,6 +400,8 @@ public class SistemaBatalhas : MonoBehaviour
         print(currentState);
 
     }
+
+  
 
     IEnumerator TiraTodosDaScene()
     {
@@ -510,8 +434,8 @@ public class SistemaBatalhas : MonoBehaviour
             PlayerPrefs.SetInt("EneasDentroScene", 0);
         }
 
-        canvasBatalha.gameObject.SetActive(false);
-        canvasGame.gameObject.SetActive(true);
+        //canvasBatalha.gameObject.SetActive(false);
+       // canvasGame.gameObject.SetActive(true);
 
     }
 
@@ -535,32 +459,32 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (PlayerPrefs.GetInt("LulaDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeLula");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"))));
 
         }
 
         if (PlayerPrefs.GetInt("CiroDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeCiro");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"))));
 
         }
         if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeBolso");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"))));
         }
         if (PlayerPrefs.GetInt("DilmaDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeDilma");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"))));
 
         }
         if (PlayerPrefs.GetInt("SuplicyDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeSuplicy");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"))));
 
         }
         if (PlayerPrefs.GetInt("EneasDentroPartido") == 1)
         {
-            somaPopPartido = somaPopPartido + PlayerPrefs.GetFloat("PopularidadeEneas");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"))));
 
         }
 
@@ -597,11 +521,16 @@ public class SistemaBatalhas : MonoBehaviour
         }
     }
 
+    public void ResetaSomaPop()
+    {
+        somaPopPartido = 0;
+    }
+
     public void AtualizaPopPersonagens()
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeLula", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeLula", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
             {
                 LulaPartido.interactable = false;
@@ -610,7 +539,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeCiro", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeCiro", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
             {
                 CiroPartido.interactable = false;
@@ -618,7 +547,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeBolso", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeBolso", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeBolso") <= 0)
             {
                 BolsoPartido.interactable = false;
@@ -626,7 +555,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeDilma", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeDilma", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeDilma") <= 0)
             {
                 DilmaPartido.interactable = false;
@@ -634,7 +563,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeSuplicy", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeSuplicy", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 0)
             {
                 SuplicyPartido.interactable = false;
@@ -642,7 +571,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeEneas", popularidadePlayer);
+            PlayerPrefs.SetFloat("PopularidadeEneas", Mathf.Round(popularidadePlayer));
             if (PlayerPrefs.GetFloat("PopularidadeEneas") <= 0)
             {
                 EneasPartido.interactable = false;
@@ -650,35 +579,543 @@ public class SistemaBatalhas : MonoBehaviour
         }
     }
 
-    /*public void TiraTodosDaScene()
-      {
-          if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("LulaDentroScene", 0);      
-          }
+    public void PainelMovimentos()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            MovimentosLula.gameObject.SetActive(true);
 
-          if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("CiroDentroScene", 0);      
-          }
-          if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("BolsoDentroScene", 0);      
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
 
-          }
-          if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("DilmaDentroScene", 0);      
-          }
-          if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("SuplicyDentroScene", 0);      
-          }
-          if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
-          {
-              PlayerPrefs.SetInt("EneasDentroScene", 0);      
-          }
-      } */
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            MovimentosCiro.gameObject.SetActive(true);
+
+            MovimentosLula.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            MovimentosBolso.gameObject.SetActive(true);
+
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosLula.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            MovimentosDilma.gameObject.SetActive(true);
+
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosLula.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            MovimentosSuplicy.gameObject.SetActive(true);
+
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosLula.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            MovimentosEneas.gameObject.SetActive(true);
+
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosLula.gameObject.SetActive(false);
+        }
+    }
 
 
+    public void StatusDeBatalha()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeLula");
+            levelPlayer = PlayerPrefs.GetInt("LevelLula");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaLula");
+
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeCiro");
+            levelPlayer = PlayerPrefs.GetInt("LevelCiro");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaCiro");
+        }
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeBolso");
+            levelPlayer = PlayerPrefs.GetInt("LevelBolso");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaBolso");
+
+        }
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeDilma");
+            levelPlayer = PlayerPrefs.GetInt("LevelDilma");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaDilma");
+        }
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeSuplicy");
+            levelPlayer = PlayerPrefs.GetInt("LevelSuplicy");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaSuplicy");
+        }
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeEneas");
+            levelPlayer = PlayerPrefs.GetInt("LevelEneas");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaEneas");
+        }
+    }
+   
+    public void StatusDeBatalhaInimigos()
+    {
+        if (PlayerPrefs.GetInt("LulaInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeLulaInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelLulaInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaLulaInimigo");
+
+        }
+
+        if (PlayerPrefs.GetInt("CiroInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeCiroInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelCiroInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaCiroInimigo");
+        }
+        if (PlayerPrefs.GetInt("BolsoInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeBolsoInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelBolsoInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaBolsoInimigo");
+
+        }
+        if (PlayerPrefs.GetInt("DilmaInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeDilmaInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelDilmaInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
+        }
+        if (PlayerPrefs.GetInt("SuplicyInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeSuplicyInimigo");
+            levelInimigo= PlayerPrefs.GetInt("LevelSuplicyInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaSuplicyInimigo");
+        }
+        if (PlayerPrefs.GetInt("EneasInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeEneasInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelEneasInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaEneasInimigo");
+        }
+    }
+
+
+    // --------------- ATAQUES PLAYER ------------------ //
+
+
+    // ataque
+    public void AtaquePopulismo()
+    {
+        autoridadeAtaque = 40;
+        danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / apoioMidiaInimigo) / 50) + 2;
+        print("Esse é o dano " + danoPlayer);
+        print("autoridade" + autoridadePlayer);
+        print("apoio da midia do inimigo" + apoioMidiaInimigo);
+        print("level player" + levelPlayer);
+
+        if (qtePopulismo <= 0)
+        {
+            ataquePopulismo.interactable = false;
+        }
+        if (qtePopulismo > 0)
+        {
+            ataquePopulismo.interactable = true;
+
+        }
+
+
+        if (popularidadeInimigo >= danoPlayer && qtePopulismo > 0)
+        {
+
+            popularidadeInimigo = popularidadeInimigo - danoPlayer;
+            qtePopulismo = qtePopulismo - 1;
+            AtualizaQuantidadeAtaques();
+            dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
+
+
+            PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
+            popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
+
+            popInimigo_txtUI.text = popularidadeInimigo.ToString();
+            barraPopInimigo.value = popularidadeInimigo;
+
+            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+            barraPop.value = popularidadePlayer;
+
+
+            DesabilitaBotoes();
+
+            playerAtacou = true;
+            print("Ataque 1 finalizado");
+
+        }
+
+        if (popularidadeInimigo < danoPlayer && playerAtacou == false && qtePopulismo > 0)
+        {
+
+            qtePopulismo = qtePopulismo - 1;
+            AtualizaQuantidadeAtaques();
+
+            danoPlayer = popularidadeInimigo;
+            popularidadeInimigo = popularidadeInimigo - danoPlayer;
+            dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
+
+
+            PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
+            popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
+
+            popInimigo_txtUI.text = popularidadeInimigo.ToString();
+            barraPopInimigo.value = popularidadeInimigo;
+
+            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+            barraPop.value = popularidadePlayer;
+
+
+            DesabilitaBotoes();
+
+            playerAtacou = true;
+            print("ataque 1 finalizado");
+        }
+
+    }
+
+    public void SelecionaPopulismo()
+    {
+        QuantidadeAtaques();
+
+        infoAtaque.text = "Diminui popularidade do oponente";
+        qte_Ataque.text = "Qte.: " + qtePopulismo + "/5";
+
+    }
+    // aumenta defesa
+    public void AtaqueHabeasCorpus()
+    {
+
+            
+        if (qteHabeasCorpus <= 0)
+        {
+            ataqueHabeasCorpus.interactable = false;
+        }
+        if (qteHabeasCorpus > 0)
+        {
+
+            ataqueHabeasCorpus.interactable = true;
+
+        }
+
+
+        if (qteHabeasCorpus > 0)
+        {
+            apoioMidiaPlayer = apoioMidiaPlayer + 10;
+            dialogo.text = "Você usou Habeas corpus. Agora, seu Apoio da Mídia aumentou para " + apoioMidiaPlayer;
+            qteHabeasCorpus = qteHabeasCorpus - 1;
+        }
+
+         
+            DesabilitaBotoes();
+
+            playerAtacou = true;
+            print("Ataque Habeas finalizado");
+
+    }
+
+    public void SelecionaHabeasCorpus()
+    {
+        infoAtaque.text = "Aumenta seu Apoio da Mídia";
+        qte_Ataque.text = "Qte.: " + qteHabeasCorpus + "/3";
+
+    }
+
+    // aumenta autoridade
+    public void AtaqueMilitancia()
+    {
+        if (qteMilitancia <= 0)
+        {
+            ataqueMilitancia.interactable = false;
+        }
+        if (qteMilitancia > 0)
+        {
+
+            ataqueMilitancia.interactable = true;
+
+        }
+
+
+        if (qteMilitancia > 0)
+        {
+            autoridadePlayer = autoridadePlayer + 10;
+            dialogo.text = "Você usou sua Miliância. Agora, sua autoridade aumentou para " + autoridadePlayer;
+            qteMilitancia = qteMilitancia - 1;
+        }
+
+
+        DesabilitaBotoes();
+
+        playerAtacou = true;
+        print("Ataque Militancia finalizado");
+    }
+
+    public void SelecionaMilitancia()
+    {
+        infoAtaque.text = "Aumenta sua Autoridade";
+        qte_Ataque.text = "Qte.: " + qteMilitancia + "/3";
+
+    }
+
+    public void QuantidadeAtaques()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoLula;
+            qteHabeasCorpus = qteHabeasLula;
+            qteMilitancia = qteMilitanciaLula;
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoCiro;
+            qteHabeasCorpus = qteHabeasCiro;
+            qteMilitancia = qteMilitanciaCiro;
+
+        }
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoBolso;
+            qteHabeasCorpus = qteHabeasBolso;
+            qteMilitancia = qteMilitanciaBolso;
+
+        }
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoDilma;
+            qteHabeasCorpus = qteHabeasDilma;
+            qteMilitancia = qteMilitanciaDilma;
+
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoSuplicy;
+            qteHabeasCorpus = qteHabeasSuplicy;
+            qteMilitancia = qteMilitanciaSuplicy;
+
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            qtePopulismo = qtePopulismoEneas;
+            qteHabeasCorpus = qteHabeasEneas;
+            qteMilitancia = qteMilitanciaEneas;
+
+        }
+        if (qtePopulismo <= 0)
+        {
+            ataquePopulismo.interactable = false;
+        }
+        if (qtePopulismo > 0)
+        {
+            ataquePopulismo.interactable = true;
+
+        }
+    }
+
+    public void AtualizaQuantidadeAtaques()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            qtePopulismoLula = qtePopulismo;
+            qteHabeasLula = qteHabeasCorpus;
+            qteMilitanciaLula = qteMilitancia;
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            qtePopulismoCiro = qtePopulismo;
+            qteHabeasCiro = qteHabeasCorpus;
+            qteMilitanciaCiro = qteMilitancia;
+
+        }
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            qtePopulismoBolso = qtePopulismo;
+            qteHabeasBolso = qteHabeasCorpus;
+            qteMilitanciaBolso = qteMilitancia;
+
+        }
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            qtePopulismoDilma = qtePopulismo;
+            qteHabeasDilma = qteHabeasCorpus;
+            qteMilitanciaDilma = qteMilitancia;
+
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            qtePopulismoSuplicy = qtePopulismo;
+            qteHabeasSuplicy = qteHabeasCorpus;
+            qteMilitanciaSuplicy = qteMilitancia;
+
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            qtePopulismoEneas = qtePopulismo;
+            qteHabeasEneas = qteHabeasCorpus;
+            qteMilitanciaEneas = qteMilitancia;
+
+        }
+    }
+
+    public void ResetaQuantidadeAtaques()
+    {
+        qtePopulismoLula = 5;
+        qtePopulismoCiro = 5;
+        qtePopulismoBolso = 5;
+        qtePopulismoDilma = 5;
+        qtePopulismoSuplicy = 5;
+        qtePopulismoEneas = 5;
+
+        qteHabeasLula = 3;
+        qteHabeasCiro = 3;
+        qteHabeasBolso = 3;
+        qteHabeasDilma = 3;
+        qteHabeasSuplicy = 3;
+        qteHabeasEneas = 3;
+
+        qteMilitanciaLula = 3;
+        qteMilitanciaCiro = 3;
+        qteMilitanciaBolso = 3;
+        qteMilitanciaDilma = 3;
+        qteMilitanciaSuplicy = 3;
+        qteMilitanciaEneas = 3;
+
+
+    }
+
+    // --------------- ATAQUES INIMIGO ------------------ //
+
+    public void AtaqueInimigoPopulismo()
+    {
+        autoridadeAtaque = 40;
+        danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(2 * levelInimigo / 5 + 2) * autoridadeInimigo * autoridadeAtaque / apoioMidiaPlayer) / 50) + 2;
+        print("Esse é o dano inimigo " + danoInimigo);
+        print("autoridade inimigo" + autoridadeInimigo);
+        print("apoio da midia do player" + apoioMidiaPlayer);
+        print("level inimigo" + levelInimigo);
+
+        if (Mathf.Round(popularidadePlayer) <= 0)
+        {
+            popularidadePlayer = 0;
+        }
+
+        if (popularidadePlayer >= ataque)
+        {
+  
+
+            print("Jogador perdeu " + danoInimigo + " de popularidade");
+            somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
+            popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
+            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de popularidade";
+
+
+            AtualizaPopPersonagens();
+
+            popInimigo_txtUI.text = popularidadeInimigo.ToString();
+            barraPopInimigo.value = popularidadeInimigo;
+
+            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+            barraPop.value = popularidadePlayer;
+
+
+
+            HabilitaBotoes();
+
+            inimigoAtacou = true;
+
+            print("atacou 1");
+
+
+        }
+        if (popularidadePlayer < ataque && inimigoAtacou == false)
+        {
+
+            danoInimigo = (int)Mathf.Round(popularidadePlayer);
+            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de popularidade";
+
+            print("Jogador perdeu " + popularidadePlayer + " de hp");
+            popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
+            somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
+
+
+            AtualizaPopPersonagens();
+
+            popInimigo_txtUI.text = popularidadeInimigo.ToString();
+            barraPopInimigo.value = popularidadeInimigo;
+
+            pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
+            barraPop.value = popularidadePlayer;
+
+
+
+            HabilitaBotoes();
+
+            inimigoAtacou = true;
+            print("atacou 2");
+
+
+        }
+
+
+
+    } // FIM ATAQUE INIMIGO
+
+    public void AtaquesInimigo()
+    {
+        AtaqueInimigoPopulismo();
+    }
+
+
+ 
 } // FIM DA CLASSE
