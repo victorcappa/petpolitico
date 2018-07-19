@@ -38,7 +38,7 @@ public class PartidoInimigo : MonoBehaviour
 
     public int primeiraVez;
     public bool podeTrocarInimigo;
-
+    GameObject apoioMidiaInimigo;
 
     /*  
         0 LULA
@@ -155,10 +155,15 @@ public class PartidoInimigo : MonoBehaviour
          PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 40);
          PlayerPrefs.SetInt("LevelLulaInimigo", 10);
          PlayerPrefs.SetFloat("ApoioMidiaLulaInimigo", 20);
+         PlayerPrefs.SetFloat("RetoricaLulaInimigo", 30);
+         PlayerPrefs.SetInt("ConfiancaLulaInimigo", 10);
+
 
          PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 40);
          PlayerPrefs.SetInt("LevelDilmaInimigo", 8);
          PlayerPrefs.SetFloat("ApoioMidiaDilmaInimigo", 20);
+         PlayerPrefs.SetFloat("RetoricaDilmaInimigo", 30);
+         PlayerPrefs.SetInt("ConfiancaDilmaInimigo", 10);
 
         if (primeiraVez == 1)
         {
@@ -212,6 +217,7 @@ public class PartidoInimigo : MonoBehaviour
             NaSceneOn(DilmaInimigo);
             PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
             podeTrocarInimigo = false;
+            apoioMidiaInimigo.gameObject.GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
 
         }
 
