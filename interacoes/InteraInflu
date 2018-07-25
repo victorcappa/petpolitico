@@ -2,10 +2,11 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 
-public class InteraInflu : MonoBehaviour {
+public class InteraInflu : MonoBehaviour
+{
 
     public Sprite[] img_vida;
-    public Image vida1_imageUI,vida2_imageUI,vida3_imageUI;
+    public Image vida1_imageUI, vida2_imageUI, vida3_imageUI;
     int vida1, vida2, vida3;
 
     public int somaVida;
@@ -15,7 +16,7 @@ public class InteraInflu : MonoBehaviour {
 
     //public GameObject verbaBtn;
     public int verba, propina1, propina2, propina3;
-
+    public AudioSource som;
     int dentroDaScene;
 
     bool depositou, jaPagou;
@@ -75,23 +76,30 @@ public class InteraInflu : MonoBehaviour {
         if (vida1 < 25)
         {
             vida1_imageUI.sprite = img_vida[0];
-
         }
         if (vida1 >= 25)
         {
             vida1_imageUI.sprite = img_vida[1];
+            som.pitch = 1;
+
         }
         if (vida1 >= 50)
         {
             vida1_imageUI.sprite = img_vida[2];
+            som.pitch = 1.5f;
+
         }
         if (vida1 >= 75)
         {
             vida1_imageUI.sprite = img_vida[3];
+            som.pitch = 2;
+
         }
         if (vida1 >= 100)
         {
             vida1_imageUI.sprite = img_vida[4];
+            som.pitch = 2.5f;
+
         }
 
         //vida2
@@ -103,40 +111,57 @@ public class InteraInflu : MonoBehaviour {
         if (vida2 >= 25)
         {
             vida2_imageUI.sprite = img_vida[1];
+            som.pitch = 1;
+
         }
         if (vida2 >= 50)
         {
             vida2_imageUI.sprite = img_vida[2];
+            som.pitch = 1.5f;
+
         }
         if (vida2 >= 75)
         {
             vida2_imageUI.sprite = img_vida[3];
+            som.pitch = 2;
+
         }
         if (vida2 >= 100)
         {
             vida2_imageUI.sprite = img_vida[4];
+            som.pitch = 2.5f;
+
         }
 
         // vida3
         if (vida3 < 25)
         {
             vida3_imageUI.sprite = img_vida[0];
+
         }
         if (vida3 >= 25)
         {
             vida3_imageUI.sprite = img_vida[1];
+            som.pitch = 1;
+
         }
         if (vida3 >= 50)
         {
             vida3_imageUI.sprite = img_vida[2];
+            som.pitch = 1.5f;
+
         }
         if (vida3 >= 75)
         {
             vida3_imageUI.sprite = img_vida[3];
+            som.pitch = 2;
+
         }
         if (vida3 >= 100)
         {
             vida3_imageUI.sprite = img_vida[4];
+            som.pitch = 2.5f;
+
         }
     }
 
@@ -147,7 +172,7 @@ public class InteraInflu : MonoBehaviour {
         influ_txtUI.text = influencia.ToString();
         somaVida = vida1 + vida2 + vida3;
 
-        if (depositou == true) 
+        if (depositou == true)
 
         {
 
@@ -160,7 +185,7 @@ public class InteraInflu : MonoBehaviour {
                     influencia = PlayerPrefs.GetFloat("InfluLula");
                     depositou = false;
                     jaPagou = true;
-                   
+
 
                     if (somaVida == 300)
                     {
@@ -286,14 +311,14 @@ public class InteraInflu : MonoBehaviour {
             StartCoroutine(tempo());
 
         }
-           
 
-     
-    } 
+
+
+    }
 
     public void Propina2()
     {
-        if (verba >=5 && vida2 < 100)
+        if (verba >= 5 && vida2 < 100)
         {
             verba = PlayerPrefs.GetInt("Verba");
 
@@ -302,7 +327,7 @@ public class InteraInflu : MonoBehaviour {
             vida2 = vida2 + 25;
             depositou = true;
         }
-            
+
         if (verba < 5)
         {
             msg.gameObject.SetActive(true);
@@ -311,21 +336,21 @@ public class InteraInflu : MonoBehaviour {
 
         }
 
-     
-    } 
+
+    }
 
     public void Propina3()
     {
-       if (verba >=5 && vida3 < 100)
+        if (verba >= 5 && vida3 < 100)
         {
             verba = PlayerPrefs.GetInt("Verba");
 
             propina3 = 5;
             PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - propina3);
             vida3 = vida3 + 25;
-            depositou = true;  
+            depositou = true;
         }
-            
+
         if (verba < 5)
         {
             msg.gameObject.SetActive(true);
@@ -333,7 +358,7 @@ public class InteraInflu : MonoBehaviour {
             StartCoroutine(tempo());
 
         }
-    } 
+    }
 
     void MostraInflu()
     {
@@ -344,35 +369,35 @@ public class InteraInflu : MonoBehaviour {
         barraInflu.value = influencia;
 
         //
-            switch (dentroDaScene)
+        switch (dentroDaScene)
 
-            {
+        {
 
-                case 0:
+            case 0:
                 influencia = PlayerPrefs.GetFloat("InfluLula");
 
-                    break;
-                case 1:
-                    influencia = PlayerPrefs.GetFloat("InfluCiro");
+                break;
+            case 1:
+                influencia = PlayerPrefs.GetFloat("InfluCiro");
 
-                    break;
-                case 2:
-                    influencia = PlayerPrefs.GetFloat("InfluBolso");
+                break;
+            case 2:
+                influencia = PlayerPrefs.GetFloat("InfluBolso");
 
-                    break;
-                case 3:
-                    influencia = PlayerPrefs.GetFloat("InfluDilma");
+                break;
+            case 3:
+                influencia = PlayerPrefs.GetFloat("InfluDilma");
 
-                    break;
-                case 4:
-                    influencia = PlayerPrefs.GetFloat("InfluSuplicy");
+                break;
+            case 4:
+                influencia = PlayerPrefs.GetFloat("InfluSuplicy");
 
-                    break;
-                case 5:
-                    influencia = PlayerPrefs.GetFloat("InfluEneas");
+                break;
+            case 5:
+                influencia = PlayerPrefs.GetFloat("InfluEneas");
 
-                    break;
-                     
+                break;
+
 
         }
     }
@@ -386,15 +411,15 @@ public class InteraInflu : MonoBehaviour {
             vida3 = 0;
             propina1 = 0;
             propina2 = 0;
-            propina3 = 0; 
+            propina3 = 0;
         }
-     
+
 
         msg.gameObject.SetActive(false);
         info.text = ("");
     }
 
-   
+
 
 
 } // fim classe
