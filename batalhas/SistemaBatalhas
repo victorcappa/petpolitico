@@ -47,9 +47,11 @@ public class SistemaBatalhas : MonoBehaviour
 
     public Text dialogo, infoAtaque, qte_Ataque;
 
-    // QUANTIDADES DE CADA ATAQUE PARA CADA PERSONAGEM
-    public int qtePopulismo, qteHabeasCorpus, qteMilitancia, qteElogioJornal, qteDenunciaSupremo, qteForoPrivilegiado, qteVazarLigacoes, qteAdHominem;
+    // QUANTIDADES DE CADA ATAQUE
+    public int qtePopulismo, qteHabeasCorpus, qteMilitancia, qteElogioJornal, qteDenunciaSupremo, qteForoPrivilegiado;
+    public int qteVazarLigacoes, qteAdHominem, qteApoioCentrao;
 
+    //  PARA CADA PERSONAGEM
     public int qtePopulismoLula, qtePopulismoCiro, qtePopulismoBolso, qtePopulismoDilma, qtePopulismoSuplicy, qtePopulismoEneas;
     public int qteHabeasLula, qteHabeasCiro, qteHabeasBolso, qteHabeasDilma, qteHabeasSuplicy, qteHabeasEneas;
     public int qteMilitanciaLula, qteMilitanciaCiro, qteMilitanciaBolso, qteMilitanciaDilma, qteMilitanciaSuplicy, qteMilitanciaEneas;
@@ -58,16 +60,24 @@ public class SistemaBatalhas : MonoBehaviour
     public int qteForoLula, qteForoCiro, qteForoBolso, qteForoDilma, qteForoSuplicy, qteForoEneas;
     public int qteVazarLula, qteVazarCiro, qteVazarBolso, qteVazarDilma, qteVazarSuplicy, qteVazarEneas;
     public int qteAdHominemLula, qteAdHominemCiro, qteAdHominemBolso, qteAdHominemDilma, qteAdHominemSuplicy, qteAdHominemEneas;
+    public int qteApoioCentraoLula, qteApoioCentraoCiro, qteApoioCentraoBolso, qteApoioCentraoDilma, qteApoioCentraoSuplicy, qteApoioCentraoEneas;
 
 
 
-    public bool playerProtegido, inimigoProtegido;
+
     // Botoes de ataque (desabilitam quando não tem mais a quantidade)
-    public Button ataquePopulismo, ataqueHabeasCorpus, ataqueMilitancia, ataqueElogioJornal, ataqueDenunciaSupremo, ataqueForoPrivilegiado, ataqueVazarLigacoes, ataqueAdHominem;
 
+    public Button ataquePopulismo, ataqueHabeasCorpus, ataqueMilitancia, ataqueElogioJornal, ataqueDenunciaSupremo;
+    public Button ataqueForoPrivilegiado, ataqueVazarLigacoes, ataqueAdHominem, ataqueApoioCentrao;
+    public bool proximaMsg;
+
+    // ------ //
     public int chanceMitarLacrar, calculoConfianca, confianca;
     public float mitouLacrou;
     public bool direita, esquerda;
+
+    // Bool para verificar se foi dado algum ataque de defesa 100%
+    public bool playerProtegido, inimigoProtegido;
 
     public enum BattleStates
     {
@@ -95,10 +105,9 @@ public class SistemaBatalhas : MonoBehaviour
         if (canvasBatalha.GetComponent<Canvas>().enabled == true)
         {
             SomaPartido();
-
         }
 
-
+        HabilitaBotoes();
         PopPersonagens();
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
@@ -116,7 +125,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void Start()
     {
-
+        HabilitaBotoes();
         QuantidadeAtaques();
         quantosInimigos = PlayerPrefs.GetInt("QuantosInimigos");
         PlayerPrefs.SetFloat("QuantosInimigos", quantosInimigos);
@@ -130,7 +139,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
         tipoDessaBatalha = TipoBatalha.ELEICAO;
-
+        currentState = BattleStates.START;
         if (canvasBatalha.GetComponent<Canvas>().enabled == true)
         {
             FluxoBatalha();
@@ -143,6 +152,7 @@ public class SistemaBatalhas : MonoBehaviour
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
         barraPop.maxValue = 100;
+
 
         // currentState = BattleStates.START;
 
@@ -191,7 +201,8 @@ public class SistemaBatalhas : MonoBehaviour
 
             case BattleStates.START:
                 HabilitaBotoes();
-
+                DialogoEscolha();
+                proximaMsg = false;
                 popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
 
                 print("Pop Inimigos" + PlayerPrefs.GetFloat("PopInimigos"));
@@ -210,12 +221,13 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     VerificaHpPlayer();
                     DireitaEsquerda();
+                   
 
                     if (popularidadePlayer > 0 && popularidadeInimigo > 0)
                     {
+
                         StartCoroutine(VezInimigo());
-
-
+                
                     }
 
                     playerAtacou = false;
@@ -561,6 +573,7 @@ public class SistemaBatalhas : MonoBehaviour
     public void ResetaSomaPop()
     {
         somaPopPartido = 0;
+
     }
 
     public void AtualizaPopPersonagens()
@@ -822,7 +835,6 @@ public class SistemaBatalhas : MonoBehaviour
         print("level player" + levelPlayer);
 
 
-
         if (qtePopulismo <= 0)
         {
             ataquePopulismo.interactable = false;
@@ -840,7 +852,16 @@ public class SistemaBatalhas : MonoBehaviour
             popularidadeInimigo = popularidadeInimigo - danoPlayer;
             qtePopulismo = qtePopulismo - 1;
             AtualizaQuantidadeAtaques();
-            dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
+
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
+
+            }
 
 
             PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
@@ -855,7 +876,9 @@ public class SistemaBatalhas : MonoBehaviour
 
             DesabilitaBotoes();
 
+        
             playerAtacou = true;
+
             print("Ataque 1 finalizado");
 
         }
@@ -868,8 +891,16 @@ public class SistemaBatalhas : MonoBehaviour
 
             danoPlayer = popularidadeInimigo * confianca;
             popularidadeInimigo = popularidadeInimigo - danoPlayer;
-            dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
 
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você usou Populismo e tirou " + danoPlayer + " de popularidade do oponente";
+
+            }
 
             PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
             popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos"); //
@@ -882,8 +913,9 @@ public class SistemaBatalhas : MonoBehaviour
 
 
             DesabilitaBotoes();
-
-            playerAtacou = true;
+         
+                playerAtacou = true;
+         
             print("ataque 1 finalizado");
         }
 
@@ -916,7 +948,16 @@ public class SistemaBatalhas : MonoBehaviour
             danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * apoioMidiaPlayer * autoridadeAtaque / apoioMidiaPlayer) / 50) + 2) * mitouLacrou) * confianca;
             ataqueHabeasCorpus.interactable = true;
             apoioMidiaPlayer = apoioMidiaPlayer + danoPlayer;
-            dialogo.text = "Você usou Habeas corpus. Agora, seu Apoio da Mídia aumentou para " + apoioMidiaPlayer;
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você usou Habeas corpus. Agora, seu Apoio da Mídia aumentou para " + apoioMidiaPlayer;
+
+            }
             qteHabeasCorpus = qteHabeasCorpus - 1;
             AtualizaQuantidadeAtaques();
         }
@@ -956,7 +997,17 @@ public class SistemaBatalhas : MonoBehaviour
             ataqueMilitancia.interactable = true;
             danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / autoridadePlayer) / 50) + 2) * mitouLacrou) * confianca;
             autoridadePlayer = autoridadePlayer + danoPlayer;
-            dialogo.text = "Você usou sua Miliância. Agora, sua autoridade aumentou para " + autoridadePlayer;
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você usou sua Miliância. Agora, sua autoridade aumentou para " + autoridadePlayer;
+
+            }
+
             qteMilitancia = qteMilitancia - 1;
             AtualizaQuantidadeAtaques();
 
@@ -999,7 +1050,18 @@ public class SistemaBatalhas : MonoBehaviour
 
             danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / autoridadeInimigo) / 50) + 2) * mitouLacrou) * confianca;
             autoridadeInimigo = autoridadeInimigo - danoPlayer;
-            dialogo.text = "Você denunciou seu oponente ao Supremo, diminuindo a autoridade para " + autoridadeInimigo;
+
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você denunciou seu oponente ao Supremo, diminuindo a autoridade para " + autoridadeInimigo;
+
+            }
+
             qteDenunciaSupremo = qteDenunciaSupremo - 1;
             AtualizaQuantidadeAtaques();
 
@@ -1126,7 +1188,18 @@ public class SistemaBatalhas : MonoBehaviour
             if (apoioMidiaInimigo > danoPlayer)
             {
                 apoioMidiaInimigo = apoioMidiaInimigo - danoPlayer;
-                dialogo.text = "Você vazou ligações comprometedoras de seu oponente e tirou " + danoPlayer + " de Apoio da Mídia";
+
+                if (confianca == 0)
+                {
+                    dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+                }
+                if (confianca != 0)
+                {
+                    dialogo.text = "Você vazou ligações comprometedoras de seu oponente e tirou " + danoPlayer + " de Apoio da Mídia";
+
+                }
+
                 qteVazarLigacoes = qteVazarLigacoes - 1;
                 AtualizaQuantidadeAtaques();
 
@@ -1134,8 +1207,16 @@ public class SistemaBatalhas : MonoBehaviour
             if (apoioMidiaInimigo < danoPlayer)
             {
                 apoioMidiaInimigo = 1;
-                dialogo.text = "Você vazou ligações comprometedoras de seu oponente e tirou " + danoPlayer + " de Apoio da Mídia";
-                qteVazarLigacoes = qteVazarLigacoes - 1;
+                if (confianca == 0)
+                {
+                    dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+                }
+                if (confianca != 0)
+                {
+                    dialogo.text = "Você vazou ligações comprometedoras de seu oponente e tirou " + danoPlayer + " de Apoio da Mídia";
+
+                }                qteVazarLigacoes = qteVazarLigacoes - 1;
                 AtualizaQuantidadeAtaques();
 
             }
@@ -1189,7 +1270,16 @@ public class SistemaBatalhas : MonoBehaviour
             if (confiancaInimigo > danoPlayer)
             {
                 confiancaInimigo = (int)(confiancaInimigo - danoPlayer);
-                dialogo.text = "Você utilizou argumentos Ad Hominem e tirou " + danoPlayer + " de Confiança do seu oponente";
+                if (confianca == 0)
+                {
+                    dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+                }
+                if (confianca != 0)
+                {
+                    dialogo.text = "Você utilizou argumentos Ad Hominem e tirou " + danoPlayer + " de Confiança do seu oponente";
+
+                }
                 qteAdHominem = qteAdHominem - 1;
                 AtualizaQuantidadeAtaques();
 
@@ -1197,8 +1287,16 @@ public class SistemaBatalhas : MonoBehaviour
             if (confiancaInimigo < danoPlayer)
             {
                 confiancaInimigo = 1;
-                dialogo.text = "Você utilizou argumentos Ad Hominem e tirou " + danoPlayer + " de Confiança do seu oponente";
-                qteAdHominem = qteAdHominem - 1;
+                if (confianca == 0)
+                {
+                    dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+                }
+                if (confianca != 0)
+                {
+                    dialogo.text = "Você utilizou argumentos Ad Hominem e tirou " + danoPlayer + " de Confiança do seu oponente";
+
+                }                qteAdHominem = qteAdHominem - 1;
                 AtualizaQuantidadeAtaques();
 
             }
@@ -1231,6 +1329,58 @@ public class SistemaBatalhas : MonoBehaviour
 
     }
 
+    // APOIO CENTRAO - aumenta confiança do player
+    public void AtaqueApoioCentrao()
+    {
+        MitouLacrou();
+        Protegido();
+        CalculoConfiancaPlayer();
+        autoridadeAtaque = 40;
+
+        if (qteApoioCentrao <= 0)
+        {
+            ataqueApoioCentrao.interactable = false;
+        }
+        if (qteApoioCentrao > 0)
+        {
+
+            ataqueApoioCentrao.interactable = true;
+
+            danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * confiancaPlayer * autoridadeAtaque / confiancaPlayer) / 50) + 2) * mitouLacrou) * confianca;
+
+
+            confiancaPlayer = (int)(confiancaPlayer + danoPlayer);
+            if (confianca == 0)
+            {
+                dialogo.text = "Seu político errou o ataque porque não foi confiante";
+
+            }
+            if (confianca != 0)
+            {
+                dialogo.text = "Você conquistou apoio do Centrão e aumentou " + danoPlayer + " de sua Retórica.";
+
+            }
+            qteApoioCentrao = qteApoioCentrao  - 1;
+            AtualizaQuantidadeAtaques();
+
+
+        }
+
+
+
+        DesabilitaBotoes();
+
+        playerAtacou = true;
+        print("Ataque Apoio Centrao Finalizado. Sua confiança: " + confiancaPlayer);
+    }
+
+    public void SelecionaApoioCentrao()
+    {
+        infoAtaque.text = "Aumenta sua confiaça (precisão).";
+        qte_Ataque.text = "Qte.: " + qteApoioCentrao + "/3";
+        dialogo.text = "Utilizar o ataque Apoio Centrão?";
+
+    }
 
     // -------------------- QTE ATAQUES ------------------------- //
 
@@ -1246,6 +1396,8 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoLula;
             qteVazarLigacoes = qteVazarLula;
             qteAdHominem = qteAdHominemLula;
+            qteApoioCentrao = qteApoioCentraoLula;
+
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
@@ -1258,6 +1410,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoCiro;
             qteVazarLigacoes = qteVazarCiro;
             qteAdHominem = qteAdHominemCiro;
+            qteApoioCentrao = qteApoioCentraoCiro;
 
         }
 
@@ -1271,6 +1424,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoBolso;
             qteVazarLigacoes = qteVazarBolso;
             qteAdHominem = qteAdHominemBolso;
+            qteApoioCentrao = qteApoioCentraoBolso;
 
         }
 
@@ -1284,6 +1438,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoDilma;
             qteVazarLigacoes = qteVazarDilma;
             qteAdHominem = qteAdHominemDilma;
+            qteApoioCentrao = qteApoioCentraoDilma;
 
         }
 
@@ -1297,6 +1452,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoSuplicy;
             qteVazarLigacoes = qteVazarSuplicy;
             qteAdHominem = qteAdHominemSuplicy;
+            qteApoioCentrao = qteApoioCentraoSuplicy;
 
         }
 
@@ -1311,7 +1467,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoPrivilegiado = qteForoEneas;
             qteVazarLigacoes = qteVazarEneas;
             qteAdHominem = qteAdHominemEneas;
-
+            qteApoioCentrao = qteApoioCentraoEneas;
         }
 
         VerificaQteAtaques();
@@ -1329,6 +1485,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoLula = qteForoPrivilegiado;
             qteVazarLula = qteVazarLigacoes;
             qteAdHominemLula = qteAdHominem;
+            qteApoioCentraoLula = qteApoioCentrao;
 
         }
 
@@ -1342,6 +1499,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoCiro = qteForoPrivilegiado;
             qteVazarCiro = qteVazarLigacoes;
             qteAdHominemCiro = qteAdHominem;
+            qteApoioCentraoCiro = qteApoioCentrao;
 
 
         }
@@ -1356,6 +1514,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoBolso = qteForoPrivilegiado;
             qteVazarBolso = qteVazarLigacoes;
             qteAdHominemBolso = qteAdHominem;
+            qteApoioCentraoBolso = qteApoioCentrao;
 
         }
 
@@ -1369,6 +1528,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoDilma = qteForoPrivilegiado;
             qteVazarDilma = qteVazarLigacoes;
             qteAdHominemDilma = qteAdHominem;
+            qteApoioCentraoDilma = qteApoioCentrao;
 
         }
 
@@ -1382,6 +1542,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoSuplicy = qteForoPrivilegiado;
             qteVazarSuplicy = qteVazarLigacoes;
             qteAdHominemSuplicy = qteAdHominem;
+            qteApoioCentraoSuplicy = qteApoioCentrao;
 
         }
 
@@ -1395,7 +1556,7 @@ public class SistemaBatalhas : MonoBehaviour
             qteForoEneas = qteForoPrivilegiado;
             qteVazarEneas = qteVazarLigacoes;
             qteAdHominemEneas = qteAdHominem;
-
+            qteApoioCentraoEneas = qteApoioCentrao;
         }
     }
 
@@ -1457,6 +1618,15 @@ public class SistemaBatalhas : MonoBehaviour
         qteAdHominemSuplicy = 3;
         qteAdHominemEneas = 3;
 
+        qteApoioCentraoLula = 3;
+        qteApoioCentraoCiro = 3;
+        qteApoioCentraoBolso = 3;
+        qteApoioCentraoDilma = 3;
+        qteApoioCentraoSuplicy = 3;
+        qteApoioCentraoEneas = 3;
+
+
+
     }
 
 
@@ -1489,7 +1659,8 @@ public class SistemaBatalhas : MonoBehaviour
             print("Jogador perdeu " + danoInimigo + " de popularidade");
             somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
             popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
-            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de popularidade";
+            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de sua popularidade";
+
 
 
             AtualizaPopPersonagens();
@@ -1514,7 +1685,7 @@ public class SistemaBatalhas : MonoBehaviour
         {
 
             danoInimigo = (int)Mathf.Round(popularidadePlayer);
-            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de popularidade";
+            dialogo.text = "O oponente usou Populismo e tirou " + danoInimigo + " de sua popularidade";
 
             print("Jogador perdeu " + popularidadePlayer + " de hp");
             popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
@@ -1589,6 +1760,7 @@ public class SistemaBatalhas : MonoBehaviour
         {
             confianca = 0;
             print("Seu político errou o ataque porque não foi confiante");
+          
         }
 
         if (calculoConfianca != 0)
@@ -1606,6 +1778,8 @@ public class SistemaBatalhas : MonoBehaviour
         {
             confianca = 0;
             print("oponente errou ataque");
+            dialogo.text = "Oponente errou o ataque porque não foi confiante";
+
         }
 
         if (calculoConfianca != 0)
@@ -1758,6 +1932,15 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
 
+        if (qteApoioCentrao <= 0)
+        {
+            ataqueApoioCentrao.interactable = false;
+        }
+        if (qteApoioCentrao > 0)
+        {
+            ataqueApoioCentrao.interactable = true;
+
+        }
     }
 
     public void Protegido()
@@ -1780,5 +1963,6 @@ public class SistemaBatalhas : MonoBehaviour
         dialogo.text = "O que você irá fazer?";
     }
 
+ 
 } // FIM DA CLASSE
 
