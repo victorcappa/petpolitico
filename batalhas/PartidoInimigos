@@ -38,7 +38,7 @@ public class PartidoInimigo : MonoBehaviour
 
     public int primeiraVez;
     public bool podeTrocarInimigo;
-    GameObject apoioMidiaInimigo;
+    GameObject apoioMidiaInimigo, confiancaInimigo;
 
     /*  
         0 LULA
@@ -149,8 +149,8 @@ public class PartidoInimigo : MonoBehaviour
 
     public void PartidoEleicao()
     {
-        popInimigoLula = 50;
-        popInimigoDilma = 30;
+        popInimigoLula = Mathf.Round(Random.Range(GetComponent<SistemaBatalhas>().popularidadePlayer - 10, GetComponent<SistemaBatalhas>().popularidadePlayer + 10));
+        popInimigoDilma = Mathf.Round(Random.Range(GetComponent<SistemaBatalhas>().popularidadePlayer - 10, GetComponent<SistemaBatalhas>().popularidadePlayer + 10));
 
          PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 40);
          PlayerPrefs.SetInt("LevelLulaInimigo", 10);
@@ -190,7 +190,6 @@ public class PartidoInimigo : MonoBehaviour
                 
             PlayerPrefs.SetInt("LulaInimigoScene", 1);    
             NaSceneOn(LulaInimigo);
-            popInimigoLula = 50;
             PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
 
             print("essa é a primeira vez. PopInimigos = ");
@@ -217,8 +216,8 @@ public class PartidoInimigo : MonoBehaviour
             NaSceneOn(DilmaInimigo);
             PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
             podeTrocarInimigo = false;
-            apoioMidiaInimigo.gameObject.GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
-
+            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
+            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDilmaInimigo");
         }
 
 
