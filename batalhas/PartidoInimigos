@@ -149,8 +149,8 @@ public class PartidoInimigo : MonoBehaviour
 
     public void PartidoEleicao()
     {
-        popInimigoLula = Mathf.Round(Random.Range(GetComponent<SistemaBatalhas>().popularidadePlayer - 10, GetComponent<SistemaBatalhas>().popularidadePlayer + 10));
-        popInimigoDilma = Mathf.Round(Random.Range(GetComponent<SistemaBatalhas>().popularidadePlayer - 10, GetComponent<SistemaBatalhas>().popularidadePlayer + 10));
+        popInimigoLula = 100;
+        popInimigoDilma = 100;
 
          PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 40);
          PlayerPrefs.SetInt("LevelLulaInimigo", 10);
