@@ -338,7 +338,7 @@ public class SistemaBatalhas : MonoBehaviour
                 currentState = BattleStates.PERDEU;
 
 
-                StartCoroutine(TiraTodosDaScene());
+               // StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -362,7 +362,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 currentState = BattleStates.GANHOU;
 
-                StartCoroutine(TiraTodosDaScene());
+              //  StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -399,7 +399,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.PERDEU;
 
-                StartCoroutine(TiraTodosDaScene());
+               // StartCoroutine(TiraTodosDaScene());
 
 
 
@@ -423,7 +423,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.GANHOU;
 
-                StartCoroutine(TiraTodosDaScene());
+               // StartCoroutine(TiraTodosDaScene());
             }
 
 
