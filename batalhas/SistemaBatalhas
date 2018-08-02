@@ -20,12 +20,13 @@ public class SistemaBatalhas : MonoBehaviour
     public float autoridadeAtaque;
 
     public int levelInimigo;
+    public Text levelInimigo_txt;
     public float popularidadeInimigo, danoInimigo, autoridadeInimigo, apoioMidiaInimigo, retoricaInimigo;
     public int confiancaInimigo;
     // -------------------------------
 
     bool playerAtacou, inimigoAtacou;
-    public Text popInimigo_txtUI, pop_txtUI, verbatxt;
+    public Text popInimigo_txtUI, pop_txtUI, verbatxt, levelPlayer_txt;
     public Slider barraPopInimigo, barraPop;
     public bool trocouPersonagem, trocouInimigo;
 
@@ -44,6 +45,9 @@ public class SistemaBatalhas : MonoBehaviour
     public GameObject MovimentosLula, MovimentosCiro, MovimentosBolso, MovimentosDilma, MovimentosSuplicy, MovimentosEneas, MovimentosPlayer;
 
     public Text dialogo, infoAtaque, qte_Ataque, aut_Ataque;
+
+    public int qteAtaqueInimigoElogio = 1;
+
 
     // ------- ALUGUEL DE ATAQUES ------ //
 
@@ -69,6 +73,10 @@ public class SistemaBatalhas : MonoBehaviour
     public int qteDelacaoLula, qteDelacaoCiro, qteDelacaoBolso, qteDelacaoDilma, qteDelacaoSuplicy, qteDelacaoEneas;
     public int qteFakeNewsLula, qteFakeNewsCiro, qteFakeNewsBolso, qteFakeNewsDilma, qteFakeNewsSuplicy, qteFakeNewsEneas;
     public int qtePerguntaPolemicaLula, qtePerguntaPolemicaCiro, qtePerguntaPolemicaBolso, qtePerguntaPolemicaDilma, qtePerguntaPolemicaSuplicy, qtePerguntaPolemicaEneas;
+
+    // PARA INIMIGOS
+
+    //public int qteFraudarUrnasInimigo, qteHabeasCorpusInimigo; qteMilitanciaInimigo, qteElogioJornalInimigo, qteDenunciaSupremoInimigo, qteFor
 
     // Bool para verificar se foi dado algum ataque de defesa 100%
     public bool playerProtegido, inimigoProtegido;
@@ -209,6 +217,8 @@ public class SistemaBatalhas : MonoBehaviour
 
         Debug.Log(currentState);
 
+        levelPlayer_txt.text = "LVL : " + levelPlayer.ToString();
+        levelInimigo_txt.text = "LVL : " + levelInimigo.ToString();
 
 
         switch (currentState)
@@ -230,6 +240,7 @@ public class SistemaBatalhas : MonoBehaviour
             case BattleStates.ESCOLHAJOGADOR:
 
                 // dialogo.text = "O que você irá fazer?";
+                MinMaxAut();
 
                 if (playerAtacou == true)
                 {
@@ -338,7 +349,7 @@ public class SistemaBatalhas : MonoBehaviour
                 currentState = BattleStates.PERDEU;
 
 
-               // StartCoroutine(TiraTodosDaScene());
+                // StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -362,7 +373,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 currentState = BattleStates.GANHOU;
 
-              //  StartCoroutine(TiraTodosDaScene());
+                //  StartCoroutine(TiraTodosDaScene());
 
             }
 
@@ -399,7 +410,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.PERDEU;
 
-               // StartCoroutine(TiraTodosDaScene());
+                // StartCoroutine(TiraTodosDaScene());
 
 
 
@@ -423,7 +434,7 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 currentState = BattleStates.GANHOU;
 
-               // StartCoroutine(TiraTodosDaScene());
+                // StartCoroutine(TiraTodosDaScene());
             }
 
 
@@ -456,10 +467,10 @@ public class SistemaBatalhas : MonoBehaviour
     IEnumerator VezInimigo()
     {
 
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(4f);
 
         currentState = BattleStates.ESCOLHAINIMIGO;
-        print(currentState);
+
 
     }
 
@@ -496,8 +507,7 @@ public class SistemaBatalhas : MonoBehaviour
             PlayerPrefs.SetInt("EneasDentroScene", 0);
         }
 
-        //canvasBatalha.gameObject.SetActive(false);
-        // canvasGame.gameObject.SetActive(true);
+
 
     }
 
@@ -900,7 +910,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
 
 
-        if ( qteFraudarUrnas > 0)
+        if (qteFraudarUrnas > 0)
         {
             print("ATAQUE COM DANO" + danoPlayer);
 
@@ -1132,7 +1142,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
 
-      
+
 
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
         popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
@@ -1312,6 +1322,13 @@ public class SistemaBatalhas : MonoBehaviour
         CalculoConfiancaPlayer();
         autoridadeAtaque = Random.Range(30, 40);
 
+        if (autoridadeInimigo <= 5)
+        {
+            ataqueDenunciaSupremo.interactable = false;
+            dialogo.text = "O oponente já está com o mínimo de Autoridade";
+
+        }
+
         if (qteDenunciaSupremo <= 0)
         {
             ataqueDenunciaSupremo.interactable = false;
@@ -1323,7 +1340,9 @@ public class SistemaBatalhas : MonoBehaviour
 
 
             danoPlayer = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelPlayer / 5 + 2) * autoridadePlayer * autoridadeAtaque / autoridadeInimigo) / 50) + 2) * mitouLacrou) * confianca;
+
             autoridadeInimigo = autoridadeInimigo - danoPlayer;
+
 
             if (confianca == 0)
             {
@@ -1689,7 +1708,7 @@ public class SistemaBatalhas : MonoBehaviour
             }
             if (confianca != 0)
             {
-                dialogo.text = "Você conquistou apoio do Centrão e aumentou " + danoPlayer + " de sua Retórica.";
+                dialogo.text = "Você conquistou apoio do Centrão e aumentou " + danoPlayer + " de sua Confiança.";
 
                 if (direita == true && chanceMitarLacrar == 10)
                 {
@@ -2281,43 +2300,43 @@ public class SistemaBatalhas : MonoBehaviour
             popularidadePlayer = 0;
         }
 
-       
 
 
-            somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
-            popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
-            dialogo.text = " ";
 
-            if (popularidadePlayer <= 0)
+        somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
+        popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
+        dialogo.text = " ";
+
+        if (popularidadePlayer <= 0)
+        {
+            popularidadePlayer = 0;
+        }
+
+        if (confianca == 0)
+        {
+            dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+
+        }
+        if (confianca != 0)
+        {
+            dialogo.text = "O oponente usou Fraudar Urnas e tirou " + danoInimigo + " de sua popularidade";
+
+            if (direita == true && chanceMitarLacrar == 10)
             {
-                popularidadePlayer = 0;
-            }
+                dialogo.text = ("Oponente MITOU com Fraudar Urnas e tirou " + danoInimigo + " da sua popularidade");
 
-            if (confianca == 0)
+            }
+            if (esquerda == true && chanceMitarLacrar == 10)
             {
-                dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+                dialogo.text = ("Oponente LACROU com Fraudar Urnas e tirou " + danoInimigo + " da sua popularidade");
 
             }
-            if (confianca != 0)
-            {
-                dialogo.text = "O oponente usou Fraudar Urnas e tirou " + danoInimigo + " de sua popularidade";
-
-                if (direita == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente MITOU com Fraudar Urnas e tirou " + danoInimigo + " da sua popularidade");
-
-                }
-                if (esquerda == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente LACROU com Fraudar Urnas e tirou " + danoInimigo + " da sua popularidade");
-
-                }
-            }
+        }
 
 
 
 
-     
+
 
 
         StartCoroutine(DialogoEscolhaPersonagem());
@@ -2344,6 +2363,7 @@ public class SistemaBatalhas : MonoBehaviour
         MitouLacrou();
         CalculoConfiancaInimigo();
         danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelInimigo / 5 + 2) * autoridadeInimigo * autoridadeAtaque / apoioMidiaPlayer) / 50) + 2) * mitouLacrou) * confianca;
+
         Protegido();
 
 
@@ -2353,44 +2373,44 @@ public class SistemaBatalhas : MonoBehaviour
             popularidadePlayer = 0;
         }
 
-      
 
 
-            somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
-            popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
-            dialogo.text = " ";
 
-            if (popularidadePlayer <= 0)
+        somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
+        popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
+        dialogo.text = " ";
+
+        if (popularidadePlayer <= 0)
+        {
+            popularidadePlayer = 0;
+        }
+
+        if (confianca == 0)
+        {
+            dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+
+        }
+        if (confianca != 0)
+        {
+            dialogo.text = "O oponente usou Fake News e tirou " + danoInimigo + " de sua popularidade";
+
+            if (direita == true && chanceMitarLacrar == 10)
             {
-                popularidadePlayer = 0;
-            }
+                dialogo.text = ("Oponente MITOU com Fake News " + danoInimigo + " da sua popularidade");
 
-            if (confianca == 0)
+            }
+            if (esquerda == true && chanceMitarLacrar == 10)
             {
-                dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+                dialogo.text = ("Oponente LACROU com Fake News " + danoInimigo + " da sua popularidade");
 
             }
-            if (confianca != 0)
-            {
-                dialogo.text = "O oponente usou Fake News e tirou " + danoInimigo + " de sua popularidade";
-
-                if (direita == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente MITOU com Fake News " + danoInimigo + " da sua popularidade");
-
-                }
-                if (esquerda == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente LACROU com Fake News " + danoInimigo + " da sua popularidade");
-
-                }
-            }
+        }
 
 
 
 
-        
-       
+
+
 
 
         StartCoroutine(DialogoEscolhaPersonagem());
@@ -2431,34 +2451,34 @@ public class SistemaBatalhas : MonoBehaviour
         }
 
 
-            somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
-            popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
-            dialogo.text = " ";
+        somaPopPartido = Mathf.Round(somaPopPartido - danoInimigo);
+        popularidadePlayer = Mathf.Round(popularidadePlayer) - danoInimigo;
+        dialogo.text = " ";
 
-            if (confianca == 0)
+        if (confianca == 0)
+        {
+            dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+
+        }
+        if (confianca != 0)
+        {
+            dialogo.text = "O oponente usou Fake News e tirou " + danoInimigo + " de sua popularidade";
+
+            if (direita == true && chanceMitarLacrar == 10)
             {
-                dialogo.text = "O oponente errou o ataque, pois não foi confiante";
+                dialogo.text = ("Oponente MITOU com Fake News " + danoInimigo + " da sua popularidade");
 
             }
-            if (confianca != 0)
+            if (esquerda == true && chanceMitarLacrar == 10)
             {
-                dialogo.text = "O oponente usou Fake News e tirou " + danoInimigo + " de sua popularidade";
+                dialogo.text = ("Oponente LACROU com Fake News " + danoInimigo + " da sua popularidade");
 
-                if (direita == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente MITOU com Fake News " + danoInimigo + " da sua popularidade");
-
-                }
-                if (esquerda == true && chanceMitarLacrar == 10)
-                {
-                    dialogo.text = ("Oponente LACROU com Fake News " + danoInimigo + " da sua popularidade");
-
-                }
             }
+        }
 
 
-        
-       
+
+
 
 
         StartCoroutine(DialogoEscolhaPersonagem());
@@ -2567,7 +2587,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelInimigo / 5 + 2) * confiancaInimigo * autoridadeAtaque / confiancaPlayer) / 100) + 2) * mitouLacrou) * confianca;
 
-        if (confiancaPlayer > danoInimigo)
+        if (confiancaPlayer > danoInimigo && confiancaPlayer > 10)
         {
             confiancaPlayer = (int)(confiancaPlayer - danoInimigo);
             if (confianca == 0)
@@ -2591,11 +2611,14 @@ public class SistemaBatalhas : MonoBehaviour
                 }
 
             }
+           
+            DesabilitaBotoes();
 
+            inimigoAtacou = true;
 
         }
 
-        if (confiancaPlayer < danoInimigo)
+        if (confiancaPlayer < danoInimigo && confiancaPlayer > 10)
         {
             confiancaPlayer = 1;
             if (confianca == 0)
@@ -2609,14 +2632,18 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
+            DesabilitaBotoes();
 
+            inimigoAtacou = true;
         }
 
+        if (confiancaPlayer < 10)
+        {
+            inimigoAtacou = false;
+        }
 
+        StartCoroutine(DialogoEscolhaPersonagem());
 
-        DesabilitaBotoes();
-
-        inimigoAtacou = true;
     }
 
     // TIRA AUTORIDADE PLAYER
@@ -2632,6 +2659,11 @@ public class SistemaBatalhas : MonoBehaviour
 
         danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(((2 * levelInimigo / 5 + 2) * autoridadeInimigo * autoridadeAtaque / autoridadePlayer) / 50) + 2) * mitouLacrou) * confianca;
         autoridadePlayer = autoridadePlayer - danoInimigo;
+
+        if (autoridadePlayer <= 0)
+        {
+            autoridadePlayer = 5;
+        }
 
         if (confianca == 0)
         {
@@ -2674,6 +2706,7 @@ public class SistemaBatalhas : MonoBehaviour
         inimigoAtacou = true;
 
     } // FIM ATAQUE INIMIGO DENUNCIA SUPREMO
+
     // AUMENTA AUTORIDADE INIMIGO
 
     public void AtaqueInimigoMilitancia(int autoridadeAtaque)
@@ -2810,6 +2843,7 @@ public class SistemaBatalhas : MonoBehaviour
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
 
+        StartCoroutine(DialogoEscolhaPersonagem());
 
         HabilitaBotoes();
 
@@ -2836,7 +2870,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (confianca != 0)
         {
-            dialogo.text = "Oponente conquistou apoio do Centrão e aumentou " + danoInimigo + " de Retórica.";
+            dialogo.text = "Oponente conquistou apoio do Centrão e aumentou " + danoInimigo + " de Confiança.";
 
             if (direita == true && chanceMitarLacrar == 10)
             {
@@ -2853,6 +2887,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
+        StartCoroutine(DialogoEscolhaPersonagem());
 
 
         DesabilitaBotoes();
@@ -2866,26 +2901,125 @@ public class SistemaBatalhas : MonoBehaviour
     {
         MinMaxAut();
 
+        /*int i = Random.Range(1, 3);
+        switch (i)
+        {
+            case (1):
+
+                AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                break;
+
+            case (2):
+                AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                break;
+
+            case (3):
+                AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                break;
+
+        }*?
+
+
+        /*/
         // PLAYER ATACOU
-        if (ataquePlayer == true && defesaPlayer == false && mudaStatusPlayer == false)// && inimigoJaAtacou == false)
+
+        if (ataquePlayer == true && defesaPlayer == false && mudaStatusPlayer == false && inimigoAtacou == false)// && inimigoJaAtacou == false)
         {
             print("PLAYER ATACOU");
-
-            int i = Random.Range(1, 3);
-            switch (i)
+            if (popularidadePlayer >= 80 && inimigoAtacou == false)
             {
-                case (1):
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
 
-                    AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
-                    break;
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut,maxAut));
+                        break;
 
-                case (2):
-                    AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
-                    break;
+                    case (2):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
 
-                case (3):
-                    AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
-                    break;
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 50 && popularidadePlayer < 80 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut,maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 20 && popularidadePlayer < 50 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer < 20 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 4);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (4):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+                }
+            }
+
+            if (popularidadeInimigo <= 30 && qteAtaqueInimigoElogio == 1 && inimigoAtacou == false)
+            {
+                AtaqueInimigoElogioJornal(Random.Range(minAut, maxAut));
+                qteAtaqueInimigoElogio = 0;
 
             }
 
@@ -2894,50 +3028,221 @@ public class SistemaBatalhas : MonoBehaviour
 
         // PLAYER DEFENDEU
 
-        if (ataquePlayer == false && defesaPlayer == true && mudaStatusPlayer == false)
+        if (ataquePlayer == false && defesaPlayer == true && mudaStatusPlayer == false && inimigoAtacou == false)
         {
-            print("PLAYER DEFENDEU");
-            int i = Random.Range(1, 3);
-            switch (i)
+            if (popularidadePlayer >= 80 && inimigoAtacou == false)
             {
-                case (1):
-                    AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
-                    break;
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
 
-                case (2):
-                    AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
-                    break;
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
 
-                case (3):
-                    AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
-                    break;
+                    case (2):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
 
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                        break;
 
+                }
 
             }
+
+            if (popularidadePlayer >= 50 && popularidadePlayer < 80 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 20 && popularidadePlayer < 50 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer < 20 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 4);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (4):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+                }
+            }
+
+            if (popularidadeInimigo <= 30 && qteAtaqueInimigoElogio == 1 && inimigoAtacou == false)
+            {
+                AtaqueInimigoElogioJornal(Random.Range(minAut, maxAut));
+                qteAtaqueInimigoElogio = 0;
+
+            }
+
         }
 
         // PLAYER MUDOU STATUS
 
-        if (ataquePlayer == false && defesaPlayer == false && mudaStatusPlayer == true)
+        if (ataquePlayer == false && defesaPlayer == false && mudaStatusPlayer == true && inimigoAtacou == false)
         {
             print("PLAYER MUDOU STATUS");
-            int i = Random.Range(1, 3);
-            switch (i)
+
+            if (popularidadePlayer >= 80)
             {
-                case (1):
-                    AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
-                    break;
+                print("ATAQUE MUDA STATUS1");
 
-                case (2):
-                    AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
-                    break;
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
 
-                case (3):
-                    AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
-                    break;
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        inimigoAtacou = true;
 
+                        break;
 
+                    case (2):
+                        AtaqueInimigoMilitancia(Random.Range(minAut, maxAut));
+                        inimigoAtacou = true;
+
+                        break;
+
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                        inimigoAtacou = true;
+
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 50 && popularidadePlayer < 80 && inimigoAtacou == false)
+            {
+                print("ATAQUE MUDA STATUS2");
+
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 20 && popularidadePlayer < 50 && inimigoAtacou == false)
+            {
+                print("ATAQUE MUDA STATUS3");
+
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer < 20 && inimigoAtacou == false)
+            {
+                print("ATAQUE MUDA STATUS4");
+
+                int i = Random.Range(1, 4);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (4):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+                }
+            }
+
+            if (popularidadeInimigo <= 30 && qteAtaqueInimigoElogio == 1 && inimigoAtacou == false)
+            {
+                AtaqueInimigoElogioJornal(Random.Range(minAut, maxAut));
+                qteAtaqueInimigoElogio = 0;
 
             }
 
@@ -2945,60 +3250,148 @@ public class SistemaBatalhas : MonoBehaviour
 
         // TROCOU DE PERSONAGEM
 
-        if (trocouPersonagem == true)
+        if (trocouPersonagem == true && inimigoAtacou == false)
         {
-            int i = Random.Range(1, 3);
-            switch (i)
+
+            if (popularidadePlayer >= 80 && inimigoAtacou == false)
             {
-                case (1):
-                    AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
-                    break;
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
 
-                case (2):
-                    AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
-                    break;
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
 
-                case (3):
-                    AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
-                    break;
+                    case (2):
+                        AtaqueInimigoMilitancia(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
             }
 
+            if (popularidadePlayer >= 50 && popularidadePlayer < 80 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer >= 20 && popularidadePlayer < 50 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 3);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFakeNews(Random.Range(minAut, maxAut));
+                        break;
+
+                }
+
+            }
+
+            if (popularidadePlayer < 20 && inimigoAtacou == false)
+            {
+                int i = Random.Range(1, 4);
+                switch (i)
+                {
+                    case (1):
+
+                        AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (2):
+                        AtaqueInimigoAdHominem(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (3):
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
+                        break;
+
+                    case (4):
+                        AtaqueInimigoApoioCentrao(Random.Range(minAut, maxAut));
+                        break;
+                }
+            }
+
+            if (popularidadeInimigo <= 30 && qteAtaqueInimigoElogio == 1 && inimigoAtacou == false)
+            {
+                AtaqueInimigoElogioJornal(Random.Range(minAut, maxAut));
+                qteAtaqueInimigoElogio = 0;
+
+            }
         }
-    }
+
+
+    } // FIM ATAQUES INIMIGO
 
 
     public void MinMaxAut()
     {
         if (levelPlayer <= 3)
         {
+            minAut = 15;
+            maxAut = 25;
+        }
+
+        if (levelPlayer > 3 && levelPlayer <= 6)
+        {
             minAut = 20;
             maxAut = 30;
         }
 
-        if (levelPlayer > 3 && levelPlayer <= 6)
+        if (levelPlayer > 6 && levelPlayer <= 10)
         {
             minAut = 25;
             maxAut = 35;
         }
 
-        if (levelPlayer > 6 && levelPlayer <= 10)
+        if (levelPlayer > 10 && levelPlayer <= 16)
         {
             minAut = 30;
             maxAut = 40;
         }
 
-        if (levelPlayer > 10 && levelPlayer <= 16)
+        if (levelPlayer > 16 && levelPlayer <= 30)
         {
             minAut = 35;
             maxAut = 45;
         }
 
-        if (levelPlayer > 16 && levelPlayer <= 30)
+        if (levelPlayer > 30)
         {
-            minAut = 40;
-            maxAut = 50;
+            minAut = 45;
+            maxAut = 55;
         }
-
 
     }
     // --------------------- //
@@ -3154,7 +3547,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (retoricaPlayer < retoricaInimigo)
         {
-            currentState = BattleStates.ESCOLHAINIMIGO;
+            StartCoroutine(VezInimigo());
             DesabilitaBotoes();
 
             print("retorica do inimigo foi maior");
@@ -3188,7 +3581,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     IEnumerator DialogoEscolhaPersonagem()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(4f);
         dialogo.text = " ";
         yield return new WaitForSeconds(0.2f);
         dialogo.text = "O que você irá fazer?";
