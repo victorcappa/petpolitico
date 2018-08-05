@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Experimental.Audio.Google;
 
 
 public class SistemaBatalhas : MonoBehaviour
@@ -41,7 +42,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public float popLula, popCiro, popBolso, popDilma, popSuplicy, popEneas, popDodorio;
     public Button LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido, DodorioPartido;
-
+    public GameObject LulaScene, DodorioScene;
     public GameObject MovimentosLula, MovimentosCiro, MovimentosBolso, MovimentosDilma, MovimentosSuplicy, MovimentosEneas, MovimentosDodorio;
     public GameObject MovimentosPlayer;
     public Text dialogo, infoAtaque, qte_Ataque, aut_Ataque;
@@ -243,6 +244,12 @@ public class SistemaBatalhas : MonoBehaviour
                 MinMaxAut();
                 print("VEZ PLAYER");
 
+                if (playerAtacou == false)
+                {
+                    HabilitaBotoes();
+
+                }
+
                 if (playerAtacou == true)
                 {
                     VerificaHpPlayer();
@@ -257,7 +264,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                     }
 
-                   
+
 
 
                 }
@@ -271,10 +278,11 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
             case BattleStates.ESCOLHAINIMIGO:
-               
+
                 if (inimigoAtacou == false)
                 {
                     AtaquesInimigo();
+                    DesabilitaBotoes();
                 }
 
                 if (inimigoAtacou == true)
@@ -282,11 +290,11 @@ public class SistemaBatalhas : MonoBehaviour
                     playerAtacou = false;
                     VerificaHpInimigo();
                     DireitaEsquerda();
-                    print ("INIMIGO ATACOU");
+                    print("INIMIGO ATACOU");
 
                     if (popularidadePlayer > 0 && popularidadeInimigo > 0)
                     {
-                        currentState = BattleStates.ESCOLHAJOGADOR;
+                        StartCoroutine(VezPlayer());
 
                     }
 
@@ -339,7 +347,8 @@ public class SistemaBatalhas : MonoBehaviour
 
         PlayerPrefs.SetFloat("PopInimigos", popularidadeInimigo);
 
-
+        levelPlayer_txt.text = "LVL : " + levelPlayer.ToString();
+        StatusDeBatalha();
 
 
 
@@ -388,7 +397,6 @@ public class SistemaBatalhas : MonoBehaviour
     public void VerificaHpInimigo()
     {
 
-        HabilitaBotoes();
 
         AtualizaPopPersonagens();
 
@@ -396,8 +404,7 @@ public class SistemaBatalhas : MonoBehaviour
         if (popularidadePlayer > 0 && popularidadeInimigo > 0)
         {
 
-            currentState = BattleStates.ESCOLHAJOGADOR;
-
+            StartCoroutine(VezPlayer());
 
 
 
@@ -429,6 +436,8 @@ public class SistemaBatalhas : MonoBehaviour
             PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
             print("trocou inimigo");
             barraPopInimigo.value = popularidadeInimigo;
+            levelInimigo_txt.text = "LVL : " + levelInimigo.ToString();
+
             print("quanto enemy " + PlayerPrefs.GetInt("QuantosInimigos"));
 
             StatusDeBatalhaInimigos();
@@ -458,6 +467,8 @@ public class SistemaBatalhas : MonoBehaviour
 
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = Mathf.Round(popularidadePlayer);
+        levelPlayer_txt.text = "LVL : " + levelPlayer.ToString();
+        StatusDeBatalha();
         barraPop.maxValue = 100;
         painelPartido.gameObject.SetActive(false);
         fecharPainel.gameObject.SetActive(false);
@@ -479,47 +490,47 @@ public class SistemaBatalhas : MonoBehaviour
 
     }
 
-
-
-    IEnumerator TiraTodosDaScene()
+    IEnumerator VezPlayer()
     {
-        yield return new WaitForSeconds(2f);
 
-        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("LulaDentroScene", 0);
-        }
+        yield return new WaitForSeconds(4f);
 
-        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("CiroDentroScene", 0);
-        }
-        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("BolsoDentroScene", 0);
-
-        }
-        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("DilmaDentroScene", 0);
-        }
-        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
-        }
-        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("EneasDentroScene", 0);
-        }
-
-        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
-        {
-            PlayerPrefs.SetInt("DodorioDentroScene", 0);
-        }
+        currentState = BattleStates.ESCOLHAJOGADOR;
 
 
     }
 
+
+    public void TiraDaScene()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            LulaScene.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+        }
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+
+        }
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+        }
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+        }
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            DodorioScene.gameObject.SetActive(false);
+
+        }
+    }
     public void DesabilitaBotoes()
     {
         botao1.interactable = false;
@@ -831,9 +842,9 @@ public class SistemaBatalhas : MonoBehaviour
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaLula");
             confiancaPlayer = PlayerPrefs.GetInt("ConfiancaLula");
             retoricaPlayer = PlayerPrefs.GetFloat("RetoricaLula");
+            LulaScene.gameObject.SetActive(true);
 
         }
-
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeCiro");
@@ -879,7 +890,6 @@ public class SistemaBatalhas : MonoBehaviour
             retoricaPlayer = PlayerPrefs.GetFloat("RetoricaEneas");
 
         }
-
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
         {
             autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeDodorio");
@@ -887,6 +897,7 @@ public class SistemaBatalhas : MonoBehaviour
             apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaDodorio");
             confiancaPlayer = PlayerPrefs.GetInt("ConfiancaDodorio");
             retoricaPlayer = PlayerPrefs.GetFloat("RetoricaDodorio");
+            DodorioScene.gameObject.SetActive(true);
 
         }
     }
@@ -955,6 +966,7 @@ public class SistemaBatalhas : MonoBehaviour
             confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDodorioInimigo");
         }
     }
+
 
 
     // --------------- ATAQUES PLAYER ------------------ //
@@ -2475,7 +2487,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+       // HabilitaBotoes();
 
         inimigoAtacou = true;
 
@@ -2549,7 +2561,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+        //HabilitaBotoes();
 
         inimigoAtacou = true;
 
@@ -2619,7 +2631,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+       // HabilitaBotoes();
 
         inimigoAtacou = true;
 
@@ -2670,7 +2682,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (apoioMidiaPlayer < danoInimigo)
         {
-            apoioMidiaPlayer = 1;
+            apoioMidiaPlayer = 10;
 
             if (confianca == 0)
             {
@@ -2696,7 +2708,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+       // HabilitaBotoes();
 
         inimigoAtacou = true;
     }
@@ -2735,8 +2747,8 @@ public class SistemaBatalhas : MonoBehaviour
                 }
 
             }
-           
-            DesabilitaBotoes();
+
+           // DesabilitaBotoes();
 
             inimigoAtacou = true;
 
@@ -2756,7 +2768,7 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            DesabilitaBotoes();
+           // DesabilitaBotoes();
 
             inimigoAtacou = true;
         }
@@ -2772,7 +2784,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     // TIRA AUTORIDADE PLAYER
 
-    public void AtaqueInimigoDenuciaSupremo(int autoridadeAtaque)
+    public void AtaqueInimigoDenunciaSupremo(int autoridadeAtaque)
     {
         Protegido(); // verifica se o player está protegido
 
@@ -2825,7 +2837,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+       // HabilitaBotoes();
 
         inimigoAtacou = true;
 
@@ -2878,7 +2890,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+        //HabilitaBotoes();
 
         inimigoAtacou = true;
 
@@ -2930,7 +2942,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        HabilitaBotoes();
+        //HabilitaBotoes();
 
         inimigoAtacou = true;
     } // FIM HABEAS CORPUS INIMIGO
@@ -2969,7 +2981,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         StartCoroutine(DialogoEscolhaPersonagem());
 
-        HabilitaBotoes();
+        //HabilitaBotoes();
 
         inimigoAtacou = true;
     }
@@ -3014,7 +3026,7 @@ public class SistemaBatalhas : MonoBehaviour
         StartCoroutine(DialogoEscolhaPersonagem());
 
 
-        DesabilitaBotoes();
+        //DesabilitaBotoes();
 
         inimigoAtacou = true;
     }
@@ -3057,7 +3069,7 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     case (1):
 
-                        AtaqueInimigoFraudarUrnas(Random.Range(minAut,maxAut));
+                        AtaqueInimigoFraudarUrnas(Random.Range(minAut, maxAut));
                         break;
 
                     case (2):
@@ -3087,7 +3099,7 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                     case (3):
-                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut,maxAut));
+                        AtaqueInimigoPerguntaPolemica(Random.Range(minAut, maxAut));
                         break;
 
                 }
@@ -3105,7 +3117,14 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                     case (2):
-                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        if (autoridadePlayer > 10)
+                        {
+                            AtaqueInimigoDenunciaSupremo(Random.Range(minAut, maxAut));
+                        }
+                        if (autoridadePlayer < 10)
+                        {
+                            AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        }
                         break;
 
                     case (3):
@@ -3182,8 +3201,16 @@ public class SistemaBatalhas : MonoBehaviour
                 switch (i)
                 {
                     case (1):
+                        if (apoioMidiaPlayer > 10)
+                        {
+                            AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        }
+                        if (apoioMidiaPlayer <= 10)
+                        {
+                            AtaqueInimigoMilitancia(Random.Range(minAut, maxAut));
 
-                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        }
+
                         break;
 
                     case (2):
@@ -3209,7 +3236,14 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                     case (2):
-                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        if (autoridadePlayer > 10)
+                        {
+                            AtaqueInimigoDenunciaSupremo(Random.Range(minAut, maxAut));
+                        }
+                        if (autoridadePlayer < 10)
+                        {
+                            AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        }
                         break;
 
                     case (3):
@@ -3298,7 +3332,14 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     case (1):
 
-                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        if (apoioMidiaPlayer > 10)
+                        {
+                            AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        }
+                        if (apoioMidiaPlayer <= 10)
+                        {
+                            AtaqueInimigoMilitancia(Random.Range(minAut, maxAut));
+                        }
                         break;
 
                     case (2):
@@ -3326,7 +3367,14 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                     case (2):
-                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        if (autoridadePlayer > 10)
+                        {
+                            AtaqueInimigoDenunciaSupremo(Random.Range(minAut, maxAut));
+                        }
+                        if (autoridadePlayer < 10)
+                        {
+                            AtaqueInimigoHabeasCorpus(Random.Range(minAut, maxAut));
+                        }
                         break;
 
                     case (3):
@@ -3406,7 +3454,14 @@ public class SistemaBatalhas : MonoBehaviour
                 {
                     case (1):
 
-                        AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        if (apoioMidiaPlayer > 10)
+                        {
+                            AtaqueInimigoVazarLigacoes(Random.Range(minAut, maxAut));
+                        }
+                        if (apoioMidiaPlayer <= 10)
+                        {
+                            AtaqueInimigoMilitancia(Random.Range(minAut, maxAut));
+                        }
                         break;
 
                     case (2):
@@ -3432,7 +3487,7 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                     case (2):
-                        AtaqueInimigoDenuciaSupremo(Random.Range(minAut, maxAut));
+                        AtaqueInimigoDenunciaSupremo(Random.Range(minAut, maxAut));
                         break;
 
                     case (3):
@@ -3743,6 +3798,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     IEnumerator DialogoEscolhaPersonagem()
     {
+        HabilitaBotoes();
         yield return new WaitForSeconds(4f);
         dialogo.text = " ";
         yield return new WaitForSeconds(0.2f);
