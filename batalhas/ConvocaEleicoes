@@ -1,0 +1,158 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+
+public class ConvocaEleicoes : MonoBehaviour
+{
+
+    public GameObject Lula, Ciro, Bolso, Dilma, Suplicy, Eneas, Dodorio;
+    public GameObject jornalEleicoes, aumentePop;
+    public Text tipoEleicaoTxt, qualPop, aumentePopTxt;
+    public Button participeBtn;
+
+    public void Update()
+    {
+        MostraFoto();
+        Eleicoes();
+
+    }
+
+    public void MostraFoto()
+    {
+        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        {
+            Lula.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+
+        }
+
+        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
+        {
+            Ciro.gameObject.SetActive(true);
+
+            Lula.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
+        {
+            Bolso.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
+        {
+            Dilma.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
+        {
+            Suplicy.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        {
+            Eneas.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            Dodorio.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+        }
+    }
+
+    public void Eleicoes()
+    {
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            qualPop.text = "Sua popularidade é maior que 51%  Participe das Eleições!";
+            participeBtn.interactable = true;
+        }
+
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 51)
+        {
+            aumentePop.gameObject.SetActive(true);
+            aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 3 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            jornalEleicoes.GetComponent<Canvas>().enabled = true;
+            tipoEleicaoTxt.text = "Eleições para Vereador";
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 6 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            jornalEleicoes.GetComponent<Canvas>().enabled = true;
+            tipoEleicaoTxt.text = "Eleições para Deputado";
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 10 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            jornalEleicoes.GetComponent<Canvas>().enabled = true;
+            tipoEleicaoTxt.text = "Eleições para Prefeito";
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 20 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            jornalEleicoes.GetComponent<Canvas>().enabled = true;
+            tipoEleicaoTxt.text = "Eleições para Governador";
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 30 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        {
+            jornalEleicoes.GetComponent<Canvas>().enabled = true;
+            tipoEleicaoTxt.text = "Eleições para Presidente";
+
+        }
+
+    }
+}// FIM CLASSE
