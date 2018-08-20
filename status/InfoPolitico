@@ -1,0 +1,198 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class InfoPolitico : MonoBehaviour {
+
+    public Text nome, bio, tipo, level, cargo, autoridade, apoioMidia, retorica, confianca;
+    public GameObject lula, ciro, bolso, dilma, suplicy, eneas, dodorio, haddard, cunha;
+
+    public void InfoLula()
+    {
+     
+        lula.gameObject.SetActive(true);
+
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+
+
+
+            nome.text = "Mr. Nine";
+            bio.text = "Comandante do Exército da Mortadela, tem triplex e é palestrante profissional. ";
+            level.text = PlayerPrefs.GetInt("LevelLula").ToString();
+            tipo.text = "Conservador de Esquerda";
+            cargo.text = PlayerPrefs.GetString("CargoLula");
+
+            //STATUS
+
+            autoridade.text = PlayerPrefs.GetFloat("AutoridadeLula").ToString();
+            apoioMidia.text = PlayerPrefs.GetFloat("ApoioMidiaLula").ToString();
+            retorica.text = PlayerPrefs.GetFloat("RetoricaLula").ToString();
+            confianca.text = PlayerPrefs.GetInt("ConfiancaLula").ToString();
+
+    }
+
+    public void InfoCiro()
+
+    {
+
+        ciro.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+
+            nome.text = "Coroné";
+            bio.text = "Coronel, herdeiro e formado em Rarvade. Dono do SPC, gosta de imprimir dinheiro.";
+            level.text = PlayerPrefs.GetInt("LevelCiro").ToString();
+            tipo.text = "Conservador de Esquerda";
+            cargo.text = PlayerPrefs.GetString("CargoCiro");
+
+            //STATUS
+
+            autoridade.text = PlayerPrefs.GetFloat("AutoridadeCiro").ToString();
+            apoioMidia.text = PlayerPrefs.GetFloat("ApoioMidiaCiro").ToString();
+            retorica.text = PlayerPrefs.GetFloat("RetoricaCiro").ToString();
+            confianca.text = PlayerPrefs.GetInt("ConfiancaCiro").ToString();
+
+
+    }
+
+    public void InfoBolso()
+    {
+       
+        bolso.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+
+            nome.text = "Bolsonitro";
+            bio.text = "Comandante do exército de minions, gosta de nióbio e de comer gente.";
+            level.text = PlayerPrefs.GetInt("LevelBolso").ToString();
+            tipo.text = "Conservador de Direita";
+            cargo.text = PlayerPrefs.GetString("CargoBolso");
+
+            //STATUS
+
+            autoridade.text = PlayerPrefs.GetFloat("AutoridadeBolso").ToString();
+            apoioMidia.text = PlayerPrefs.GetFloat("ApoioMidiaBolso").ToString();
+            retorica.text = PlayerPrefs.GetFloat("RetoricaBolso").ToString();
+            confianca.text = PlayerPrefs.GetInt("ConfiancaBolso").ToString();
+
+
+    }
+
+    public void InfoDilma()
+    {
+        dilma.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+    }
+
+    public void InfoSuplicy()
+    {
+        suplicy.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+    }
+
+    public void InfoEneas()
+    {
+        eneas.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+    }
+
+    public void InfoDodorio()
+    {
+        dodorio.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+    }
+
+    public void InfoHaddard()
+    {
+        haddard.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        cunha.gameObject.SetActive(false);
+
+    }
+
+    public void InfoCunha()
+    {
+        cunha.gameObject.SetActive(true);
+
+        lula.gameObject.SetActive(false);
+        ciro.gameObject.SetActive(false);
+        bolso.gameObject.SetActive(false);
+        dilma.gameObject.SetActive(false);
+        suplicy.gameObject.SetActive(false);
+        eneas.gameObject.SetActive(false);
+        dodorio.gameObject.SetActive(false);
+        haddard.gameObject.SetActive(false);
+
+    }
+
+
+
+} // FIM CLASSE
