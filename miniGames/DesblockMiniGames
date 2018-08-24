@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DesblockMiniGames : MonoBehaviour {
+
+    public Button miniGame;
+    public GameObject ImagemTexto, msg;
+    public int levelDesblock, level;
+    public string nome;
+  
+
+    public void Update()
+    {
+        DesbloquearMiniGame();
+    }
+
+    public void DesbloquearMiniGame()
+    {
+        level = PlayerPrefs.GetInt("LevelIndice");
+
+        if (level >= levelDesblock)
+        {
+            PlayerPrefs.SetInt(nome + "MiniGameDesblock", 1);
+
+        }
+            
+
+
+
+        if (PlayerPrefs.GetInt(nome + "MiniGameDesblock") == 1)
+        {
+            miniGame.interactable = true;
+            ImagemTexto.gameObject.SetActive(true);
+            msg.gameObject.SetActive(true);
+            //desblock = true;
+          
+            StartCoroutine(AvisaDesblock());
+        }
+
+        if (PlayerPrefs.GetInt(nome + "MiniGameDesblock") == 0)
+        {
+            miniGame.interactable = false;
+            ImagemTexto.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator AvisaDesblock()
+    {
+        yield return new WaitForSeconds(4f);
+        msg.gameObject.SetActive(false);
+    }
+
+}
