@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EfeitosSonoros : MonoBehaviour {
+
+
+    public AudioSource interaInflu, brasil, passouCargo, ganhouDebate, perdeuDebate, GastouVerba;
+    public AudioClip brasilll, gastouVerba;
+	void Update () 
+    {
+       
+        if (PlayerPrefs.GetInt("PassouLevel") == 1)
+        {
+            brasil.PlayOneShot(brasilll);
+            PlayerPrefs.SetInt("PassouLevel", 0);
+        }
+
+        if (PlayerPrefs.GetInt("CompletouInteraInflu") == 1)
+
+        {
+            interaInflu.Play();
+            PlayerPrefs.SetInt("CompletouInteraInflu", 0);
+        }
+
+        if (PlayerPrefs.GetInt("PassouCargo") == 1)
+
+        {
+            passouCargo.Play();
+            PlayerPrefs.SetInt("PassouCargo", 0);
+        }
+
+        if (PlayerPrefs.GetInt("GanhouDebate") == 1)
+        {
+            
+            ganhouDebate.Play();
+            PlayerPrefs.SetInt("GanhouDebate", 0);
+        }
+
+        if (PlayerPrefs.GetInt("PerdeuDebate") == 1)
+        {
+
+            perdeuDebate.Play();
+            PlayerPrefs.SetInt("PerdeuDebate", 0);
+        }
+
+        if (PlayerPrefs.GetInt("GastouVerba") == 1)
+        {
+
+            GastouVerba.PlayOneShot(gastouVerba);
+            PlayerPrefs.SetInt("GastouVerba", 0);
+        }
+		
+	}
+}
