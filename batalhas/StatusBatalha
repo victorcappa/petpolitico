@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class StatusBatalha : MonoBehaviour
 {
 
-    public float autoridade, apoioMidia, retorica, confianca;
+    public float autoridade, apoioMidia, retorica;
+    public int confianca;
 
     public void Awake()
     {
@@ -31,38 +31,56 @@ public class StatusBatalha : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeLula", 40);
+            PlayerPrefs.SetFloat("AutoridadeLula", 30 + PlayerPrefs.GetInt("LevelLula"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeLula");
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeCiro", 40);
+            PlayerPrefs.SetFloat("AutoridadeCiro", 30 + PlayerPrefs.GetInt("LevelCiro"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeCiro");
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeBolso", 40);
+            PlayerPrefs.SetFloat("AutoridadeBolso", 30 + PlayerPrefs.GetInt("LevelBolso"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeBolso");
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeDilma", 40);
+            PlayerPrefs.SetFloat("AutoridadeDilma", 30 + PlayerPrefs.GetInt("LevelDilma"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeDilma");
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeSuplicy", 20);
+            PlayerPrefs.SetFloat("AutoridadeSuplicy", 20 + PlayerPrefs.GetInt("LevelSuplicy"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeSuplicy");
         }
 
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("AutoridadeEneas", 40);
+            PlayerPrefs.SetFloat("AutoridadeEneas", 20 + PlayerPrefs.GetInt("LevelEneas"));
             autoridade = PlayerPrefs.GetFloat("AutoridadeEneas");
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("AutoridadeDodorio", 20 + PlayerPrefs.GetInt("LevelDodorio"));
+            autoridade = PlayerPrefs.GetFloat("AutoridadeDodorio");
+        }
+
+        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("AutoridadeHaddard", 20 + PlayerPrefs.GetInt("LevelHaddard"));
+            autoridade = PlayerPrefs.GetFloat("AutoridadeHaddard");
+        }
+
+        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("AutoridadeCunha", 20 + PlayerPrefs.GetInt("LevelCunha"));
+            autoridade = PlayerPrefs.GetFloat("AutoridadeCunha");
         }
 
     } // FIM AUTORIDADEPERSONAGENS()
@@ -72,38 +90,56 @@ public class StatusBatalha : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaLula", 20);
+            PlayerPrefs.SetFloat("ApoioMidiaLula", 10 + PlayerPrefs.GetInt("LevelLula"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaLula");
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaCiro", 20);
+            PlayerPrefs.SetFloat("ApoioMidiaCiro", 10 + PlayerPrefs.GetInt("LevelCiro"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaCiro");
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaBolso", 20);
+            PlayerPrefs.SetFloat("ApoioMidiaBolso", 10 + PlayerPrefs.GetInt("LevelBolso"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaBolso");
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaDilma", 20);
+            PlayerPrefs.SetFloat("ApoioMidiaDilma", 3 + PlayerPrefs.GetInt("LevelDilma"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaDilma");
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaSuplicy", 40);
+            PlayerPrefs.SetFloat("ApoioMidiaSuplicy", 20 + PlayerPrefs.GetInt("LevelSuplicy"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaSuplicy");
         }
 
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ApoioMidiaEneas", 20);
+            PlayerPrefs.SetFloat("ApoioMidiaEneas", 10 + PlayerPrefs.GetInt("LevelEneas"));
             apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaEneas");
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("ApoioMidiaDodorio", 20 + PlayerPrefs.GetInt("LevelDodorio"));
+            apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaDodorio");
+        }
+
+        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("ApoioMidiaHaddard", 20 + PlayerPrefs.GetInt("LevelHaddard"));
+            apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaHaddard");
+        }
+
+        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("ApoioMidiaCunha", 20 + PlayerPrefs.GetInt("LevelCunha"));
+            apoioMidia = PlayerPrefs.GetFloat("ApoioMidiaCunha");
         }
 
     } // FIM ApoioDaMidia()
@@ -113,38 +149,56 @@ public class StatusBatalha : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaLula", 30);
+            PlayerPrefs.SetFloat("RetoricaLula", 15 + PlayerPrefs.GetInt("LevelLula"));
             retorica = PlayerPrefs.GetFloat("RetoricaLula");
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaCiro", 30);
+            PlayerPrefs.SetFloat("RetoricaCiro", 15 + PlayerPrefs.GetInt("LevelCiro"));
             retorica = PlayerPrefs.GetFloat("RetoricaCiro");
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaBolso", 25);
+            PlayerPrefs.SetFloat("RetoricaBolso", 10 + PlayerPrefs.GetInt("LevelBolso"));
             retorica = PlayerPrefs.GetFloat("RetoricaBolso");
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaDilma", 20);
+            PlayerPrefs.SetFloat("RetoricaDilma", 15 + PlayerPrefs.GetInt("LevelLDilma"));
             retorica = PlayerPrefs.GetFloat("RetoricaDilma");
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaSuplicy", 30);
+            PlayerPrefs.SetFloat("RetoricaSuplicy", 15 + PlayerPrefs.GetInt("LevelSuplicy"));
             retorica = PlayerPrefs.GetFloat("RetoricaSuplicy");
         }
 
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("RetoricaEneas", 25);
+            PlayerPrefs.SetFloat("RetoricaEneas", 10 + PlayerPrefs.GetInt("LevelEneas"));
             retorica = PlayerPrefs.GetFloat("RetoricaEneas");
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("RetoricaDodorio", 10 + PlayerPrefs.GetInt("LevelDodorio"));
+            retorica = PlayerPrefs.GetFloat("RetoricaDodorio");
+        }
+
+        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("RetoricaHaddard", 10 + PlayerPrefs.GetInt("LevelHaddard"));
+            retorica = PlayerPrefs.GetFloat("RetoricaHaddard");
+        }
+
+        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("RetoricaCunha", 10 + PlayerPrefs.GetInt("LevelCunha"));
+            retorica = PlayerPrefs.GetFloat("RetoricaCunha");
         }
 
     } // FIM RETORICA
@@ -154,38 +208,56 @@ public class StatusBatalha : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaLula", 10);
-            confianca = PlayerPrefs.GetFloat("ConfiancaLula");
+            PlayerPrefs.SetInt("ConfiancaLula", 15 + PlayerPrefs.GetInt("LevelLula"));
+            confianca = PlayerPrefs.GetInt("ConfiancaLula");
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaCiro", 10);
-            confianca = PlayerPrefs.GetFloat("ConfiancaCiro");
+            PlayerPrefs.SetInt("ConfiancaCiro", 15 + PlayerPrefs.GetInt("LevelCiro"));
+            confianca = PlayerPrefs.GetInt("ConfiancaCiro");
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaBolso", 15);
-            confianca = PlayerPrefs.GetFloat("ConfiancaBolso");
+            PlayerPrefs.SetInt("ConfiancaBolso", 20 + PlayerPrefs.GetInt("LevelBolso"));
+            confianca = PlayerPrefs.GetInt("ConfiancaBolso");
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaDilma", 10);
-            confianca = PlayerPrefs.GetFloat("ConfiancaDilma");
+            PlayerPrefs.SetInt("ConfiancaDilma", 15 + PlayerPrefs.GetInt("LevelDilma"));
+            confianca = PlayerPrefs.GetInt("ConfiancaDilma");
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaSuplicy", 10);
-            confianca = PlayerPrefs.GetFloat("ConfiancaSuplicy");
+            PlayerPrefs.SetInt("ConfiancaSuplicy", 15 + PlayerPrefs.GetInt("LevelSuplicy"));
+            confianca = PlayerPrefs.GetInt("ConfiancaSuplicy");
         }
 
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("ConfiancaEneas", 15);
-            confianca = PlayerPrefs.GetFloat("ConfiancaEneas");
+            PlayerPrefs.SetInt("ConfiancaEneas", 20 + PlayerPrefs.GetInt("LevelEneas"));
+            confianca = PlayerPrefs.GetInt("ConfiancaEneas");
+        }
+
+        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("ConfiancaDodorio", 20 + PlayerPrefs.GetInt("LevelDodorio"));
+            confianca = PlayerPrefs.GetInt("ConfiancaDodorio");
+        }
+
+        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("ConfiancaHaddard", 20 + PlayerPrefs.GetInt("LevelHaddard"));
+            confianca = PlayerPrefs.GetInt("ConfiancaHaddard");
+        }
+
+        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
+        {
+            PlayerPrefs.SetInt("ConfiancaCunha", 20 + PlayerPrefs.GetInt("LevelCunha"));
+            confianca = PlayerPrefs.GetInt("ConfiancaCunha");
         }
 
 
