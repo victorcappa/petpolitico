@@ -1,0 +1,185 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+
+
+public class QuizManager : MonoBehaviour {
+
+    public Text perg, resp_A, resp_B, resp_C, resp_D, timer, acertosTxt, verbaTxt; // guardam os textos das variáveis acima e os jogam na tela
+
+    public string [] Perg, Resp_A, Resp_B, Resp_C, Resp_D; // array que recebe os valores de todas as perguntas e respostas 
+    // Ex.: Perg [0] tem como reposta correta, Resp_B[0]
+    public string[] respCerta;
+
+    public float Timer = 60;
+    public int indice = 0; // define a ordem das perguntas e suas respectivas respostas (pergunta 0, 1 e 2)
+    public int recompensaVerba = 5;
+    public int verba, acertos;
+
+    // SONS
+
+    public AudioSource controlAudio;
+    public AudioClip SomAcerto;
+    public AudioClip SomErro;
+
+    public List<string> Pergs;
+
+
+    public void Awake()
+    {
+        verba = PlayerPrefs.GetInt("Verba");
+        verbaTxt.text = verba.ToString();
+        indice = Random.Range(0, Perg.Length);
+
+
+    }
+
+  
+
+    void Update()
+    {
+        float tempTimer = Mathf.Round(Timer);
+        timer.text = tempTimer.ToString();
+        Timer -= Time.deltaTime;
+
+      /*
+
+        int numeroRandom = Random.Range(0, 4);
+      
+        perg.text = Perg[numeroRandom];
+        resp_A.text = Resp_A[numeroRandom];
+        resp_B.text = Resp_B[numeroRandom];
+        resp_C.text = Resp_C[numeroRandom];
+        resp_D.text = Resp_D[numeroRandom];
+        
+        */
+            perg.text = Perg[indice];
+            resp_A.text = Resp_A[indice];
+            resp_B.text = Resp_B[indice];
+            resp_C.text = Resp_C[indice];
+            resp_D.text = Resp_D[indice];
+
+        verbaTxt.text = verba.ToString();
+        acertosTxt.text = acertos.ToString();
+
+        if (Timer <= 0)
+        {
+            Errou();
+        }
+    
+
+
+    }
+
+    public void RESPOSTA_A()
+
+    {
+        if (Resp_A[indice] == respCerta[indice])
+        {
+            Acertou();
+           
+        }
+        else
+        {
+            Errou();
+        }
+    }
+
+    public void RESPOSTA_B()
+
+    {
+        if (Resp_B[indice] == respCerta[indice])
+        {
+            Acertou();
+        }
+        else
+        {
+            Errou();
+        }
+    }
+
+    public void RESPOSTA_C()
+
+    {
+        if (Resp_C[indice] == respCerta[indice])
+        {
+            Acertou();
+        }
+        else
+        {
+            Errou();
+        }
+    }
+
+    public void RESPOSTA_D()
+
+    {
+        if (Resp_D[indice] == respCerta[indice])
+        {
+            Acertou();
+        }
+        else 
+        {
+            Errou();
+        }
+    }
+
+    // SISTEMA DE WIN GAME
+
+    public void Acertou()
+
+    {
+
+        controlAudio.PlayOneShot(SomAcerto, 1f);
+
+        PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") + recompensaVerba);
+      
+
+        /* O Length retorna o tamanho do array. No caso, o tamanho é 3 (0,1 e 2).
+        * Porém, estamos usando esse valor para determinar o valor do indice (que determina a perg e a resp
+        * Dessa forma, o valor do Length sempre vai ser um a mais, do que deveria ser do indice
+        * pois o indice indica o lugar dentro da array, e não quantos lugares tem
+        */
+
+
+        if (indice < (Perg.Length - 1)) 
+        {
+            // int randomPerg = Random.RandomRange(0, Perg.Length);
+            // indice = randomPerg; // vai passar para a próxima pergunta
+            //indice++;
+
+            indice = Random.Range(0, Perg.Length);
+            Timer = 60; // recetou o timer
+            verba += recompensaVerba;
+            acertos += 1;
+
+
+
+        }
+
+        else if (indice >= (Perg.Length - 1)) 
+        {
+            controlAudio.PlayOneShot(SomAcerto, 0.7f);
+
+
+            verba += recompensaVerba;
+            acertos += 1;
+
+        }
+
+       
+
+    }
+
+
+    public void Errou()
+
+    {
+        controlAudio.PlayOneShot(SomErro, 2f);
+
+       
+    }
+
+
+}
