@@ -1,0 +1,169 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class Alertas : MonoBehaviour {
+
+    public Text alertaPopTxt,alertaFichaTxt,alertaInfluTxt;
+    public GameObject alertaPop, alertaFicha, alertaInflu;
+    public int alertaPassouLevel, alertaPopBaixo, alertaFichaBaixo, alertaFichaAlto;
+    int iPop, iFicha, iInflu;
+    public AudioSource Blop;
+    int i = 0;
+
+    private void Start()
+    {
+        alertaFichaAlto = 1;
+        alertaFichaBaixo = 1;
+        alertaPopBaixo = 1;
+        alertaPassouLevel = 1;
+
+        i = 0;
+
+    }
+    void Update () {
+
+        ChamaAlerta();
+		
+	}
+
+    public void ChamaAlerta()
+    {
+        PassouLevel();
+
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") <= 10)
+        {
+            AlertaPop();
+        }
+
+        if (PlayerPrefs.GetFloat("FichaNaScene") <= 30 || PlayerPrefs.GetFloat("FichaNaScene") >= 90)
+        {
+            AlertaFicha();
+        }
+
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") > 10 && PlayerPrefs.GetFloat("FichaNaScene") > 30 && PlayerPrefs.GetFloat("FichaNaScene") < 90)
+        {
+            alertaPopTxt.text = "";
+            alertaPop.gameObject.SetActive(false);
+        }
+
+
+    }
+
+
+
+    public void AlertaPop()
+    {
+        //alertaPopBaixo = PlayerPrefs.GetInt("AlertaPopBaixo");
+       
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") <= 10 && alertaPopBaixo == 1)
+        {
+            alertaPopTxt.text = "Popularidade abaixo de 10. Você perdeu 1 level e Ficha Limpa";
+            alertaPop.gameObject.SetActive(true);
+            Blop.Play();
+
+            while (i < 2)
+            {
+                i++;
+                Blop.Play();
+
+            }
+
+            StartCoroutine(PopBaixoReset());
+        }
+
+    }
+
+    public void AlertaFicha()
+    {
+       // alertaFichaAlto = PlayerPrefs.GetInt("AlertaFichaAlto");
+        //alertaFichaBaixo = PlayerPrefs.GetInt("AlertaFichaBaixo");
+
+        if (PlayerPrefs.GetFloat("FichaNaScene") <= 30 && PlayerPrefs.GetFloat("FichaNaScene") > 0 && alertaFichaBaixo == 1)
+        {
+            alertaFichaTxt.text = "Ficha Limpa baixa causou uma CPI. Você perde Popularidade e Influência mais rápido";
+            alertaFicha.gameObject.SetActive(true);
+
+            while (i < 2)
+            {
+                i++;
+                Blop.Play();
+
+            }
+
+            StartCoroutine(FichaBaixoReset());
+        }
+
+        if (PlayerPrefs.GetFloat("FichaNaScene") >= 90 && alertaFichaAlto == 1)
+        {
+            alertaFichaTxt.text = "Você é a maior Alma Honesta do país. Ficha Limpa acima de 90 te dá Popularidade e Influência.";
+            alertaFicha.gameObject.SetActive(true);
+           
+            while (i < 2)
+            {
+                i++;
+                Blop.Play();
+
+            }
+
+            StartCoroutine(FichaAltoReset());
+
+        }
+
+
+    }
+
+    public void PassouLevel()
+    {
+        alertaPassouLevel = PlayerPrefs.GetInt("AlertaPassouLevel");
+
+        if (alertaPassouLevel == 1)
+            
+        {
+            alertaInfluTxt.text = "Você passou de level e ganhou verba e Ficha Limpa!";
+            alertaInflu.gameObject.SetActive(true);
+
+            while (i < 2)
+            {
+                i++;
+                Blop.Play();
+
+            }
+
+            StartCoroutine(PassouLevelReset());
+        }
+    }
+
+    IEnumerator PassouLevelReset()
+    {
+        yield return new WaitForSeconds(5f);
+        PlayerPrefs.SetInt("AlertaPassouLevel", 0);
+        alertaPassouLevel = 0;
+        alertaInflu.gameObject.SetActive(false);
+    }
+
+    IEnumerator PopBaixoReset()
+    {
+        yield return new WaitForSeconds(5f);
+        PlayerPrefs.SetInt("AlertaPopBaixo", 0);
+        alertaPopBaixo = 0;
+        alertaPop.gameObject.SetActive(false);
+    }
+
+    IEnumerator FichaBaixoReset()
+    {
+        yield return new WaitForSeconds(5f);
+        PlayerPrefs.SetInt("AlertaFichaBaixo", 0);
+        alertaFichaBaixo = 0;
+        alertaFicha.gameObject.SetActive(false);
+    }
+
+    IEnumerator FichaAltoReset()
+    {
+        yield return new WaitForSeconds(5f);
+        PlayerPrefs.SetInt("AlertaFichaAlto", 0);
+        alertaFichaAlto = 0;
+        alertaFicha.gameObject.SetActive(false);
+    }
+
+} // FIM CLASSE
