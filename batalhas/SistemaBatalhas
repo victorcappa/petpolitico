@@ -58,7 +58,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     // SONS ATAQUES
 
-    public AudioSource SomAtaque, SomDefesa, SomAumentaStatus, SomTiraStatus, SomEspecial, SomFalhouAtaque, SomSemPop, SomGanhouDebate, SomPerdeuDebate;
+    public AudioSource SomAtaque1, SomAtaque2, SomAtaque3, SomDefesa, SomAumentaStatus, SomTiraStatus, SomEspecial, SomFalhouAtaque, SomSemPop, SomGanhouDebate, SomPerdeuDebate;
     int tocaSom;
     // ANIMAÇÕES ATAQUE
 
@@ -1938,8 +1938,7 @@ public class SistemaBatalhas : MonoBehaviour
                 moveCamera = true;
 
                 StartCoroutine(PerdeuPopInimigo());
-                SomAtaque.Play();
-
+                SonsAtaque();
                 if (chanceMitarLacrar != 2)
                 {
                     dialogo.text = "Você usou <color=#FFED00FF> FRAUDAR URNAS </color> e tirou " + danoPlayer + " de popularidade do oponente";
@@ -2046,8 +2045,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 StartCoroutine(PerdeuPopInimigo());
 
-                SomAtaque.Play();
-
+                SonsAtaque();
                 if (chanceMitarLacrar != 2)
                 {
                     dialogo.text = "Você usou Você <color=#FFED00FF> FAKE NEWS </color> e tirou " + danoPlayer + " de popularidade do oponente";
@@ -2154,7 +2152,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 moveCamera = true;
 
-                SomAtaque.Play();
+                SonsAtaque();
 
                 if (chanceMitarLacrar != 2)
                 {
@@ -3930,7 +3928,7 @@ public class SistemaBatalhas : MonoBehaviour
             StartCoroutine(PiscaPlayer());
             StartCoroutine(PerdeuPopPlayer());
 
-            SomAtaque.Play();
+            SonsAtaque();
 
             if (chanceMitarLacrar != 2)
             {
@@ -4019,7 +4017,7 @@ public class SistemaBatalhas : MonoBehaviour
 
             StartCoroutine(PiscaPlayer());
 
-            SomAtaque.Play();
+            SonsAtaque();
 
             if (chanceMitarLacrar != 2)
             {
@@ -4107,8 +4105,8 @@ public class SistemaBatalhas : MonoBehaviour
             StartCoroutine(PiscaPlayer());
             StartCoroutine(PerdeuPopPlayer());
 
-            SomAtaque.Play();
-            Camera.main.GetComponent<ShakeCam>().shakeDuration = 1f;
+            SonsAtaque();
+
 
             if (chanceMitarLacrar != 2)
             {
@@ -4621,7 +4619,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (ataquePlayer == true && defesaPlayer == false && mudaStatusPlayer == false && inimigoAtacou == false)// && inimigoJaAtacou == false)
         {
-            print("PLAYER ATACOU");
+            print("minMax" + autoridadeAtaque);
 
             if (popularidadePlayer >= 80 && inimigoAtacou == false)
             {
@@ -4642,6 +4640,8 @@ public class SistemaBatalhas : MonoBehaviour
                         break;
 
                 }
+
+                print("minMax" + autoridadeAtaque);
 
             }
 
@@ -6341,5 +6341,38 @@ public class SistemaBatalhas : MonoBehaviour
     }
 
    
+    // ------- SOM ----- //
+
+    public void SonsAtaque()
+    {
+        int i = Random.Range(0, 3);
+
+        switch (i)
+        {
+            case 0:
+                SomAtaque1.Play();
+                break;
+
+            case 1:
+                
+                SomAtaque2.Play();
+
+                break;
+
+            case 2:
+
+                SomAtaque3.Play();
+
+                break;
+
+            case 3:
+
+                SomAtaque1.Play();
+
+                break;
+
+        }
+    }
+
 } // FIM DA CLASSE
 
