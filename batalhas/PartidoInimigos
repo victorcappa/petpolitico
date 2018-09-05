@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PartidoInimigo : MonoBehaviour
 {
-    
+
 
     public enum TipoDePartidoInimigo
     {
@@ -40,7 +40,7 @@ public class PartidoInimigo : MonoBehaviour
 
     public float popInimigoLula, popInimigoCiro, popInimigoBolso, popInimigoDilma, popInimigoSuplicy, popInimigoEneas, popInimigoDodorio, popInimigoHaddard, popInimigoCunha;
 
-   // public float popularidadeInimigoScene;
+    // public float popularidadeInimigoScene;
     // enum que define qual será o tipo de partido
     public TipoDePartidoInimigo partidoInimigoAtual;
 
@@ -75,7 +75,7 @@ public class PartidoInimigo : MonoBehaviour
 
 
     }
-     public void Start()
+    public void Start()
     {
         QualBatalha();
 
@@ -189,14 +189,14 @@ public class PartidoInimigo : MonoBehaviour
         {
             case TipoDePartidoInimigo.ELEICAOVEREADOR:
 
-              
-                    PartidoEleicaoVereador();
+
+                PartidoEleicaoVereador();
 
                 break;
 
             case TipoDePartidoInimigo.ELEICAODEPUTADO:
-                
-                    PartidoEleicaoDeputado();
+
+                PartidoEleicaoDeputado();
 
                 break;
 
@@ -261,11 +261,22 @@ public class PartidoInimigo : MonoBehaviour
 
     }
 
-   
+
     // ------- ELEIÇÕES -------
 
     public void PartidoEleicaoVereador()
     {
+        PlayerPrefs.SetInt("CiroInimigoScene", 0);
+        PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+        PlayerPrefs.SetInt("SuplicyInimigoScene", 0);
+        PlayerPrefs.SetInt("EneasInimigoScene", 0);
+        PlayerPrefs.SetInt("BolsoInimigoScene", 0);
+        PlayerPrefs.SetInt("CunhaInimigoScene", 0);
+        PlayerPrefs.SetInt("DodorioInimigoScene", 0);
+        PlayerPrefs.SetInt("HaddardInimigoScene", 0);
+
+
+
         // ----------- //
 
         NaSceneOff(CiroInimigo);
@@ -281,26 +292,19 @@ public class PartidoInimigo : MonoBehaviour
         // ----------- //
 
         popInimigoLula = 100;
-        popInimigoDilma = 100;
 
-         PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 22);
-         PlayerPrefs.SetInt("LevelLulaInimigo", 2);
-         PlayerPrefs.SetFloat("ApoioMidiaLulaInimigo", 12);
-         PlayerPrefs.SetFloat("RetoricaLulaInimigo", 17);
-         PlayerPrefs.SetInt("ConfiancaLulaInimigo", 17);
+        PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 230);
+        PlayerPrefs.SetFloat("ApoioMidiaLulaInimigo", 16);
+        PlayerPrefs.SetFloat("RetoricaLulaInimigo", 21);
+        PlayerPrefs.SetInt("ConfiancaLulaInimigo", 21);
+        PlayerPrefs.SetInt("LevelLulaInimigo", 3);
 
-
-         PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 23);
-         PlayerPrefs.SetInt("LevelDilmaInimigo", 3);
-         PlayerPrefs.SetFloat("ApoioMidiaDilmaInimigo", 13);
-         PlayerPrefs.SetFloat("RetoricaDilmaInimigo", 18);
-         PlayerPrefs.SetInt("ConfiancaDilmaInimigo", 18);
+       
 
         if (primeiraVez == 1)
         {
             //DENTRO
             LulaPartidoOn();
-            DilmaPartidoOn();
 
 
 
@@ -313,28 +317,30 @@ public class PartidoInimigo : MonoBehaviour
             DodorioPartidoOff();
             HaddardPartidoOff();
             CunhaPartidoOff();
+            DilmaPartidoOff();
+
 
 
             // -------- //
-         
+
 
             PlayerPrefs.SetFloat("PopInimigos", 0);
 
-            PlayerPrefs.SetInt("QuantosInimigos", 2);
+            PlayerPrefs.SetInt("QuantosInimigos", 1);
 
-            if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
-        {
-                
-            PlayerPrefs.SetInt("LulaInimigoScene", 1);
-            PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+            if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
+            {
+               
 
-            NaSceneOn(LulaInimigo);
-            PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
+                PlayerPrefs.SetInt("LulaInimigoScene", 1);
 
-            print("essa é a primeira vez. PopInimigos = ");
-            print(PlayerPrefs.GetFloat("PopInimigos"));
-        }
-      
+                NaSceneOn(LulaInimigo);
+                PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
+
+                print("essa é a primeira vez. PopInimigos = ");
+                print(PlayerPrefs.GetFloat("PopInimigos"));
+            }
+
 
             primeiraVez = 0;
 
@@ -346,40 +352,19 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-        if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
-        { 
-            PlayerPrefs.SetInt("LulaInimigoScene", 0);    
-            PlayerPrefs.SetInt("DilmaInimigoScene", 1);
-            LulaPartidoOff();
-            NaSceneOff(LulaInimigo);
-            NaSceneOn(DilmaInimigo);
-            PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
-            podeTrocarInimigo = false;
-            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
-            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDilmaInimigo");
-            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetInt("AutoridadeDilmaInimigo");
-            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetInt("RetoricaDilmaInimigo");
-            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDilmaInimigo");
-        }
-
-
-
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
-            PlayerPrefs.SetInt("LulaInimigoScene", 0);    
-            PlayerPrefs.SetInt("DilmaInimigoScene", 0);  
-            NaSceneOff(DilmaInimigo);
+            PlayerPrefs.SetInt("LulaInimigoScene", 0);
             NaSceneOff(LulaInimigo);
-            DilmaPartidoOff();
             PlayerPrefs.SetFloat("PopInimigos", 0);
         }
 
 
 
-      
 
-    }
+
+    } // FIM PARTIDO VEREADOR
 
     public void PartidoEleicaoDeputado()
     {
@@ -399,18 +384,18 @@ public class PartidoInimigo : MonoBehaviour
         popInimigoBolso = 100;
         popInimigoDodorio = 100;
 
-        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 30); // 20 + lvl 4
-        PlayerPrefs.SetInt("LevelBolsoInimigo", 6);
-        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 3); // 10 + 4
-        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 19);
-        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 19);
+        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 240); // 20 + lvl 4
+        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 18); // 10 + 4
+        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 18);
+        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 28);
+        PlayerPrefs.SetInt("LevelBolsoInimigo", 4);
 
 
-        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 16);
+        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 210);
+        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 32);
+        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 22);
+        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 32);
         PlayerPrefs.SetInt("LevelDodorioInimigo", 6);
-        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 26);
-        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 20);
-        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 16);
 
         if (primeiraVez == 1)
         {
@@ -467,9 +452,9 @@ public class PartidoInimigo : MonoBehaviour
             PlayerPrefs.SetFloat("PopInimigos", popInimigoDodorio);
             podeTrocarInimigo = false;
             GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDodorioInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeDodorioInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaDodorioInimigo");
             GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetInt("AutoridadeDodorioInimigo");
-            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetInt("RetoricaDodorioInimigo");
             GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDodorioInimigo");
 
 
@@ -493,7 +478,7 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-    }
+    } // FIM PARTIDO DEPUTADO
 
     public void PartidoEleicaoPrefeito()
     {
@@ -504,32 +489,34 @@ public class PartidoInimigo : MonoBehaviour
         NaSceneOff(SuplicyInimigo);
         NaSceneOff(EneasInimigo);
         NaSceneOff(DilmaInimigo);
-        NaSceneOff(HaddardInimigo);
+        NaSceneOff(BolsoInimigo);
         NaSceneOff(CunhaInimigo);
 
         // ----------- //
 
 
-        popInimigoBolso = 100;
         popInimigoDodorio = 100;
+        popInimigoHaddard = 100;
 
-        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 30); // 20 + lvl 4
-        PlayerPrefs.SetInt("LevelBolsoInimigo", 10);
-        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 20); // 10 + 4
-        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 24);
-        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 24);
+        PlayerPrefs.SetFloat("AutoridadeHaddardInimigo", 230); // 20 + lvl 4
+        PlayerPrefs.SetFloat("ApoioMidiaHaddardInimigo", 36); // 10 + 4
+        PlayerPrefs.SetFloat("RetoricaHaddardInimigo", 36);
+        PlayerPrefs.SetInt("ConfiancaHaddardInimigo", 31);
+        PlayerPrefs.SetInt("LevelHaddardInimigo", 8);
 
 
-        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 20);
-        PlayerPrefs.SetInt("LevelDodorioInimigo", 8);
-        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 26);
-        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 20);
-        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 20);
+
+        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 250);
+        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 40);
+        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 30);
+        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 35);
+        PlayerPrefs.SetInt("LevelDodorioInimigo", 10);
+
 
         if (primeiraVez == 1)
         {
             //DENTRO
-            BolsoPartidoOn();
+            HaddardPartidoOn();
             DodorioPartidoOn();
 
 
@@ -539,7 +526,7 @@ public class PartidoInimigo : MonoBehaviour
             SuplicyPartidoOff();
             LulaPartidoOff();
             DilmaPartidoOff();
-            HaddardPartidoOff();
+            BolsoPartidoOff();
             CunhaPartidoOff();
 
 
@@ -552,10 +539,10 @@ public class PartidoInimigo : MonoBehaviour
 
             if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
             {
-                PlayerPrefs.SetInt("BolsoInimigoScene", 1);
+                PlayerPrefs.SetInt("HaddardInimigoScene", 1);
                 PlayerPrefs.SetInt("DodorioInimigoScene", 0);
-                NaSceneOn(BolsoInimigo);
-                PlayerPrefs.SetFloat("PopInimigos", popInimigoBolso);
+                NaSceneOn(HaddardInimigo);
+                PlayerPrefs.SetFloat("PopInimigos", popInimigoHaddard);
 
                 print(PlayerPrefs.GetFloat("PopInimigos"));
             }
@@ -573,17 +560,17 @@ public class PartidoInimigo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
         {
-            PlayerPrefs.SetInt("BolsoInimigoScene", 0);
+            PlayerPrefs.SetInt("HaddardInimigoScene", 0);
             PlayerPrefs.SetInt("DodorioInimigoScene", 1);
-            BolsoPartidoOff();
-            NaSceneOff(BolsoInimigo);
+            HaddardPartidoOff();
+            NaSceneOff(HaddardInimigo);
             NaSceneOn(DodorioInimigo);
             PlayerPrefs.SetFloat("PopInimigos", popInimigoDodorio);
             podeTrocarInimigo = false;
             GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDodorioInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeDodorioInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaDodorioInimigo");
             GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetInt("AutoridadeDodorioInimigo");
-            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetInt("RetoricaDodorioInimigo");
             GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDodorioInimigo");
 
 
@@ -595,10 +582,10 @@ public class PartidoInimigo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
-            PlayerPrefs.SetInt("BolsoInimigoScene", 0);
+            PlayerPrefs.SetInt("HaddardInimigoScene", 0);
             PlayerPrefs.SetInt("DodorioInimigoScene", 0);
             NaSceneOff(DodorioInimigo);
-            NaSceneOff(BolsoInimigo);
+            NaSceneOff(HaddardInimigo);
             DodorioPartidoOff();
             PlayerPrefs.SetFloat("PopInimigos", 0);
         }
@@ -607,7 +594,7 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-    }
+    } // FIM PARTIDO PREFEITO
 
     public void PartidoEleicaoGovernador()
     {
@@ -615,44 +602,44 @@ public class PartidoInimigo : MonoBehaviour
 
         NaSceneOff(CiroInimigo);
         NaSceneOff(LulaInimigo);
-        NaSceneOff(SuplicyInimigo);
+        NaSceneOff(DodorioInimigo);
         NaSceneOff(EneasInimigo);
-        NaSceneOff(DilmaInimigo);
+        NaSceneOff(BolsoInimigo);
         NaSceneOff(HaddardInimigo);
         NaSceneOff(CunhaInimigo);
 
 
         // ----------- //
 
-        popInimigoBolso = 100;
-        popInimigoDodorio = 100;
+        popInimigoDilma = 100;
+        popInimigoSuplicy = 100;
 
-        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 35); // 20 + lvl 4
-        PlayerPrefs.SetInt("LevelBolsoInimigo", 15);
-        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 25); // 10 + 4
-        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 29);
-        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 29);
+        PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 350); // 20 + lvl 4
+        PlayerPrefs.SetFloat("ApoioMidiaDilmaInimigo", 40); // 10 + 4
+        PlayerPrefs.SetFloat("RetoricaDilmaInimigo", 40);
+        PlayerPrefs.SetInt("ConfiancaDilmaInimigo", 50);
+        PlayerPrefs.SetInt("LevelDilmaInimigo", 15);
 
 
-        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 25);
-        PlayerPrefs.SetInt("LevelDodorioInimigo", 19);
-        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 30);
-        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 25);
-        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 25);
+        PlayerPrefs.SetFloat("AutoridadeSuplicyInimigo", 350);
+        PlayerPrefs.SetFloat("ApoioMidiaSuplicyInimigo", 50);
+        PlayerPrefs.SetFloat("RetoricaSuplicyInimigo", 60);
+        PlayerPrefs.SetInt("ConfiancaSuplicyInimigo", 55);
+        PlayerPrefs.SetInt("LevelSuplicyInimigo", 20);
 
         if (primeiraVez == 1)
         {
             //DENTRO
-            BolsoPartidoOn();
-            DodorioPartidoOn();
+            DilmaPartidoOn();
+            SuplicyPartidoOn();
 
 
             //FORA
             CiroPartidoOff();
             EneasPartidoOff();
-            SuplicyPartidoOff();
+            BolsoPartidoOff();
             LulaPartidoOff();
-            DilmaPartidoOff();
+            DodorioPartidoOff();
             HaddardPartidoOff();
             CunhaPartidoOff();
             // -------- //
@@ -664,10 +651,10 @@ public class PartidoInimigo : MonoBehaviour
 
             if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
             {
-                PlayerPrefs.SetInt("BolsoInimigoScene", 1);
-                PlayerPrefs.SetInt("DodorioInimigoScene", 0);
-                NaSceneOn(BolsoInimigo);
-                PlayerPrefs.SetFloat("PopInimigos", popInimigoBolso);
+                PlayerPrefs.SetInt("DilmaInimigoScene", 1);
+                PlayerPrefs.SetInt("SuplicyInimigoScene", 0);
+                NaSceneOn(DilmaInimigo);
+                PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
 
                 print(PlayerPrefs.GetFloat("PopInimigos"));
             }
@@ -685,18 +672,20 @@ public class PartidoInimigo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
         {
-            PlayerPrefs.SetInt("BolsoInimigoScene", 0);
-            PlayerPrefs.SetInt("DodorioInimigoScene", 1);
-            BolsoPartidoOff();
-            NaSceneOff(BolsoInimigo);
-            NaSceneOn(DodorioInimigo);
-            PlayerPrefs.SetFloat("PopInimigos", popInimigoDodorio);
+            PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+            PlayerPrefs.SetInt("SuplicyInimigoScene", 1);
+
+            DilmaPartidoOff();
+            NaSceneOff(DilmaInimigo);
+            NaSceneOn(SuplicyInimigo);
+
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoSuplicy);
             podeTrocarInimigo = false;
-            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetInt("AutoridadeDodorioInimigo");
-            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetInt("RetoricaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDodorioInimigo");
+            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaSuplicyInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeSuplicyInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaSuplicyInimigo");
+            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaSuplicyInimigo");
+            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelSuplicyInimigo");
 
 
 
@@ -707,11 +696,11 @@ public class PartidoInimigo : MonoBehaviour
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
-            PlayerPrefs.SetInt("BolsoInimigoScene", 0);
-            PlayerPrefs.SetInt("DodorioInimigoScene", 0);
-            NaSceneOff(DodorioInimigo);
-            NaSceneOff(BolsoInimigo);
-            DodorioPartidoOff();
+            PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+            PlayerPrefs.SetInt("SuplicyInimigoScene", 0);
+            NaSceneOff(SuplicyInimigo);
+            NaSceneOff(DilmaInimigo);
+            SuplicyPartidoOff();
             PlayerPrefs.SetFloat("PopInimigos", 0);
         }
 
@@ -719,69 +708,83 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-    }
+    } // FIM PARTIDO GOVERNADOR
 
     public void PartidoEleicaoPresidente()
     {
         // ----------- //
 
         NaSceneOff(CiroInimigo);
-        NaSceneOff(LulaInimigo);
         NaSceneOff(SuplicyInimigo);
-        NaSceneOff(EneasInimigo);
-        NaSceneOff(DilmaInimigo);
         NaSceneOff(HaddardInimigo);
         NaSceneOff(CunhaInimigo);
+        NaSceneOff(EneasInimigo);
+        NaSceneOff(DodorioInimigo);
+
 
         // ----------- //
 
         popInimigoBolso = 100;
-        popInimigoDodorio = 100;
+        popInimigoDilma = 100;
+        popInimigoLula = 100;
 
-        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 40); // 20 + lvl 4
+
+        PlayerPrefs.SetFloat("AutoridadeBolsoInimigo", 400); // 20 + lvl 4
+        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 50); // 10 + 4
+        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 50);
+        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 60);
         PlayerPrefs.SetInt("LevelBolsoInimigo", 20);
-        PlayerPrefs.SetFloat("ApoioMidiaBolsoInimigo", 30); // 10 + 4
-        PlayerPrefs.SetFloat("RetoricaBolsoInimigo", 34);
-        PlayerPrefs.SetInt("ConfiancaBolsoInimigo", 34);
 
 
-        PlayerPrefs.SetFloat("AutoridadeDodorioInimigo", 30);
-        PlayerPrefs.SetInt("LevelDodorioInimigo", 30);
-        PlayerPrefs.SetFloat("ApoioMidiaDodorioInimigo", 35);
-        PlayerPrefs.SetFloat("RetoricaDodorioInimigo", 30);
-        PlayerPrefs.SetInt("ConfiancaDodorioInimigo", 30);
+        PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 450);
+        PlayerPrefs.SetFloat("ApoioMidiaDilmaInimigo", 60);
+        PlayerPrefs.SetFloat("RetoricaDilmaInimigo", 65);
+        PlayerPrefs.SetInt("ConfiancaDilmaInimigo", 65);
+        PlayerPrefs.SetInt("LevelDilmaInimigo", 25);
+
+        PlayerPrefs.SetFloat("AutoridadeLulaInimigo", 500);
+        PlayerPrefs.SetFloat("ApoioMidiaLulaInimigo", 70);
+        PlayerPrefs.SetFloat("RetoricaLulaInimigo", 85);
+        PlayerPrefs.SetInt("ConfiancaLulaInimigo", 85);
+        PlayerPrefs.SetInt("LevelLulaInimigo", 30);
+
+       
+
 
         if (primeiraVez == 1)
         {
             //DENTRO
             BolsoPartidoOn();
-            DodorioPartidoOn();
+            DilmaPartidoOn();
+            LulaPartidoOn();
 
 
             //FORA
             CiroPartidoOff();
             EneasPartidoOff();
             SuplicyPartidoOff();
-            LulaPartidoOff();
-            DilmaPartidoOff();
             HaddardPartidoOff();
             CunhaPartidoOff();
+            DodorioPartidoOff();
+
 
             // -------- //
 
 
             PlayerPrefs.SetFloat("PopInimigos", 0);
 
-            PlayerPrefs.SetInt("QuantosInimigos", 2);
+            PlayerPrefs.SetInt("QuantosInimigos", 3);
 
-            if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
+            if (PlayerPrefs.GetInt("QuantosInimigos") == 3 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
             {
                 PlayerPrefs.SetInt("BolsoInimigoScene", 1);
-                PlayerPrefs.SetInt("DodorioInimigoScene", 0);
+                PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+                PlayerPrefs.SetInt("LulaInimigoScene", 0);
+
                 NaSceneOn(BolsoInimigo);
+
                 PlayerPrefs.SetFloat("PopInimigos", popInimigoBolso);
 
-                print(PlayerPrefs.GetFloat("PopInimigos"));
             }
 
 
@@ -795,35 +798,71 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-        if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
         {
             PlayerPrefs.SetInt("BolsoInimigoScene", 0);
-            PlayerPrefs.SetInt("DodorioInimigoScene", 1);
+            PlayerPrefs.SetInt("LulaInimigoScene", 0);
+            PlayerPrefs.SetInt("DilmaInimigoScene", 1);
+
             BolsoPartidoOff();
+
             NaSceneOff(BolsoInimigo);
-            NaSceneOn(DodorioInimigo);
-            PlayerPrefs.SetFloat("PopInimigos", popInimigoDodorio);
-            podeTrocarInimigo = false;
-            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetInt("AutoridadeDodorioInimigo");
-            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetInt("RetoricaDodorioInimigo");
-            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDodorioInimigo");
+            NaSceneOff(LulaInimigo);
+            NaSceneOn(DilmaInimigo);
+
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoDilma);
+
+            podeTrocarInimigo = true;
+
+            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDilmaInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeDilmaInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaDilmaInimigo");
+            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDilmaInimigo");
+            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelDilmaInimigo");
 
 
 
         }
 
 
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
+        {
+            PlayerPrefs.SetInt("BolsoInimigoScene", 0);
+            PlayerPrefs.SetInt("LulaInimigoScene", 1);
+            PlayerPrefs.SetInt("DilmaInimigoScene", 0);
 
+            BolsoPartidoOff();
+            DilmaPartidoOff();
+
+            NaSceneOff(BolsoInimigo);
+            NaSceneOff(DilmaInimigo);
+            NaSceneOn(LulaInimigo);
+
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoLula);
+
+            podeTrocarInimigo = false;
+
+            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaLulaInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeLulaInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaLulaInimigo");
+            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaLulaInimigo");
+            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelLulaInimigo");
+
+
+
+        }
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
             PlayerPrefs.SetInt("BolsoInimigoScene", 0);
-            PlayerPrefs.SetInt("DodorioInimigoScene", 0);
-            NaSceneOff(DodorioInimigo);
+            PlayerPrefs.SetInt("LulaInimigoScene", 0);
+            PlayerPrefs.SetInt("DilmaInimigoScene", 0);
+
+            NaSceneOff(DilmaInimigo);
+            NaSceneOff(LulaInimigo);
             NaSceneOff(BolsoInimigo);
-            DodorioPartidoOff();
+            LulaPartidoOff();
+
             PlayerPrefs.SetFloat("PopInimigos", 0);
         }
 
@@ -831,7 +870,7 @@ public class PartidoInimigo : MonoBehaviour
 
 
 
-    }
+    } // FIM PARTIDO PRESIDENTE
 
     // -------         ---------
 
@@ -842,7 +881,7 @@ public class PartidoInimigo : MonoBehaviour
     {
 
         popInimigoDilma = 100;
-
+        //primeiraVez = 1;
 
         PlayerPrefs.SetFloat("AutoridadeDilmaInimigo", 23);
         PlayerPrefs.SetInt("LevelDilmaInimigo", 3);
@@ -880,6 +919,11 @@ public class PartidoInimigo : MonoBehaviour
 
             // -------- //
 
+            primeiraVez = 0;
+
+            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
+
+            podeTrocarInimigo = true;
 
             PlayerPrefs.SetFloat("PopInimigos", 0);
 
@@ -899,18 +943,9 @@ public class PartidoInimigo : MonoBehaviour
             }
 
 
-            primeiraVez = 0;
 
-            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
-
-            podeTrocarInimigo = true;
 
         }
-
-
-
-
-
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
         {
@@ -918,7 +953,14 @@ public class PartidoInimigo : MonoBehaviour
             NaSceneOff(DilmaInimigo);
             DilmaPartidoOff();
             PlayerPrefs.SetFloat("PopInimigos", 0);
+           // primeiraVez = 1;
         }
+
+
+
+
+
+
 
 
 
@@ -931,6 +973,7 @@ public class PartidoInimigo : MonoBehaviour
 
         popInimigoCiro = 100;
 
+        // primeiraVez = 1;
 
         PlayerPrefs.SetFloat("AutoridadeCiroInimigo", 23);
         PlayerPrefs.SetInt("LevelCiroInimigo", 6);
@@ -970,6 +1013,11 @@ public class PartidoInimigo : MonoBehaviour
 
 
             // -------- //
+            primeiraVez = 0;
+
+            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
+
+            podeTrocarInimigo = true;
 
 
             PlayerPrefs.SetFloat("PopInimigos", 0);
@@ -985,21 +1033,10 @@ public class PartidoInimigo : MonoBehaviour
                 NaSceneOn(CiroInimigo);
                 PlayerPrefs.SetFloat("PopInimigos", popInimigoCiro);
 
-              
+
             }
 
-
-            primeiraVez = 0;
-
-            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
-
-            podeTrocarInimigo = true;
-
         }
-
-
-
-
 
 
         if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
@@ -1008,14 +1045,16 @@ public class PartidoInimigo : MonoBehaviour
             NaSceneOff(CiroInimigo);
             CiroPartidoOff();
             PlayerPrefs.SetFloat("PopInimigos", 0);
+            //primeiraVez = 1;
+
         }
 
 
 
 
 
-    }
-   
+    } // FIM PARTIDO CIRO
+
     public void PartidoSuplicy()
     {
 
@@ -1106,7 +1145,7 @@ public class PartidoInimigo : MonoBehaviour
 
 
     }
-   
+
     public void PartidoEneas()
     {
 
@@ -1290,19 +1329,117 @@ public class PartidoInimigo : MonoBehaviour
 
     public void PartidoImpeachment()
     {
-        // DENTRO
-        CiroPartidoOn();
-        EneasPartidoOn();
+        NaSceneOff(DodorioInimigo);
+        NaSceneOff(LulaInimigo);
+        NaSceneOff(SuplicyInimigo);
+        NaSceneOff(HaddardInimigo);
+        NaSceneOff(DilmaInimigo);
+        NaSceneOff(BolsoInimigo);
+        NaSceneOff(CunhaInimigo);
 
-        // FORA
+        // ----------- //
 
-        LulaPartidoOff();
-        DilmaPartidoOff();
-        BolsoPartidoOff();
-        SuplicyPartidoOff();
-        CunhaPartidoOff();
 
-    }
+        popInimigoCiro = 100;
+        popInimigoEneas = 100;
+
+        PlayerPrefs.SetFloat("AutoridadeCiroInimigo", 200 * ((10 * PlayerPrefs.GetInt("LevelIndice") - 2))); 
+        PlayerPrefs.SetFloat("ApoioMidiaCiroInimigo", 10 * ( ( 2 * PlayerPrefs.GetInt("LevelIndice") - 2 ))); 
+        PlayerPrefs.SetFloat("RetoricaCiroInimigo", 15 * ((2 * PlayerPrefs.GetInt("LevelIndice") - 2)));
+        PlayerPrefs.SetInt("ConfiancaCiroInimigo", 15 * ((2 * PlayerPrefs.GetInt("LevelIndice") - 2)));
+        PlayerPrefs.SetInt("LevelCiroInimigo", (PlayerPrefs.GetInt("LevelIndice") - 2));
+
+
+
+        PlayerPrefs.SetFloat("AutoridadeEneasInimigo", 200 * ((10 * PlayerPrefs.GetInt("LevelIndice"))));
+        PlayerPrefs.SetFloat("ApoioMidiaEneasInimigo", 10 * ((2 * PlayerPrefs.GetInt("LevelIndice"))));
+        PlayerPrefs.SetFloat("RetoricaEneasInimigo", 10 * ((2 * PlayerPrefs.GetInt("LevelIndice"))));
+        PlayerPrefs.SetInt("ConfiancaEneasInimigo", 20 * ((2 * PlayerPrefs.GetInt("LevelIndice"))));
+        PlayerPrefs.SetInt("LevelEneasInimigo", 10 * ((2 * PlayerPrefs.GetInt("LevelIndice"))));
+
+
+        if (primeiraVez == 1)
+        {
+            //DENTRO
+            CiroPartidoOn();
+            EneasPartidoOn();
+
+
+            //FORA
+            BolsoPartidoOff();
+            DodorioPartidoOff();
+            SuplicyPartidoOff();
+            LulaPartidoOff();
+            DilmaPartidoOff();
+            HaddardPartidoOff();
+            CunhaPartidoOff();
+
+
+            // -------- //
+
+
+            PlayerPrefs.SetFloat("PopInimigos", 0);
+
+            PlayerPrefs.SetInt("QuantosInimigos", 2);
+
+            if (PlayerPrefs.GetInt("QuantosInimigos") == 2 && PlayerPrefs.GetFloat("PopInimigos") <= 0)
+            {
+                PlayerPrefs.SetInt("CiroInimigoScene", 1);
+                PlayerPrefs.SetInt("EneasInimigoScene", 0);
+                NaSceneOn(CiroInimigo);
+                PlayerPrefs.SetFloat("PopInimigos", popInimigoCiro);
+
+                print(PlayerPrefs.GetFloat("PopInimigos"));
+            }
+
+
+            primeiraVez = 0;
+
+            PlayerPrefs.SetInt("PrimeiraVez", primeiraVez);
+
+            podeTrocarInimigo = true;
+
+        }
+
+
+
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 1 && PlayerPrefs.GetFloat("PopInimigos") <= 0 && podeTrocarInimigo == true)
+        {
+            PlayerPrefs.SetInt("CiroInimigoScene", 0);
+            PlayerPrefs.SetInt("EneasInimigoScene", 1);
+            CiroPartidoOff();
+            NaSceneOff(CiroInimigo);
+            NaSceneOn(EneasInimigo);
+            PlayerPrefs.SetFloat("PopInimigos", popInimigoEneas);
+            podeTrocarInimigo = false;
+
+            GetComponent<SistemaBatalhas>().apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaEneasInimigo");
+            GetComponent<SistemaBatalhas>().autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeEneasInimigo");
+            GetComponent<SistemaBatalhas>().retoricaInimigo = PlayerPrefs.GetFloat("RetoricaEneasInimigo");
+            GetComponent<SistemaBatalhas>().confiancaInimigo = PlayerPrefs.GetInt("ConfiancaEneasInimigo");
+            GetComponent<SistemaBatalhas>().levelInimigo = PlayerPrefs.GetInt("LevelEneasInimigo");
+
+
+
+        }
+
+
+
+
+        if (PlayerPrefs.GetInt("QuantosInimigos") == 0)
+        {
+            PlayerPrefs.SetInt("CiroInimigoScene", 0);
+            PlayerPrefs.SetInt("EneasInimigoScene", 0);
+            NaSceneOff(EneasInimigo);
+            NaSceneOff(CiroInimigo);
+            EneasPartidoOff();
+            PlayerPrefs.SetFloat("PopInimigos", 0);
+        }
+
+
+
+
+    } // FIM PARTIDO IMPEACHMENT
 
     public void PartidoMilitantes()
     {
@@ -1510,6 +1647,9 @@ public class PartidoInimigo : MonoBehaviour
     }
 
 
-   
+    public void PrimeiraVez()
+    {
+        primeiraVez = 1;
+    }
 
 } // FIM DA CLASSE
