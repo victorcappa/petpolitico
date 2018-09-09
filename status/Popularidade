@@ -26,34 +26,21 @@ public class Popularidade : MonoBehaviour
     public float min_pop = 0;
     public Slider barraPop;
     public GameObject PartidoManager;
-    float popLula, popCiro, popBolso, popDilma, popEneas, popSuplicy, popHaddard, popDodorio, popCunha;
+    public float popLula, popCiro, popBolso, popDilma, popEneas, popSuplicy, popHaddard, popDodorio, popCunha;
+    public float popScene;
 
-    private void Awake()
+
+    private void Start()
     {
+        IniciaPopPersonagens();
 
-        popLula = PlayerPrefs.GetFloat("PopularidadeLula"); 
-        popCiro = PlayerPrefs.GetFloat("PopularidadeCiro");  
-        popBolso = PlayerPrefs.GetFloat("PopularidadeBolso"); 
-        popDilma = PlayerPrefs.GetFloat("PopularidadeDilma"); 
-        popEneas = PlayerPrefs.GetFloat("PopularidadeEneas"); 
-        popSuplicy = PlayerPrefs.GetFloat("PopularidadeSuplicy"); 
-        popHaddard = PlayerPrefs.GetFloat("PopularidadeHaddard"); 
-        popDodorio = PlayerPrefs.GetFloat("PopularidadeDodorio"); 
-        popCunha = PlayerPrefs.GetFloat("PopularidadeCunha"); 
     }
 
-    void Start()
-    {
-
-        PopPersonagens();
-  
-
-    }
 
     void Update()
     {
 
-        PopPersonagens();
+        AtualizaPopPersonagens();
 
     }
 
@@ -71,24 +58,21 @@ public class Popularidade : MonoBehaviour
     }
 
 
-    public void PopPersonagens()
+    public void AtualizaPopPersonagens()
 
     {
-     
+
         MaxMinPop();
 
-        PlayerPrefs.SetFloat("PopularidadeNaScene", popularidade);
+
+        //PlayerPrefs.SetFloat("PopularidadeNaScene", popularidade);
 
         if (PartidoManager.GetComponent<Partido>().LulaDentroScene == 1)
 
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
-            float tempPopularidade = Mathf.Round(popLula);
 
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
-
-          
-
+            popLula = Mathf.Round(popularidade);
+            popScene = popLula;
 
 
             // BARRA POP
@@ -97,42 +81,31 @@ public class Popularidade : MonoBehaviour
             barraPop.value = popularidade;
 
             //
-            if (tempPopularidade <= 0)
 
+            if (popLula <= 0)
             {
-                tempPopularidade = 1;
+                popLula = 0;
             }
 
 
-           // veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            // veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeLula");
             pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-            if (this.gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-                
-           /* if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
 
-            {
-                popularidade -= Time.deltaTime * veloPerdaPop;
-
-            }*/
-
-            if (this.gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && PlayerPrefs.GetFloat("PopularidadeLula") <= 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popLula <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (this.gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && PlayerPrefs.GetFloat("PopularidadeLula") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popLula > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
@@ -141,7 +114,6 @@ public class Popularidade : MonoBehaviour
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeLula", popularidade);
 
             if (popularidade <= 0)
             {
@@ -157,29 +129,17 @@ public class Popularidade : MonoBehaviour
             }
 
 
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
+            PlayerPrefs.SetFloat("PopularidadeLula", popularidade);
 
-            if (this.gameObject.GetComponent<Influencia>().level <= 1 && popularidade <= 1)
-            {
-                //PlayerPrefs.SetFloat("PopularidadeLula", 50);
-                popularidade = 50;
-            }
 
         }
-      
-        
+
+
         if (PartidoManager.GetComponent<Partido>().CiroDentroScene == 1)
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeCiro");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
+            popCiro = Mathf.Round(popularidade);
+            popScene = popCiro;
 
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
-
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeCiro");
 
             // BARRA POP
 
@@ -188,79 +148,65 @@ public class Popularidade : MonoBehaviour
 
             //
 
-            //------------------------------------------------
+            if (popCiro <= 0)
+            {
+                popCiro = 0;
+            }
+
+
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popCiro <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeCiro") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popCiro > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
-
             //------------------------------------------------
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeCiro", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeCiro", 0);
+                popularidade = 0;
+
             }
 
             // max pop
 
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeCiro", popularidade);
-
-            if (PlayerPrefs.GetFloat("PopularidadeCiro") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeCiro", 100);
-            }
-
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelCiro") <= 1 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeCiro", 50);
-            }
 
 
         }
 
-      
+
         if (PartidoManager.GetComponent<Partido>().BolsoDentroScene == 1)
         {
-            
-            popularidade = PlayerPrefs.GetFloat("PopularidadeBolso");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"));
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
 
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
+            popBolso = Mathf.Round(popularidade);
+            popScene = popBolso;
 
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeBolso");
-
-
-            //popularidade -= Time.deltaTime * veloPerdaPop;
 
             // BARRA POP
 
@@ -269,68 +215,62 @@ public class Popularidade : MonoBehaviour
 
             //
 
+            if (popBolso <= 0)
+            {
+                popBolso = 0;
+            }
+
+
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
+
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeBolso") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popBolso <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeBolso") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popBolso > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
-
             //------------------------------------------------
 
-            // MIN POP
+            // min pop
+
+
+            if (popularidade <= 0)
+            {
+                popularidade = 0;
+
+            }
+
+            // max pop
+
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
 
             PlayerPrefs.SetFloat("PopularidadeBolso", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeBolso") <= 0)
-            {
-                PlayerPrefs.SetFloat("PopularidadeBolso", 0);
-            }
-
-            // MAX POP 
-
-            PlayerPrefs.SetFloat("PopularidadeBolso", popularidade);
-
-            if (PlayerPrefs.GetFloat("PopularidadeBolso") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeBolso", 100);
-            }
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-
-            if (PlayerPrefs.GetInt("LevelBolso") <= 1 && PlayerPrefs.GetFloat("PopularidadeBolso") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeBolso", 50);
-            }
 
         }
 
         if (PartidoManager.GetComponent<Partido>().DilmaDentroScene == 1)
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeDilma");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"));
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
-
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeDilma");
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
+            popDilma = Mathf.Round(popularidade);
+            popScene = popDilma;
 
 
             // BARRA POP
@@ -340,75 +280,64 @@ public class Popularidade : MonoBehaviour
 
             //
 
-            //------------------------------------------------
+            if (popDilma <= 0)
+            {
+                popDilma = 0;
+            }
+
+
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeDilma") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popDilma <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeDilma") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popDilma > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
-
             //------------------------------------------------
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeDilma", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeDilma") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeDilma", 0);
+                popularidade = 0;
+
             }
 
             // max pop
 
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeDilma", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeDilma") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeDilma", 100);
-            }
 
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelDilma") <= 1 && PlayerPrefs.GetFloat("PopularidadeDilma") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeDilma", 50);
-            }
 
 
         }
 
         if (PartidoManager.GetComponent<Partido>().SuplicyDentroScene == 1)
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeSuplicy");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"));
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
-            PlayerPrefs.SetFloat("PopularidadeNaScene", popularidade);
-
-
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeSuplicy");
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
+            popSuplicy = Mathf.Round(popularidade);
+            popScene = popSuplicy;
 
 
             // BARRA POP
@@ -418,74 +347,64 @@ public class Popularidade : MonoBehaviour
 
             //
 
-            //------------------------------------------------
+            if (popSuplicy <= 0)
+            {
+                popSuplicy = 0;
+            }
+
+
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popSuplicy <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeSuplicy") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popSuplicy > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
-
             //------------------------------------------------
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeSuplicy", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeSuplicy", 0);
+                popularidade = 0;
+
             }
 
             // max pop
 
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeSuplicy", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeSuplicy") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeSuplicy", 100);
-            }
-
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelSuplicy") <= 1 && PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeSuplicy", 50);
-            }
 
 
         }
 
         if (PartidoManager.GetComponent<Partido>().EneasDentroScene == 1)
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeEneas");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"));
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
+            popEneas = Mathf.Round(popularidade);
+            popScene = popEneas;
 
-
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeEneas");
 
             // BARRA POP
 
@@ -494,58 +413,55 @@ public class Popularidade : MonoBehaviour
 
             //
 
-            //------------------------------------------------
+            if (popEneas <= 0)
+            {
+                popEneas = 0;
+            }
+
+
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeEneas") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popEneas <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeEneas") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popEneas > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
-
             //------------------------------------------------
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeEneas", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeEneas") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeEneas", 0);
+                popularidade = 0;
+
             }
 
             // max pop
 
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeEneas", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeEneas") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeEneas", 100);
-            }
-
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelEneas") <= 1 && PlayerPrefs.GetFloat("PopularidadeEneas") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeEneas", 50);
-            }
 
 
         }
@@ -553,13 +469,8 @@ public class Popularidade : MonoBehaviour
         if (PartidoManager.GetComponent<Partido>().DodorioDentroScene == 1)
 
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeDodorio");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDodorio"));
-
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
-
-
-
+            popDodorio = Mathf.Round(popularidade);
+            popScene = popDodorio;
 
 
             // BARRA POP
@@ -568,35 +479,31 @@ public class Popularidade : MonoBehaviour
             barraPop.value = popularidade;
 
             //
-            if (tempPopularidade <= 0)
 
+            if (popDodorio <= 0)
             {
-                tempPopularidade = 1;
+                popDodorio = 0;
             }
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
 
 
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeDodorio");
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeDodorio") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popDodorio <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeDodorio") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popDodorio > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
@@ -605,43 +512,31 @@ public class Popularidade : MonoBehaviour
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeDodorio", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeDodorio") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeDodorio", 0);
+                popularidade = 0;
 
             }
 
             // max pop
+
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeDodorio", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeDodorio") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeDodorio", 100);
-            }
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelDodorio") <= 1 && PlayerPrefs.GetFloat("PopularidadeDodorio") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeDodorio", 50);
-
-            }
 
         }
-    
+
         if (PartidoManager.GetComponent<Partido>().HaddardDentroScene == 1)
 
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeHaddard");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeHaddard"));
-
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
-
-
-
+            popHaddard = Mathf.Round(popularidade);
+            popScene = popHaddard;
 
 
             // BARRA POP
@@ -650,35 +545,31 @@ public class Popularidade : MonoBehaviour
             barraPop.value = popularidade;
 
             //
-            if (tempPopularidade <= 0)
 
+            if (popHaddard <= 0)
             {
-                tempPopularidade = 1;
+                popHaddard = 0;
             }
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
 
 
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeHaddard");
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeHaddard") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popHaddard <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeHaddard") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popHaddard > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
@@ -687,43 +578,31 @@ public class Popularidade : MonoBehaviour
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeHaddard", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeHaddard") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeHaddard", 0);
+                popularidade = 0;
 
             }
 
             // max pop
+
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeHaddard", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeHaddard") >= 100)
-            {
-                PlayerPrefs.SetFloat("PopularidadeHaddard", 100);
-            }
-
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelHaddard") <= 1 && PlayerPrefs.GetFloat("PopularidadeHaddard") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeHaddard", 50);
-
-            }
 
         }
-    
+
         if (PartidoManager.GetComponent<Partido>().CunhaDentroScene == 1)
 
         {
-            popularidade = PlayerPrefs.GetFloat("PopularidadeCunha");
-            float tempPopularidade = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCunha"));
-
-            PlayerPrefs.SetFloat("PopularidadeNaScene", tempPopularidade);
-
-
-
+            popCunha = Mathf.Round(popularidade);
+            popScene = popCunha;
 
 
             // BARRA POP
@@ -732,35 +611,31 @@ public class Popularidade : MonoBehaviour
             barraPop.value = popularidade;
 
             //
-            if (tempPopularidade <= 0)
 
+            if (popCunha <= 0)
             {
-                tempPopularidade = 1;
+                popCunha = 0;
             }
-            pop_txtUI.text = (tempPopularidade.ToString()); // + "%");
 
 
-            veloPerdaPop = PlayerPrefs.GetFloat("VeloPerdaPop");
-            veloGanhaPop = PlayerPrefs.GetFloat("VeloGanhaPop");
-
-            popularidade = PlayerPrefs.GetFloat("PopularidadeCunha");
+            pop_txtUI.text = (Mathf.Round(popularidade).ToString()); // + "%");
 
             // ganho ou perda de pop
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 0)
-
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 0)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeCunha") <= 51)
+
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popCunha <= 51)
             {
                 popularidade += Time.deltaTime * veloGanhaPop;
 
             }
 
-            if (PlayerPrefs.GetInt("AlmaHonesta") == 1 && PlayerPrefs.GetFloat("PopularidadeCunha") > 51)
+            if (gameObject.GetComponent<FichaLimpa>().almaHonesta == 1 && popCunha > 51)
             {
                 popularidade -= Time.deltaTime * veloPerdaPop;
 
@@ -769,33 +644,138 @@ public class Popularidade : MonoBehaviour
 
             // min pop
 
-            PlayerPrefs.SetFloat("PopularidadeCunha", popularidade);
 
-            if (PlayerPrefs.GetFloat("PopularidadeCunha") <= 0)
+            if (popularidade <= 0)
             {
-                PlayerPrefs.SetFloat("PopularidadeCunha", 0);
+                popularidade = 0;
 
             }
 
             // max pop
+
+            if (popularidade >= 100)
+            {
+                popularidade = 100;
+            }
+
+
             PlayerPrefs.SetFloat("PopularidadeCunha", popularidade);
+        }
 
-            if (PlayerPrefs.GetFloat("PopularidadeCunha") >= 100)
+    }
+
+    public void IniciaPopPersonagens()
+    {
+        if (PartidoManager.GetComponent<Partido>().LulaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popLula <= 1)
             {
-                PlayerPrefs.SetFloat("PopularidadeCunha", 100);
+                popLula = 50;
             }
 
-
-            // VERIFICAR SE É A PRIMEIRA VEZ QUE JOGA
-
-            if (PlayerPrefs.GetInt("LevelCunha") <= 1 && PlayerPrefs.GetFloat("PopularidadeCunha") <= 1)
-            {
-                PlayerPrefs.SetFloat("PopularidadeCunha", 50);
-
-            }
+            popLula = PlayerPrefs.GetFloat("PopularidadeLula");
+            popularidade = popLula;
 
         }
-    
+
+
+        if (PartidoManager.GetComponent<Partido>().CiroDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popCiro <= 1)
+            {
+                popCiro = 50;
+            }
+
+            popCiro = PlayerPrefs.GetFloat("PopularidadeCiro");
+            popularidade = popCiro;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().BolsoDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popBolso <= 1)
+            {
+                popBolso = 50;
+            }
+
+            popBolso = PlayerPrefs.GetFloat("PopularidadeBolso");
+            popularidade = popBolso;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().DilmaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popDilma <= 1)
+            {
+                popDilma = 50;
+            }
+
+            popDilma = PlayerPrefs.GetFloat("PopularidadeDilma");
+            popularidade = popDilma;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().EneasDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popEneas <= 1)
+            {
+                popEneas = 50;
+            }
+
+            popEneas = PlayerPrefs.GetFloat("PopularidadeEneas");
+            popularidade = popEneas;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().SuplicyDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popSuplicy <= 1)
+            {
+                popSuplicy = 50;
+            }
+
+            popSuplicy = PlayerPrefs.GetFloat("PopularidadeSuplicy");
+            popularidade = popSuplicy;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().HaddardDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popHaddard <= 1)
+            {
+                popHaddard = 50;
+            }
+
+            popHaddard = PlayerPrefs.GetFloat("PopularidadeHaddard");
+            popularidade = popHaddard;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().DodorioDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popDodorio <= 1)
+            {
+                popDodorio = 50;
+            }
+
+            popDodorio = PlayerPrefs.GetFloat("PopularidadeDodorio");
+            popularidade = popDodorio;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().CunhaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && popCunha <= 1)
+            {
+                popCunha = 50;
+            }
+
+            popCunha = PlayerPrefs.GetFloat("PopularidadeCunha");
+            popularidade = popCunha;
+        }
+
     }
 
     public void deletePlayerPrefs()
