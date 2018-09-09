@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /* 
-
 SISTEMA FICHA LIMPA
-
 - é um dos status do jogo
 - é medido em % (de 0 - 100)
 - cada personagem começa com 100% de ficha limpa
@@ -12,11 +10,11 @@ SISTEMA FICHA LIMPA
 - ao atingir 80, desencadeia o método AlmaHonesta (ganho de popularidade com velocidade 0.5)
 - ao atingir 20, desencadeia o método CPI (perda de influencia e popularidade)
 - Com perda de levels (perda de popularidade abaixo de 20) é perdido 10 de ficha limpa
-
 */
 
 
-public class FichaLimpa : MonoBehaviour {
+public class FichaLimpa : MonoBehaviour
+{
 
     public Text ficha_txtUI;
     public float veloPerdaFicha;
@@ -28,25 +26,22 @@ public class FichaLimpa : MonoBehaviour {
     public int almaHonesta;
     //public GameObject tempPersonagem;
     public Slider barraFicha;
+    public float fichaLula, fichaCiro, fichaBolso, fichaDilma, fichaEneas, fichaSuplicy, fichaDodorio, fichaHaddard, fichaCunha;
 
-
+    public GameObject PartidoManager;
 
     void Start()
     {
-        FichaPersonagens();
-        CPI();
-        AlmaHonesta();
-
+      
+        FichaInicial();
     }
 
     void Update()
     {
 
-        FichaPersonagens();
-        CPI();
+        FichaAtualiza();
 
-       // GanhaFicha();
-        MaxMinFicha();
+        CPI();
 
         AlmaHonesta();
 
@@ -56,45 +51,56 @@ public class FichaLimpa : MonoBehaviour {
 
     void MaxMinFicha()
     {
-        if (fichaLimpa <= min_ficha)
+        //MIN E MAX
+
+        if (fichaLimpa <= 0)
         {
-            fichaLimpa = min_ficha;
+            fichaLimpa = 0;
         }
 
-        if (fichaLimpa >= max_ficha)
+        if (fichaLimpa >= 100)
         {
-            fichaLimpa = max_ficha;
-        }
-    }
-
-
-
-    void GanhaFicha()
-    {
-        if (fichaLimpa <= 100)
-        {
-            fichaLimpa += Time.deltaTime * veloPerdaFicha;
+            fichaLimpa = 100;
         }
     }
 
 
 
-    public void FichaPersonagens()
+
+    public void FichaAtualiza()
 
     {
-        veloPerdaFicha = 0.05f;
-        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        MaxMinFicha();
+
+        if (PartidoManager.GetComponent<Partido>().LulaDentroScene == 1)
 
         {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaLula"));
-            fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaLula"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
+            fichaLula = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
 
-            fichaLimpa = PlayerPrefs.GetFloat("FichaLula");
             fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
+
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
+
             PlayerPrefs.SetFloat("FichaLula", fichaLimpa);
 
+        }
+
+
+        if (PartidoManager.GetComponent<Partido>().CiroDentroScene == 1)
+        {
+            fichaCiro = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
+
             // BARRA Ficha
 
             barraFicha.maxValue = max_ficha;
@@ -102,43 +108,19 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            //MIN E MAX
-
-            if (PlayerPrefs.GetFloat("FichaLula") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaLula", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaLula") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaLula", 100);
-            }
-
-
-            // INICIO DO JOGO
-            if (PlayerPrefs.GetInt("LevelLula") <=1 && PlayerPrefs.GetFloat("FichaLula") <= 100 && PlayerPrefs.GetFloat("PopularidadeLula") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaLula", 100);
-            }
-           
-
-
-
-        }
-
-
-        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
-        {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaCiro"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaCiro");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaCiro"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaCiro");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaCiro", fichaLimpa);
 
+        }
+
+
+        if (PartidoManager.GetComponent<Partido>().BolsoDentroScene == 1)
+        {
+            fichaBolso = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
+
             // BARRA Ficha
 
             barraFicha.maxValue = max_ficha;
@@ -146,38 +128,16 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            if (PlayerPrefs.GetFloat("FichaCiro") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaCiro", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaCiro") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaCiro", 100);
-            }
-
-            if (PlayerPrefs.GetInt("LevelCiro") == 0 && PlayerPrefs.GetFloat("FichaCiro") <= 100 && PlayerPrefs.GetFloat("PopularidadeCiro") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaCiro", 100);
-            }
-
-
-
-        }
-
-
-        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
-        {
-
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaBolso"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaBolso"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaBolso");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaBolso", fichaLimpa);
+        }
+
+        if (PartidoManager.GetComponent<Partido>().DilmaDentroScene == 1)
+        {
+            fichaDilma = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
 
             // BARRA Ficha
 
@@ -186,35 +146,16 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            if (PlayerPrefs.GetFloat("FichaBolso") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaBolso", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaBolso") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaBolso", 100);
-            }
-
-            if (PlayerPrefs.GetInt("LevelBolso") == 0 && PlayerPrefs.GetFloat("FichaBolso") <= 100 && PlayerPrefs.GetFloat("PopularidadeBolso") <= 50)
-                {
-                    PlayerPrefs.SetFloat("FichaBolso", 100);
-                }
-
-        }
-
-        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
-        {
-
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaDilma"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaDilma");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaDilma"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaDilma");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaDilma", fichaLimpa);
+        }
+
+        if (PartidoManager.GetComponent<Partido>().SuplicyDentroScene == 1)
+        {
+            fichaSuplicy = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
 
             // BARRA Ficha
 
@@ -223,35 +164,17 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            if (PlayerPrefs.GetFloat("FichaDilma") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaDilma", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaDilma") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaDilma", 100);
-            }
-
-            if (PlayerPrefs.GetInt("LevelDilma") == 0 && PlayerPrefs.GetFloat("FichaDilma") <= 100 && PlayerPrefs.GetFloat("PopularidadeDilma") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaDilma", 100);
-            }
-
-        }
-
-        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
-        {
-            
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaSuplicy"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaSuplicy");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaSuplicy"));
-            ficha_txtUI.text = (tempFicha.ToString()); //) + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaSuplicy");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaSuplicy", fichaLimpa);
+        }
+
+
+        if (PartidoManager.GetComponent<Partido>().EneasDentroScene == 1)
+        {
+            fichaEneas = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
 
             // BARRA Ficha
 
@@ -260,35 +183,16 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            if (PlayerPrefs.GetFloat("FichaSuplicy") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaSuplicy", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaSuplicy") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaSuplicy", 100);
-            }
-
-            if (PlayerPrefs.GetInt("LevelSuplicy") == 0 && PlayerPrefs.GetFloat("FichaSuplicy") <= 100 && PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaSuplicy", 100);
-            }
-
-        }
-  
-
-        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
-        {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaEneas"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaEneas");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaEneas"));
-            ficha_txtUI.text = (tempFicha.ToString());// + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaEneas");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaEneas", fichaLimpa);
+        }
+
+        if (PartidoManager.GetComponent<Partido>().HaddardDentroScene == 1)
+        {
+            fichaHaddard = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
 
             // BARRA Ficha
 
@@ -297,79 +201,16 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            if (PlayerPrefs.GetFloat("FichaEneas") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaEneas", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaEneas") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaEneas", 100);
-            }
-
-            if (PlayerPrefs.GetInt("LevelEneas") == 0 && PlayerPrefs.GetFloat("FichaEneas") <= 100 && PlayerPrefs.GetFloat("PopularidadeEneas") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaEneas", 100);
-            }
-
-        }
-    
-        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
-
-        {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaDodorio"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaDodorio");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaDodorio"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaDodorio");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
-            PlayerPrefs.SetFloat("FichaDodorio", fichaLimpa);
-
-            // BARRA Ficha
-
-            barraFicha.maxValue = max_ficha;
-            barraFicha.value = fichaLimpa;
-
-            //
-
-            //MIN E MAX
-
-            if (PlayerPrefs.GetFloat("FichaDodorio") <= 0)
-            {
-                PlayerPrefs.SetFloat("FichaDodorio", 0);
-            }
-
-            if (PlayerPrefs.GetFloat("FichaDodorio") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaDodorio", 100);
-            }
-
-
-            // INICIO DO JOGO
-            if (PlayerPrefs.GetInt("LevelDodorio") <= 1 && PlayerPrefs.GetFloat("FichaDodorio") <= 100 && PlayerPrefs.GetFloat("PopularidadeDodorio") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaDodorio", 100);
-            }
-
-
-
-
-        }
-    
-        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
-
-        {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaHaddard"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaHaddard");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaHaddard"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaHaddard");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
             PlayerPrefs.SetFloat("FichaHaddard", fichaLimpa);
+        }
+
+        if (PartidoManager.GetComponent<Partido>().DodorioDentroScene == 1)
+        {
+            fichaDodorio = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
 
             // BARRA Ficha
 
@@ -378,72 +219,138 @@ public class FichaLimpa : MonoBehaviour {
 
             //
 
-            //MIN E MAX
+            PlayerPrefs.SetFloat("FichaDodorio", fichaLimpa);
+        }
 
-            if (PlayerPrefs.GetFloat("FichaHaddard") <= 0)
+        if (PartidoManager.GetComponent<Partido>().CunhaDentroScene == 1)
+        {
+            fichaCunha = Mathf.Round(fichaLimpa);
+            ficha_txtUI.text = Mathf.Round(fichaLimpa).ToString(); // + "%");
+
+            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
+
+
+            // BARRA Ficha
+
+            barraFicha.maxValue = max_ficha;
+            barraFicha.value = fichaLimpa;
+
+            //
+
+            PlayerPrefs.SetFloat("FichaCunha", fichaLimpa);
+        }
+    }
+
+    public void FichaInicial()
+    {
+        if (PartidoManager.GetComponent<Partido>().LulaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaLula <= 100 && gameObject.GetComponent<Popularidade>().popLula <= 50)
             {
-                PlayerPrefs.SetFloat("FichaHaddard", 0);
+                fichaLula = 100;
             }
 
-            if (PlayerPrefs.GetFloat("FichaHaddard") >= 100)
-            {
-                PlayerPrefs.SetFloat("FichaHaddard", 100);
-            }
-
-
-            // INICIO DO JOGO
-            if (PlayerPrefs.GetInt("LevelHaddard") <= 1 && PlayerPrefs.GetFloat("FichaHaddard") <= 100 && PlayerPrefs.GetFloat("PopularidadeHaddard") <= 50)
-            {
-                PlayerPrefs.SetFloat("FichaHaddard", 100);
-            }
-
-
-
+            fichaLula = PlayerPrefs.GetFloat("FichaLula");
+            fichaLimpa = fichaLula;
 
         }
-    
-        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
 
+
+        if (PartidoManager.GetComponent<Partido>().CiroDentroScene == 1)
         {
-            PlayerPrefs.SetFloat("FichaNaScene", PlayerPrefs.GetFloat("FichaCunha"));
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaCunha");
-            float tempFicha = Mathf.Round(PlayerPrefs.GetFloat("FichaCunha"));
-            ficha_txtUI.text = (tempFicha.ToString()); // + "%");
-
-            fichaLimpa = PlayerPrefs.GetFloat("FichaCunha");
-            fichaLimpa -= Time.deltaTime * veloPerdaFicha;
-            PlayerPrefs.SetFloat("FichaCunha", fichaLimpa);
-
-            // BARRA Ficha
-
-            barraFicha.maxValue = max_ficha;
-            barraFicha.value = fichaLimpa;
-
-            //
-
-            //MIN E MAX
-
-            if (PlayerPrefs.GetFloat("FichaCunha") <= 0)
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaCiro <= 100 && gameObject.GetComponent<Popularidade>().popCiro <= 50)
             {
-                PlayerPrefs.SetFloat("FichaCunha", 0);
+                fichaCiro = 100;
             }
 
-            if (PlayerPrefs.GetFloat("FichaCunha") >= 100)
+            fichaCiro = PlayerPrefs.GetFloat("FichaCiro");
+            fichaLimpa = fichaCiro;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().BolsoDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaBolso <= 100 && gameObject.GetComponent<Popularidade>().popBolso <= 50)
             {
-                PlayerPrefs.SetFloat("FichaCunha", 100);
+                fichaBolso = 100;
             }
 
+            fichaBolso = PlayerPrefs.GetFloat("FichaBolso");
+            fichaLimpa = fichaBolso;
+        }
 
-            // INICIO DO JOGO
-            if (PlayerPrefs.GetInt("LevelCunha") <= 1 && PlayerPrefs.GetFloat("FichaCunha") <= 100 && PlayerPrefs.GetFloat("PopularidadeCunha") <= 50)
+        if (PartidoManager.GetComponent<Partido>().DilmaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaDilma <= 100 && gameObject.GetComponent<Popularidade>().popDilma <= 50)
             {
-                PlayerPrefs.SetFloat("FichaCunha", 100);
+                fichaDilma = 100;
             }
 
+            fichaDilma = PlayerPrefs.GetFloat("FichaDilma");
+            fichaLimpa = fichaDilma;
+        }
 
+        if (PartidoManager.GetComponent<Partido>().SuplicyDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaSuplicy <= 100 && gameObject.GetComponent<Popularidade>().popSuplicy <= 50)
+            {
+                fichaSuplicy = 100;
+            }
 
+            fichaSuplicy = PlayerPrefs.GetFloat("FichaSuplicy");
+            fichaLimpa = fichaSuplicy;
+        }
+       
+        if (PartidoManager.GetComponent<Partido>().EneasDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaEneas <= 100 && gameObject.GetComponent<Popularidade>().popEneas <= 50)
+            {
+                fichaEneas = 100;
+            }
 
+            fichaEneas = PlayerPrefs.GetFloat("FichaEneas");
+            fichaLimpa = fichaEneas;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().HaddardDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaHaddard <= 100 && gameObject.GetComponent<Popularidade>().popHaddard <= 50)
+            {
+                fichaHaddard = 100;
+            }
+
+            fichaHaddard = PlayerPrefs.GetFloat("FichaHaddard");
+            fichaLimpa = fichaHaddard;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().DodorioDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaDodorio <= 100 && gameObject.GetComponent<Popularidade>().popDodorio <= 50)
+            {
+                fichaDodorio = 100;
+            }
+
+            fichaDodorio = PlayerPrefs.GetFloat("FichaDodorio");
+            fichaLimpa = fichaDodorio;
+        }
+
+        if (PartidoManager.GetComponent<Partido>().CunhaDentroScene == 1)
+        {
+            //VERIFICA SE É PRIMEIRA VEZ
+            if (gameObject.GetComponent<Influencia>().level <= 1 && fichaCunha <= 100 && gameObject.GetComponent<Popularidade>().popCunha <= 50)
+            {
+                fichaCunha = 100;
+            }
+
+            fichaCunha = PlayerPrefs.GetFloat("FichaCunha");
+            fichaLimpa = fichaCunha;
         }
     }
 
@@ -451,34 +358,30 @@ public class FichaLimpa : MonoBehaviour {
     public void CPI()
 
     {
-        if (fichaLimpa <= 30)
+        if (fichaLimpa <= 20)
         {
-            GetComponent<Popularidade>().veloPerdaPop = 0.1f;
-
-            //PlayerPrefs.SetFloat("VeloPerdaPop", 0.1f);
+            //PlayerPrefs.SetFloat("VeloPerdaPop", 0.5f);
+            gameObject.GetComponent<Popularidade>().veloPerdaPop = 0.5f;
 
             cpi = 1;
-            PlayerPrefs.SetInt("CPI", cpi);
-
-            PlayerPrefs.SetInt("AlertaFichaBaixo", 1);
+            //PlayerPrefs.SetInt("CPI", cpi);
 
         }
 
-        if (fichaLimpa > 30)
+        if (fichaLimpa > 20)
         {
-           GetComponent<Popularidade>().veloPerdaPop = 0.07f;
+            gameObject.GetComponent<Popularidade>().veloPerdaPop = 0.1f;
 
-           // PlayerPrefs.SetFloat("VeloPerdaPop", 0.07f);
+           // PlayerPrefs.SetFloat("VeloPerdaPop", 0.1f);
 
             cpi = 0;
 
-            PlayerPrefs.SetInt("CPI", cpi);
+            //PlayerPrefs.SetInt("CPI", cpi);
 
 
         }
 
-        PlayerPrefs.SetFloat("VeloPerdaPop", PlayerPrefs.GetFloat("VeloPerdaPop"));
-        PlayerPrefs.SetInt("AlertaFichaBaixo", 0);
+      //  PlayerPrefs.SetFloat("VeloPerdaPop", PlayerPrefs.GetFloat("VeloPerdaPop"));
 
 
 
@@ -489,33 +392,30 @@ public class FichaLimpa : MonoBehaviour {
     {
         if (fichaLimpa >= 90)
         {
-            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 51)
+            if (gameObject.GetComponent<Popularidade>().popScene < 51)
             {
-                PlayerPrefs.SetFloat("VeloGanhaPop", 0.2f);
+              
+                gameObject.GetComponent<Popularidade>().veloGanhaPop = 0.5f;
 
             }
-            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+            if (gameObject.GetComponent<Popularidade>().popScene >= 51)
             {
-                PlayerPrefs.SetFloat("VeloGanhaPop", 0f);
+                gameObject.GetComponent<Popularidade>().veloGanhaPop = 0f;
 
             }
 
             almaHonesta = 1;
-            PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
-            PlayerPrefs.SetInt("AlertaFichaAlto", 1);
-
 
         }
-        if (fichaLimpa < 90 && fichaLimpa > 30)
+
+        if (fichaLimpa < 90 && fichaLimpa > 20)
         {
-            PlayerPrefs.SetFloat("VeloGanhaPop", 0);
+            gameObject.GetComponent<Popularidade>().veloGanhaPop = 0f;
+
             almaHonesta = 0;
-            PlayerPrefs.SetInt("AlmaHonesta", almaHonesta);
-            PlayerPrefs.SetInt("AlertaFichaAlto", 0);
 
         }
 
-        PlayerPrefs.SetFloat("VeloGanhaPop", PlayerPrefs.GetFloat("VeloGanhaPop"));
     }
 
     public void deletePlayerPrefs()
@@ -524,5 +424,3 @@ public class FichaLimpa : MonoBehaviour {
 
     }
 }
-
-
