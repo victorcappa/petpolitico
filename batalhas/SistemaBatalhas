@@ -38,7 +38,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public GameObject painelPartido, fecharPainel, canvasBatalha, canvasGame;
 
-
+    public GameObject mainLula, mainCiro, mainBolso, mainDilma, mainSuplicy, mainEneas, mainDodorio, mainHaddard, mainCunha;
     public float popLula, popCiro, popBolso, popDilma, popSuplicy, popEneas, popDodorio, popHaddard, popCunha;
     public Button LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido, DodorioPartido, HaddardPartido, CunhaPartido;
     public GameObject LulaScene, CiroScene, BolsoScene, DilmaScene, SuplicyScene, EneasScene, DodorioScene, HaddardScene, CunhaScene;
@@ -140,6 +140,10 @@ public class SistemaBatalhas : MonoBehaviour
 
     public bool moveCamera;
 
+    // ---- CANDIDATO ---- //
+
+    string candidatoAtual;
+
     public enum BattleStates
     {
         START,
@@ -183,7 +187,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
 
         HabilitaBotoes();
-        PopPersonagens();
+       // PopPersonagens();
 
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
@@ -214,6 +218,10 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void Start()
     {
+        CandidatoDessaBatalha();
+
+        PopPersonagensInicial();
+        //GetComponent<AlugaAtaque>().alugado = false;
         currentState = BattleStates.START;
 
         HabilitaBotoes();
@@ -238,7 +246,7 @@ public class SistemaBatalhas : MonoBehaviour
 
 
 
-        popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
+       // popularidadePlayer = PlayerPrefs.GetFloat("PopularidadeNaScene");
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
         barraPop.maxValue = 100;
@@ -279,7 +287,10 @@ public class SistemaBatalhas : MonoBehaviour
 
     void Update()
     {
+
+        print("QUEM É CANDIDATO: " + candidatoAtual);
         //PlayerPrefs.DeleteAll();
+        DireitaEsquerda();
 
         print(currentState);
 
@@ -307,12 +318,14 @@ public class SistemaBatalhas : MonoBehaviour
         {
             StartCoroutine(ShakeCamera());
             StartCoroutine(PiscaInimigo());
+            Handheld.Vibrate();
             moveCamera = false;
         }
 
         if (currentState == BattleStates.ESCOLHAINIMIGO && moveCamera == true)
         {
             StartCoroutine(ShakeCamera());
+            Handheld.Vibrate();
             moveCamera = false;
         }
 
@@ -5651,55 +5664,56 @@ public class SistemaBatalhas : MonoBehaviour
         if (PlayerPrefs.GetInt("LulaDentroPartido") == 1 && ganhouInfluLula == 0)
         {
 
-            PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + influ);
+            // PlayerPrefs.SetFloat("InfluLula", PlayerPrefs.GetFloat("InfluLula") + influ);
+            mainLula.GetComponent<Influencia>().influLula += influ;
             ganhouInfluLula = 1;
         }
 
         if (PlayerPrefs.GetInt("CiroDentroPartido") == 1 && ganhouInfluCiro == 0)
         {
-            PlayerPrefs.SetFloat("InfluCiro", PlayerPrefs.GetFloat("InfluCiro") + influ);
+            mainCiro.GetComponent<Influencia>().influCiro += influ;
             ganhouInfluCiro = 1;
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1 && ganhouInfluBolso == 0)
         {
-            PlayerPrefs.SetFloat("InfluBolso", PlayerPrefs.GetFloat("InfluBolso") + influ);
+            mainBolso.GetComponent<Influencia>().influBolso += influ;
             ganhouInfluBolso = 1;
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroPartido") == 1 && ganhouInfluDilma == 0)
         {
-            PlayerPrefs.SetFloat("InfluDilma", PlayerPrefs.GetFloat("InfluDilma") + influ);
+            mainDilma.GetComponent<Influencia>().influDilma += influ;
             ganhouInfluDilma = 1;
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroPartido") == 1 && ganhouInfluSuplicy == 0)
         {
-            PlayerPrefs.SetFloat("InfluSuplicy", PlayerPrefs.GetFloat("InfluSuplicy") + influ);
+            mainSuplicy.GetComponent<Influencia>().influSuplicy += influ;
             ganhouInfluSuplicy = 1;
         }
 
         if (PlayerPrefs.GetInt("EneasDentroPartido") == 1 && ganhouInfluEneas == 0)
         {
-            PlayerPrefs.SetFloat("InfluEneas", PlayerPrefs.GetFloat("InfluEneas") + influ);
+            mainEneas.GetComponent<Influencia>().influEneas += influ;
             ganhouInfluEneas = 1;
         }
 
         if (PlayerPrefs.GetInt("DodorioDentroPartido") == 1 && ganhouInfluDodorio == 0)
         {
-            PlayerPrefs.SetFloat("InfluDodorio", PlayerPrefs.GetFloat("InfluDodorio") + influ);
+            mainDodorio.GetComponent<Influencia>().influDodorio += influ;
             ganhouInfluDodorio = 1;
         }
 
         if (PlayerPrefs.GetInt("HaddardDentroPartido") == 1 && ganhouInfluHaddard == 0)
         {
-            PlayerPrefs.SetFloat("InfluHaddard", PlayerPrefs.GetFloat("InfluHaddard") + influ);
+            mainHaddard.GetComponent<Influencia>().influHaddard += influ;
             ganhouInfluHaddard = 1;
         }
 
         if (PlayerPrefs.GetInt("CunhaDentroPartido") == 1 && ganhouInfluCunha == 0)
         {
-            PlayerPrefs.SetFloat("InfluCunha", PlayerPrefs.GetFloat("InfluCunha") + influ);
+            mainCunha.GetComponent<Influencia>().influCunha += influ;
             ganhouInfluCunha = 1;
         }
     }
@@ -5716,7 +5730,53 @@ public class SistemaBatalhas : MonoBehaviour
     }
 
    
+    public void CandidatoDessaBatalha()
+    {
+        if (PlayerPrefs.GetString("Candidato") == "Lula")
+        {
+            candidatoAtual = "Lula";
+        }
 
+        if (PlayerPrefs.GetString("Candidato") == "Bolso")
+        {
+            candidatoAtual = "Bolso";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Ciro")
+        {
+            candidatoAtual = "Ciro";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Dilma")
+        {
+            candidatoAtual = "Dilma";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+        {
+            candidatoAtual = "Suplicy";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Eneas")
+        {
+            candidatoAtual = "Eneas";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+        {
+            candidatoAtual = "Dodorio";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Haddard")
+        {
+            candidatoAtual = "Haddard";
+        }
+
+        if (PlayerPrefs.GetString("Candidato") == "Cunha")
+        {
+            candidatoAtual = "Cunha";
+        }
+    }
 
     public void Insignias()
     {
@@ -5730,47 +5790,47 @@ public class SistemaBatalhas : MonoBehaviour
                     jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
                     GanhaInflu(150f);
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (candidatoAtual == "Lula")
                     {
                         PlayerPrefs.SetInt("LulaVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (candidatoAtual == "Ciro")
                     {
                         PlayerPrefs.SetInt("CiroVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (candidatoAtual == "Bolso")
                     {
                         PlayerPrefs.SetInt("BolsoVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (candidatoAtual == "Dilma")
                     {
                         PlayerPrefs.SetInt("DilmaVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (candidatoAtual == "Suplicy")
                     {
                         PlayerPrefs.SetInt("SuplicyVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (candidatoAtual == "Eneas")
                     {
                         PlayerPrefs.SetInt("EneasVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (candidatoAtual == "Dodorio")
                     {
                         PlayerPrefs.SetInt("DodorioVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (candidatoAtual== "Haddard")
                     {
                         PlayerPrefs.SetInt("HaddardVereador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (candidatoAtual == "Cunha")
                     {
                         PlayerPrefs.SetInt("CunhaVereador", 1);
                     }
@@ -5794,47 +5854,47 @@ public class SistemaBatalhas : MonoBehaviour
 
                     // o candidato é definido na classe ConvocaEleicoes
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (candidatoAtual == "Lula")
                     {
                         PlayerPrefs.SetInt("LulaDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (candidatoAtual == "Ciro")
                     {
                         PlayerPrefs.SetInt("CiroDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (candidatoAtual == "Bolso")
                     {
                         PlayerPrefs.SetInt("BolsoDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (candidatoAtual == "Dilma")
                     {
                         PlayerPrefs.SetInt("DilmaDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (candidatoAtual == "Suplicy")
                     {
                         PlayerPrefs.SetInt("SuplicyDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (candidatoAtual == "Eneas")
                     {
                         PlayerPrefs.SetInt("EneasDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (candidatoAtual == "Dodorio")
                     {
                         PlayerPrefs.SetInt("DodorioDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (candidatoAtual == "Haddard")
                     {
                         PlayerPrefs.SetInt("HaddardDeputado", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (candidatoAtual == "Cunha")
                     {
                         PlayerPrefs.SetInt("CunhaDeputado", 1);
                     }
@@ -5856,47 +5916,47 @@ public class SistemaBatalhas : MonoBehaviour
 
                     // o candidato é definido na classe ConvocaEleicoes
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (candidatoAtual == "Lula")
                     {
                         PlayerPrefs.SetInt("LulaPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (candidatoAtual == "Ciro")
                     {
                         PlayerPrefs.SetInt("CiroPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (candidatoAtual == "Bolso")
                     {
                         PlayerPrefs.SetInt("BolsoPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (candidatoAtual == "Dilma")
                     {
                         PlayerPrefs.SetInt("DilmaPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (candidatoAtual == "Suplicy")
                     {
                         PlayerPrefs.SetInt("SuplicyPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (candidatoAtual == "Eneas")
                     {
                         PlayerPrefs.SetInt("EneasPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (candidatoAtual == "Dodorio")
                     {
                         PlayerPrefs.SetInt("DodorioPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (candidatoAtual == "Haddard")
                     {
                         PlayerPrefs.SetInt("HaddardPrefeito", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (candidatoAtual == "Cunha")
                     {
                         PlayerPrefs.SetInt("CunhaPrefeito", 1);
                     }
@@ -5917,47 +5977,47 @@ public class SistemaBatalhas : MonoBehaviour
                     GanhaInflu(220f);
                     // o candidato é definido na classe ConvocaEleicoes
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (candidatoAtual == "Lula")
                     {
                         PlayerPrefs.SetInt("LulaGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (candidatoAtual == "Ciro")
                     {
                         PlayerPrefs.SetInt("CiroGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (candidatoAtual == "Bolso")
                     {
                         PlayerPrefs.SetInt("BolsoGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (candidatoAtual == "Dilma")
                     {
                         PlayerPrefs.SetInt("DilmaGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (candidatoAtual == "Suplicy")
                     {
                         PlayerPrefs.SetInt("SuplicyGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (candidatoAtual == "Eneas")
                     {
                         PlayerPrefs.SetInt("EneasGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (candidatoAtual == "Dodorio")
                     {
                         PlayerPrefs.SetInt("DodorioGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (candidatoAtual == "Haddard")
                     {
                         PlayerPrefs.SetInt("HaddardGovernador", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (candidatoAtual == "Cunha")
                     {
                         PlayerPrefs.SetInt("CunhaGovernador", 1);
                     }
@@ -5978,47 +6038,47 @@ public class SistemaBatalhas : MonoBehaviour
                     GanhaInflu(300f);
                     // o candidato é definido na classe ConvocaEleicoes
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (candidatoAtual == "Lula")
                     {
                         PlayerPrefs.SetInt("LulaPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (candidatoAtual == "Ciro")
                     {
                         PlayerPrefs.SetInt("CiroPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (candidatoAtual == "Bolso")
                     {
                         PlayerPrefs.SetInt("BolsoPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (candidatoAtual == "Dilma")
                     {
                         PlayerPrefs.SetInt("DilmaPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (candidatoAtual == "Suplicy")
                     {
                         PlayerPrefs.SetInt("SuplicyPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (candidatoAtual == "Eneas")
                     {
                         PlayerPrefs.SetInt("EneasPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (candidatoAtual == "Dodorio")
                     {
                         PlayerPrefs.SetInt("DodorioPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (candidatoAtual == "Haddard")
                     {
                         PlayerPrefs.SetInt("HaddardPresidente", 1);
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (candidatoAtual == "Cunha")
                     {
                         PlayerPrefs.SetInt("CunhaPresidente", 1);
                     }
@@ -6373,6 +6433,9 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
     }
+
+
+    // ----------- playerprefs ---------- //
 
 } // FIM DA CLASSE
 
