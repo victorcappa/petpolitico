@@ -15,20 +15,24 @@ public class Cargos : MonoBehaviour {
     int indiceCargoPersonagem;
     public string cargo;
     public Text cargo_txtUI;
-
+    public int maxInflu, maxInfluLula;
     public GameObject Candidato, Vereador, Deputado, Prefeito, Governador, Presidente;
+    public GameObject PartidoManager; //GameManager;
+    public string cargoLula, cargoCiro, cargoBolso, cargoDilma, cargoSuplicy, cargoEneas, cargoDodorio, cargoHaddard, cargoCunha;
 
-
-	void Start () {
+	void Start () 
+    {
         CargosPersonagens();
         Insignias();
-
+        maxInflu = 70;
 		
 	}
 	
 	void Update ()
 
     {
+        Insignias();
+
         CargosPersonagens();
 	}
 
@@ -36,7 +40,7 @@ public class Cargos : MonoBehaviour {
     {
         // --------------- CARGO LULA --------------- //
 
-        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
+        if (PartidoManager.GetComponent<Partido>().LulaDentroScene == 1)
         {
             Insignias();
 
@@ -44,29 +48,24 @@ public class Cargos : MonoBehaviour {
             cargo_txtUI.text = cargo;
 
             // MUDAR DE CARGO LULA
-
-            if (PlayerPrefs.GetInt("LevelLula") < 3)
+            if (gameObject.GetComponent<Influencia>().levelLula < 3)
             {
-                PlayerPrefs.SetString("CargoLula", "Candidato");
-                cargo = PlayerPrefs.GetString("CargoLula");
-                PlayerPrefs.SetInt("MaxInflu", 70);
-
+                cargoLula = "Candidato";
+                cargo = cargoLula;
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
         
 
-            if (PlayerPrefs.GetInt("LevelLula") >= 3 && PlayerPrefs.GetInt("LevelLula") < 6)
+            if (gameObject.GetComponent<Influencia>().levelLula  >= 3 && gameObject.GetComponent<Influencia>().levelLula  < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100; 
 
                 if (PlayerPrefs.GetInt("LulaVereador") == 1)
                 {
-                    PlayerPrefs.SetString("CargoLula", "Vereador");
-                    cargo = PlayerPrefs.GetString("CargoLula");
-                    PlayerPrefs.SetInt("PassouCargoLula", 1); // para verificar se ele já passou para esse cargo
-                    PlayerPrefs.SetInt("PassouCargo", 1);
-
+                    cargoLula = "Vereador";
+                    cargo = cargoLula;
                     Vereador.gameObject.SetActive(true);
 
                 }
@@ -74,68 +73,60 @@ public class Cargos : MonoBehaviour {
               
 
             }
-            if (PlayerPrefs.GetInt("LevelLula") >= 6 && PlayerPrefs.GetInt("LevelLula") < 10)
+            if (gameObject.GetComponent<Influencia>().levelLula >= 6 && gameObject.GetComponent<Influencia>().levelLula < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("LulaDeputado") == 1)
                 {
-                    PlayerPrefs.SetString("CargoLula", "Deputado");
-                    cargo = PlayerPrefs.GetString("CargoLula");
-                    PlayerPrefs.SetInt("PassouCargoLula", 1);
-                    PlayerPrefs.SetInt("PassouCargo", 1);
+                    cargoLula = "Deputado";
+                    cargo = cargoLula;
                     Deputado.gameObject.SetActive(true);
 
                 }
 
-
-
-
             }
 
-            if (PlayerPrefs.GetInt("LevelLula") >= 10 && PlayerPrefs.GetInt("LevelLula") < 20)
+            if (gameObject.GetComponent<Influencia>().levelLula >= 10 && gameObject.GetComponent<Influencia>().levelLula < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("LulaPrefeito") == 1)
                 {
-                    PlayerPrefs.SetString("CargoLula", "Prefeito");
-                    cargo = PlayerPrefs.GetString("CargoLula");
-                    PlayerPrefs.SetInt("PassouCargoLula", 1);
-                    PlayerPrefs.SetInt("PassouCargo", 1);
+                    cargoLula = "Prefeito";
+                    cargo = cargoLula;
                     Prefeito.gameObject.SetActive(true);
 
                 }
 
             }
 
-            if (PlayerPrefs.GetInt("LevelLula") >= 20 && PlayerPrefs.GetInt("LevelLula") < 30)
+            if (gameObject.GetComponent<Influencia>().levelLula >= 20 && gameObject.GetComponent<Influencia>().levelLula < 30)
+                
                 { 
-                    PlayerPrefs.SetInt("MaxInflu", 180);
+                
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("LulaGovernador") == 1)
-                    {
-                        PlayerPrefs.SetString("CargoLula", "Governador");
-                        cargo = PlayerPrefs.GetString("CargoLula");
-                        PlayerPrefs.SetInt("PassouCargoLula", 1);
-                    PlayerPrefs.SetInt("PassouCargo", 1);
+                    
+                   {
+                    cargoLula = "Governador";
+                    cargo = cargoLula;
                     Governador.gameObject.SetActive(true);
 
-                }
+                    }
 
              
                 }
 
-            if (PlayerPrefs.GetInt("LevelLula") >= 30)
+            if (gameObject.GetComponent<Influencia>().levelLula >= 30)
                 {
-                    PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("LulaPresidente") == 1)
                 {
-                    PlayerPrefs.SetString("CargoLula", "Presidente");
-                    cargo = PlayerPrefs.GetString("CargoLula");
-                    PlayerPrefs.SetInt("PassouCargoLula", 1);
-                    PlayerPrefs.SetInt("PassouCargo", 1);
+                    cargoLula = "Presidente";
+                    cargo = cargoLula;
                     Presidente.gameObject.SetActive(true);
 
                 }
@@ -164,7 +155,8 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoCiro", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoCiro");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                //PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -172,7 +164,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 3 && PlayerPrefs.GetInt("LevelCiro") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                //PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("CiroVereador") == 1)
                 {
@@ -188,7 +181,8 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelCiro") >= 6 && PlayerPrefs.GetInt("LevelCiro") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                //PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("CiroDeputado") == 1)
                 {
@@ -206,7 +200,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 10 && PlayerPrefs.GetInt("LevelCiro") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                //PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("CiroPrefeito") == 1)
                 {
@@ -223,7 +218,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 20 && PlayerPrefs.GetInt("LevelCiro") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                //PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("CiroGovernador") == 1)
                 {
@@ -240,7 +236,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCiro") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+               // PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("CiroPresidente") == 1)
                 {
@@ -279,7 +276,9 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoBolso", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoBolso");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
+
+                //PlayerPrefs.SetInt("MaxInflu", 70);
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -287,7 +286,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 3 && PlayerPrefs.GetInt("LevelBolso") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                //PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("BolsoVereador") == 1)
                 {
@@ -303,7 +303,8 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelBolso") >= 6 && PlayerPrefs.GetInt("LevelBolso") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                //PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("BolsoDeputado") == 1)
                 {
@@ -321,7 +322,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 10 && PlayerPrefs.GetInt("LevelBolso") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                //PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("BolsoPrefeito") == 1)
                 {
@@ -338,7 +340,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 20 && PlayerPrefs.GetInt("LevelBolso") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+               // PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("BolsoGovernador") == 1)
                 {
@@ -354,7 +357,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelBolso") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                //PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("BolsoPresidente") == 1)
                 {
@@ -386,7 +390,9 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoDilma", "Candidata");
                 cargo = PlayerPrefs.GetString("CargoDilma");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
+
+                //PlayerPrefs.SetInt("MaxInflu", 70);
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -394,7 +400,9 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDilma") >= 3 && PlayerPrefs.GetInt("LevelDilma") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
+
+                //PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
 
                 if (PlayerPrefs.GetInt("DilmaVereador") == 1)
                 {
@@ -410,7 +418,9 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelDilma") >= 6 && PlayerPrefs.GetInt("LevelDilma") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
+
+                //PlayerPrefs.SetInt("MaxInflu", 120);
 
                 if (PlayerPrefs.GetInt("DilmaDeputado") == 1)
                 {
@@ -427,7 +437,9 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDilma") >= 10 && PlayerPrefs.GetInt("LevelDilma") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
+
+                //PlayerPrefs.SetInt("MaxInflu", 150);
 
                 if (PlayerPrefs.GetInt("DilmaPrefeito") == 1)
                 {
@@ -444,7 +456,9 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDilma") >= 20 && PlayerPrefs.GetInt("LevelDilma") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
+
+                //PlayerPrefs.SetInt("MaxInflu", 180);
 
                 if (PlayerPrefs.GetInt("DilmaGovernador") == 1)
                 {
@@ -494,7 +508,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoSuplicy", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoSuplicy");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -502,7 +516,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelSuplicy") >= 3 && PlayerPrefs.GetInt("LevelSuplicy") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("SuplicyVereador") == 1)
                 {
@@ -518,7 +532,7 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelSuplicy") >= 6 && PlayerPrefs.GetInt("LevelSuplicy") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("SuplicyDeputado") == 1)
                 {
@@ -535,7 +549,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelSuplicy") >= 10 && PlayerPrefs.GetInt("LevelSuplicy") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("SuplicyPrefeito") == 1)
                 {
@@ -552,7 +566,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelSuplicy") >= 20 && PlayerPrefs.GetInt("LevelSuplicy") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("SuplicyGovernador") == 1)
                 {
@@ -569,7 +583,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelSuplicy") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("SuplicyPresidente") == 1)
                 {
@@ -600,7 +614,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoEneas", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoEneas");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -608,7 +622,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelEneas") >= 3 && PlayerPrefs.GetInt("LevelEneas") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 700;
 
                 if (PlayerPrefs.GetInt("EneasVereador") == 1)
                 {
@@ -625,7 +639,7 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelEneas") >= 6 && PlayerPrefs.GetInt("LevelEneas") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("EneasDeputado") == 1)
                 {
@@ -643,7 +657,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelEneas") >= 10 && PlayerPrefs.GetInt("LevelEneas") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("EneasPrefeito") == 1)
                 {
@@ -660,7 +674,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelEneas") >= 20 && PlayerPrefs.GetInt("LevelEneas") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("EneasGovernador") == 1)
                 {
@@ -677,7 +691,8 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelEneas") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
+
 
                 if (PlayerPrefs.GetInt("EneasPresidente") == 1)
                 {
@@ -709,7 +724,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoDodorio", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoDodorio");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -717,7 +732,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDodorio") >= 3 && PlayerPrefs.GetInt("LevelDodorio") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("DodorioVereador") == 1)
                 {
@@ -733,7 +748,7 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelDodorio") >= 6 && PlayerPrefs.GetInt("LevelDodorio") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("DodorioDeputado") == 1)
                 {
@@ -749,7 +764,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDodorio") >= 10 && PlayerPrefs.GetInt("LevelDodorio") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("DodorioPrefeito") == 1)
                 {
@@ -766,7 +781,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDodorio") >= 20 && PlayerPrefs.GetInt("LevelDodorio") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("DodorioGovernador") == 1)
                 {
@@ -782,7 +797,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelDodorio") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("DodorioPresidente") == 1)
                 {
@@ -814,7 +829,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoHaddard", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoHaddard");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -822,7 +837,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelHaddard") >= 3 && PlayerPrefs.GetInt("LevelHaddard") < 6 )
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("HaddardVereador") == 1)
                 {
@@ -839,7 +854,7 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelHaddard") >= 6 && PlayerPrefs.GetInt("LevelHaddard") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("HaddardDeputado") == 1)
                 {
@@ -857,7 +872,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelHaddard") >= 10 && PlayerPrefs.GetInt("LevelHaddard") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("HaddardPrefeito") == 1)
                 {
@@ -874,7 +889,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelHaddard") >= 20 && PlayerPrefs.GetInt("LevelHaddard") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("HaddardGovernador") == 1)
                 {
@@ -891,7 +906,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelHaddard") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("HaddardPresidente") == 1)
                 {
@@ -923,7 +938,7 @@ public class Cargos : MonoBehaviour {
             {
                 PlayerPrefs.SetString("CargoCunha", "Candidato");
                 cargo = PlayerPrefs.GetString("CargoCunha");
-                PlayerPrefs.SetInt("MaxInflu", 70);
+                maxInflu = 70;
                 Candidato.gameObject.SetActive(true);
 
             }
@@ -931,7 +946,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCunha") >= 3 && PlayerPrefs.GetInt("LevelCunha") < 6)
             {
-                PlayerPrefs.SetInt("MaxInflu", 100); // mesmo que a pop não seja >=51, o maxInflu deve ser esse
+                maxInflu = 100;
 
                 if (PlayerPrefs.GetInt("CunhaVereador") == 1)
                 {
@@ -948,7 +963,7 @@ public class Cargos : MonoBehaviour {
             }
             if (PlayerPrefs.GetInt("LevelCunha") >= 6 && PlayerPrefs.GetInt("LevelCunha") < 10)
             {
-                PlayerPrefs.SetInt("MaxInflu", 120);
+                maxInflu = 120;
 
                 if (PlayerPrefs.GetInt("CunhaDeputado") == 1)
                 {
@@ -966,7 +981,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCunha") <= 10 && PlayerPrefs.GetInt("LevelCunha") < 20)
             {
-                PlayerPrefs.SetInt("MaxInflu", 150);
+                maxInflu = 150;
 
                 if (PlayerPrefs.GetInt("CunhaPrefeito") == 1)
                 {
@@ -983,7 +998,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCunha") <= 20 && PlayerPrefs.GetInt("LevelCunha") < 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 180);
+                maxInflu = 180;
 
                 if (PlayerPrefs.GetInt("CunhaGovernador") == 1)
                 {
@@ -999,7 +1014,7 @@ public class Cargos : MonoBehaviour {
 
             if (PlayerPrefs.GetInt("LevelCunha") >= 30)
             {
-                PlayerPrefs.SetInt("MaxInflu", 200);
+                maxInflu = 200;
 
                 if (PlayerPrefs.GetInt("CunhaPresidente") == 1)
                 {
@@ -1083,4 +1098,6 @@ public class Cargos : MonoBehaviour {
         PlayerPrefs.DeleteAll();
 
     }
+
+
 }
