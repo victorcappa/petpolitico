@@ -16,12 +16,14 @@ public class ConvocaEleicoes : MonoBehaviour
 
     public void Start()
     {
+
         tocouJornal = false;
     }
     public void Update()
     {
         MostraFoto();
         Eleicoes();
+
 
     }
 
@@ -215,11 +217,11 @@ public class ConvocaEleicoes : MonoBehaviour
 
     public void Eleicoes()
     {
-        if (PlayerPrefs.GetInt("LevelIndice") != 3 || PlayerPrefs.GetInt("LevelIndice") != 6 || PlayerPrefs.GetInt("LevelIndice") != 10 || PlayerPrefs.GetInt("LevelIndice") != 20 || PlayerPrefs.GetInt("LevelIndice") != 30)
+        /*if (PlayerPrefs.GetInt("LevelIndice") != 3 || PlayerPrefs.GetInt("LevelIndice") != 6 || PlayerPrefs.GetInt("LevelIndice") != 10 || PlayerPrefs.GetInt("LevelIndice") != 20 || PlayerPrefs.GetInt("LevelIndice") != 30)
         {
             jornalEleicoes.gameObject.SetActive(false);
 
-        }
+        }*/
      
         if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
         {
@@ -229,7 +231,7 @@ public class ConvocaEleicoes : MonoBehaviour
 
        
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 3)
+        if (PlayerPrefs.GetInt("LevelIndice") >= 3 && PlayerPrefs.GetInt("LevelIndice") < 6 && PlayerPrefs.GetInt(PlayerPrefs.GetString("Candidato") + "Vereador") == 0)
         {
             
          
@@ -258,7 +260,7 @@ public class ConvocaEleicoes : MonoBehaviour
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 6)
+        if (PlayerPrefs.GetInt("LevelIndice") >= 6 && PlayerPrefs.GetInt("LevelIndice") < 10 && PlayerPrefs.GetInt(PlayerPrefs.GetString("Candidato") + "Deputado") == 0)
         {
            
 
@@ -289,7 +291,7 @@ public class ConvocaEleicoes : MonoBehaviour
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 10)
+        if (PlayerPrefs.GetInt("LevelIndice") >= 10 && PlayerPrefs.GetInt("LevelIndice") < 20 && PlayerPrefs.GetInt(PlayerPrefs.GetString("Candidato") + "Prefeito") == 0)
         {
 
             if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
@@ -314,7 +316,7 @@ public class ConvocaEleicoes : MonoBehaviour
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 20)
+        if (PlayerPrefs.GetInt("LevelIndice") >= 20 && PlayerPrefs.GetInt("LevelIndice") < 30 && PlayerPrefs.GetInt(PlayerPrefs.GetString("Candidato") + "Governador") == 0)
         {
             
 
@@ -340,7 +342,7 @@ public class ConvocaEleicoes : MonoBehaviour
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 30)
+        if (PlayerPrefs.GetInt("LevelIndice") >= 30 && PlayerPrefs.GetInt(PlayerPrefs.GetString("Candidato") + "Presidente") == 0)
         {
           
            
