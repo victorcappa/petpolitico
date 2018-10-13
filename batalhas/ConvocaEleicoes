@@ -5,17 +5,26 @@ using UnityEngine.UI;
 public class ConvocaEleicoes : MonoBehaviour
 {
 
-    public GameObject Lula, Ciro, Bolso, Dilma, Suplicy, Eneas, Dodorio;
+    public GameObject Lula, Ciro, Bolso, Dilma, Suplicy, Eneas, Dodorio, Haddard, Cunha, Daci;
     public GameObject jornalEleicoes, aumentePop;
     public Text tipoEleicaoTxt, qualPop, aumentePopTxt;
     public Button participeBtn;
+    public AudioSource Jornal;
+    bool tocouJornal;
 
+
+
+    public void Start()
+    {
+        tocouJornal = false;
+    }
     public void Update()
     {
         MostraFoto();
         Eleicoes();
 
     }
+
 
     public void MostraFoto()
     {
@@ -29,6 +38,11 @@ public class ConvocaEleicoes : MonoBehaviour
             Suplicy.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Lula");
 
         }
 
@@ -42,6 +56,12 @@ public class ConvocaEleicoes : MonoBehaviour
             Suplicy.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Ciro");
+
         }
 
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
@@ -54,6 +74,12 @@ public class ConvocaEleicoes : MonoBehaviour
             Suplicy.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Bolso");
+
         }
 
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
@@ -66,6 +92,12 @@ public class ConvocaEleicoes : MonoBehaviour
             Suplicy.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Dilma");
+
         }
 
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
@@ -78,9 +110,15 @@ public class ConvocaEleicoes : MonoBehaviour
             Lula.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Suplicy");
+
         }
 
-        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
+        if (PlayerPrefs.GetInt("EneasDentroScene") == 1) 
         {
             Eneas.gameObject.SetActive(true);
 
@@ -88,8 +126,14 @@ public class ConvocaEleicoes : MonoBehaviour
             Bolso.gameObject.SetActive(false);
             Dilma.gameObject.SetActive(false);
             Suplicy.gameObject.SetActive(false);
-            Eneas.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
             Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Eneas");
+
         }
 
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
@@ -102,57 +146,228 @@ public class ConvocaEleicoes : MonoBehaviour
             Suplicy.gameObject.SetActive(false);
             Eneas.gameObject.SetActive(false);
             Lula.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+            PlayerPrefs.SetString("Candidato", "Dodorio");
+
+        }
+    
+        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
+        {
+            Haddard.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+
+            PlayerPrefs.SetString("Candidato", "Haddard");
+
+        }
+
+        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
+        {
+            Cunha.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Daci.gameObject.SetActive(false);
+
+
+            PlayerPrefs.SetString("Candidato", "Cunha");
+
+        }
+
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            Daci.gameObject.SetActive(true);
+
+            Ciro.gameObject.SetActive(false);
+            Bolso.gameObject.SetActive(false);
+            Dilma.gameObject.SetActive(false);
+            Suplicy.gameObject.SetActive(false);
+            Eneas.gameObject.SetActive(false);
+            Lula.gameObject.SetActive(false);
+            Dodorio.gameObject.SetActive(false);
+            Haddard.gameObject.SetActive(false);
+            Cunha.gameObject.SetActive(false);
+
+
+            PlayerPrefs.SetString("Candidato", "Daci");
+
         }
     }
 
+
     public void Eleicoes()
     {
-        if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        if (PlayerPrefs.GetInt("LevelIndice") != 3 || PlayerPrefs.GetInt("LevelIndice") != 6 || PlayerPrefs.GetInt("LevelIndice") != 10 || PlayerPrefs.GetInt("LevelIndice") != 20 || PlayerPrefs.GetInt("LevelIndice") != 30)
+        {
+            jornalEleicoes.gameObject.SetActive(false);
+
+        }
+     
+        if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
         {
             qualPop.text = "Sua popularidade é maior que 51%  Participe das Eleições!";
             participeBtn.interactable = true;
         }
 
-        if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 51)
+       
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 3)
         {
-            aumentePop.gameObject.SetActive(true);
-            aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
-        }
+            
+         
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 3 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
-        {
-            jornalEleicoes.GetComponent<Canvas>().enabled = true;
-            tipoEleicaoTxt.text = "Eleições para Vereador";
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
+            {
+                jornalEleicoes.gameObject.SetActive(true);
+                tipoEleicaoTxt.text = "Eleições para Vereador";
 
-        }
+                if (tocouJornal == false)
+                {
+                    Jornal.Play();
+                    tocouJornal = true;
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 6 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
-        {
-            jornalEleicoes.GetComponent<Canvas>().enabled = true;
-            tipoEleicaoTxt.text = "Eleições para Deputado";
+                }
+            }
 
-        }
+           
+           
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 10 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
-        {
-            jornalEleicoes.GetComponent<Canvas>().enabled = true;
-            tipoEleicaoTxt.text = "Eleições para Prefeito";
-
-        }
-
-        if (PlayerPrefs.GetInt("LevelIndice") == 20 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
-        {
-            jornalEleicoes.GetComponent<Canvas>().enabled = true;
-            tipoEleicaoTxt.text = "Eleições para Governador";
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 49.0)
+            {
+                aumentePop.gameObject.SetActive(true);
+                aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+            }
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") == 30 && PlayerPrefs.GetFloat("PopularidadeNaScene") >= 51)
+        if (PlayerPrefs.GetInt("LevelIndice") == 6)
         {
-            jornalEleicoes.GetComponent<Canvas>().enabled = true;
-            tipoEleicaoTxt.text = "Eleições para Presidente";
+           
+
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
+            {
+                jornalEleicoes.gameObject.SetActive(true);
+                tipoEleicaoTxt.text = "Eleições para Deputado";
+
+                if (tocouJornal == false)
+                {
+                    Jornal.Play();
+                    tocouJornal = true;
+
+                }
+            }
+
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 49.0)
+            {
+                aumentePop.gameObject.SetActive(true);
+                aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+            }
+
+        
+
+
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 10)
+        {
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
+            {
+                jornalEleicoes.gameObject.SetActive(true);
+                tipoEleicaoTxt.text = "Eleições para Prefeito";
+                if (tocouJornal == false)
+                {
+                    Jornal.Play();
+                    tocouJornal = true;
+
+                }
+            }
+
+
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 49.0)
+            {
+                aumentePop.gameObject.SetActive(true);
+                aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+            }
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 20)
+        {
+            
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
+            {
+                jornalEleicoes.gameObject.SetActive(true);
+                tipoEleicaoTxt.text = "Eleições para Governador";
+                if (tocouJornal == false)
+                {
+                    Jornal.Play();
+                    tocouJornal = true;
+
+                }
+            }
+
+
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 49.0)
+            {
+                aumentePop.gameObject.SetActive(true);
+                aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+            }
+
+        }
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 30)
+        {
+          
+           
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") >= 50.0)
+            
+            {
+                jornalEleicoes.gameObject.SetActive(true);
+                tipoEleicaoTxt.text = "Eleições para Presidente";
+                if (tocouJornal == false)
+                {
+                    Jornal.Play();
+                    tocouJornal = true;
+
+                }
+            }
+
+         
+
+            if (PlayerPrefs.GetFloat("PopularidadeNaScene") < 49.0)
+            {
+                aumentePop.gameObject.SetActive(true);
+                aumentePopTxt.text = "Aumente sua Popularidade para ao menos 51% e participe das Eleições";
+            }
 
         }
 
     }
+
+
 }// FIM CLASSE
