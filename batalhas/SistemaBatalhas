@@ -12,7 +12,8 @@ public class SistemaBatalhas : MonoBehaviour
 
     // STATUS
     // -------------------------------
-
+    public GameObject msgAluga, msgSobreAtaques, msgAtaque, msgAutoridade;
+    int mostraMsg;
     public float popularidadePlayer, danoPlayer, autoridadePlayer, apoioMidiaPlayer, retoricaPlayer;
     public int levelPlayer;
     public int confiancaPlayer;
@@ -38,15 +39,16 @@ public class SistemaBatalhas : MonoBehaviour
 
     public GameObject painelPartido, fecharPainel, canvasBatalha, canvasGame;
 
-    public GameObject mainLula, mainCiro, mainBolso, mainDilma, mainSuplicy, mainEneas, mainDodorio, mainHaddard, mainCunha;
-    public float popLula, popCiro, popBolso, popDilma, popSuplicy, popEneas, popDodorio, popHaddard, popCunha;
-    public Button LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido, DodorioPartido, HaddardPartido, CunhaPartido;
-    public GameObject LulaScene, CiroScene, BolsoScene, DilmaScene, SuplicyScene, EneasScene, DodorioScene, HaddardScene, CunhaScene;
-    public GameObject MovimentosLula, MovimentosCiro, MovimentosBolso, MovimentosDilma, MovimentosSuplicy, MovimentosEneas, MovimentosDodorio, MovimentosHaddard, MovimentosCunha;
+    public GameObject mainLula, mainCiro, mainBolso, mainDilma, mainSuplicy, mainEneas, mainDodorio, mainHaddard, mainCunha, mainDaci;
+    public float popLula, popCiro, popBolso, popDilma, popSuplicy, popEneas, popDodorio, popHaddard, popCunha, popDaci;
+    public Button LulaPartido, CiroPartido, BolsoPartido, DilmaPartido, SuplicyPartido, EneasPartido, DodorioPartido, HaddardPartido, CunhaPartido, DaciPartido;
+    public GameObject LulaScene, CiroScene, BolsoScene, DilmaScene, SuplicyScene, EneasScene, DodorioScene, HaddardScene, CunhaScene, DaciScene;
+    public GameObject MovimentosLula, MovimentosCiro, MovimentosBolso, MovimentosDilma, MovimentosSuplicy, MovimentosEneas, MovimentosDodorio, MovimentosHaddard, MovimentosCunha, MovimentosDaci;
     public GameObject MovimentosPlayer;
     public Text dialogo, infoAtaque, qte_Ataque, aut_Ataque;
 
     public int qteAtaqueInimigoElogio = 1;
+
 
 
     // ------- ALUGUEL DE ATAQUES ------ //
@@ -58,10 +60,12 @@ public class SistemaBatalhas : MonoBehaviour
 
     // SONS ATAQUES
 
-    public AudioSource SomAtaque1, SomAtaque2, SomAtaque3, SomDefesa, SomAumentaStatus, SomTiraStatus, SomEspecial, SomFalhouAtaque, SomSemPop, SomGanhouDebate, SomPerdeuDebate;
+    public AudioSource SomMitou, SomLacrou, SomAtaque1, SomAtaque2, SomAtaque3, SomDefesa, SomAumentaStatus, SomTiraStatus, SomEspecial, SomFalhouAtaque, SomSemPop, SomGanhouDebate, SomPerdeuDebate, SomDebates;
     int tocaSom;
+    bool tocouMitouLacrou, tocouMitouLacrouInimigo;
     // ANIMAÇÕES ATAQUE
 
+    public Animation suorPlayer, suorInimigo;
     public GameObject PersonagensScene, InimigosScene, GanhaMidiaPlayer, PerdeMidiaPlayer, GanhaMidiaInimigo, PerdeMidiaInimigo; // para piscar quando inimigo atacar
     public GameObject PerdePopPlayer, GanhaPopPlayer, PerdePopInimigo, GanhaPopInimigo;
     public Text mitouLacrou_Txt;
@@ -71,28 +75,28 @@ public class SistemaBatalhas : MonoBehaviour
     public int qteVazarLigacoes, qteAdHominem, qteApoioCentrao, qteDelacaoPremiada, qteFakeNews, qtePerguntaPolemica;
 
     //  PARA CADA PERSONAGEM
-    public int qteFraudarUrnasLula, qteFraudarUrnasCiro, qteFraudarUrnasBolso, qteFraudarUrnasDilma, qteFraudarUrnasSuplicy, qteFraudarUrnasEneas, qteFraudarUrnasDodorio, qteFraudarUrnasHaddard, qteFraudarUrnasCunha;
-    public int qteHabeasLula, qteHabeasCiro, qteHabeasBolso, qteHabeasDilma, qteHabeasSuplicy, qteHabeasEneas, qteHabeasDodorio, qteHabeasHaddard, qteHabeasCunha;
-    public int qteMilitanciaLula, qteMilitanciaCiro, qteMilitanciaBolso, qteMilitanciaDilma, qteMilitanciaSuplicy, qteMilitanciaEneas, qteMilitanciaDodorio, qteMilitanciaHaddard, qteMilitanciaCunha;
-    public int qteElogioLula, qteElogioCiro, qteElogioBolso, qteElogioDilma, qteElogioSuplicy, qteElogioEneas, qteElogioDodorio, qteElogioHaddard, qteElogioCunha;
-    public int qteDenunciaSupremoLula, qteDenunciaSupremoCiro, qteDenunciaSupremoBolso, qteDenunciaSupremoDilma, qteDenunciaSupremoSuplicy, qteDenunciaSupremoEneas, qteDenunciaSupremoDodorio, qteDenunciaSupremoHaddard, qteDenunciaSupremoCunha;
-    public int qteForoLula, qteForoCiro, qteForoBolso, qteForoDilma, qteForoSuplicy, qteForoEneas, qteForoDodorio, qteForoHaddard, qteForoCunha;
-    public int qteVazarLula, qteVazarCiro, qteVazarBolso, qteVazarDilma, qteVazarSuplicy, qteVazarEneas, qteVazarDodorio, qteVazarHaddard, qteVazarCunha;
-    public int qteAdHominemLula, qteAdHominemCiro, qteAdHominemBolso, qteAdHominemDilma, qteAdHominemSuplicy, qteAdHominemEneas, qteAdHominemDodorio, qteAdHominemHaddard, qteAdHominemCunha;
-    public int qteApoioCentraoLula, qteApoioCentraoCiro, qteApoioCentraoBolso, qteApoioCentraoDilma, qteApoioCentraoSuplicy, qteApoioCentraoEneas, qteApoioCentraoDodorio, qteApoioCentraoHaddard, qteApoioCentraoCunha;
-    public int qteDelacaoLula, qteDelacaoCiro, qteDelacaoBolso, qteDelacaoDilma, qteDelacaoSuplicy, qteDelacaoEneas, qteDelacaoDodorio, qteDelacaoHaddard, qteDelacaoCunha;
-    public int qteFakeNewsLula, qteFakeNewsCiro, qteFakeNewsBolso, qteFakeNewsDilma, qteFakeNewsSuplicy, qteFakeNewsEneas, qteFakeNewsDodorio, qteFakeNewsHaddard, qteFakeNewsCunha;
-    public int qtePerguntaPolemicaLula, qtePerguntaPolemicaCiro, qtePerguntaPolemicaBolso, qtePerguntaPolemicaDilma, qtePerguntaPolemicaSuplicy, qtePerguntaPolemicaEneas, qtePerguntaPolemicaDodorio, qtePerguntaPolemicaHaddard, qtePerguntaPolemicaCunha;
+    public int qteFraudarUrnasLula, qteFraudarUrnasCiro, qteFraudarUrnasBolso, qteFraudarUrnasDilma, qteFraudarUrnasSuplicy, qteFraudarUrnasEneas, qteFraudarUrnasDodorio, qteFraudarUrnasHaddard, qteFraudarUrnasCunha, qteFraudarUrnasDaci;
+    public int qteHabeasLula, qteHabeasCiro, qteHabeasBolso, qteHabeasDilma, qteHabeasSuplicy, qteHabeasEneas, qteHabeasDodorio, qteHabeasHaddard, qteHabeasCunha, qteHabeasDaci;
+    public int qteMilitanciaLula, qteMilitanciaCiro, qteMilitanciaBolso, qteMilitanciaDilma, qteMilitanciaSuplicy, qteMilitanciaEneas, qteMilitanciaDodorio, qteMilitanciaHaddard, qteMilitanciaCunha, qteMilitanciaDaci;
+    public int qteElogioLula, qteElogioCiro, qteElogioBolso, qteElogioDilma, qteElogioSuplicy, qteElogioEneas, qteElogioDodorio, qteElogioHaddard, qteElogioCunha, qteElogioDaci;
+    public int qteDenunciaSupremoLula, qteDenunciaSupremoCiro, qteDenunciaSupremoBolso, qteDenunciaSupremoDilma, qteDenunciaSupremoSuplicy, qteDenunciaSupremoEneas, qteDenunciaSupremoDodorio, qteDenunciaSupremoHaddard, qteDenunciaSupremoCunha, qteDenunciaSupremoDaci;
+    public int qteForoLula, qteForoCiro, qteForoBolso, qteForoDilma, qteForoSuplicy, qteForoEneas, qteForoDodorio, qteForoHaddard, qteForoCunha, qteForoDaci;
+    public int qteVazarLula, qteVazarCiro, qteVazarBolso, qteVazarDilma, qteVazarSuplicy, qteVazarEneas, qteVazarDodorio, qteVazarHaddard, qteVazarCunha, qteVazarDaci;
+    public int qteAdHominemLula, qteAdHominemCiro, qteAdHominemBolso, qteAdHominemDilma, qteAdHominemSuplicy, qteAdHominemEneas, qteAdHominemDodorio, qteAdHominemHaddard, qteAdHominemCunha, qteAdHominemDaci;
+    public int qteApoioCentraoLula, qteApoioCentraoCiro, qteApoioCentraoBolso, qteApoioCentraoDilma, qteApoioCentraoSuplicy, qteApoioCentraoEneas, qteApoioCentraoDodorio, qteApoioCentraoHaddard, qteApoioCentraoCunha, qteApoioCentraoDaci;
+    public int qteDelacaoLula, qteDelacaoCiro, qteDelacaoBolso, qteDelacaoDilma, qteDelacaoSuplicy, qteDelacaoEneas, qteDelacaoDodorio, qteDelacaoHaddard, qteDelacaoCunha, qteDelacaoDaci;
+    public int qteFakeNewsLula, qteFakeNewsCiro, qteFakeNewsBolso, qteFakeNewsDilma, qteFakeNewsSuplicy, qteFakeNewsEneas, qteFakeNewsDodorio, qteFakeNewsHaddard, qteFakeNewsCunha, qteFakeNewsDaci;
+    public int qtePerguntaPolemicaLula, qtePerguntaPolemicaCiro, qtePerguntaPolemicaBolso, qtePerguntaPolemicaDilma, qtePerguntaPolemicaSuplicy, qtePerguntaPolemicaEneas, qtePerguntaPolemicaDodorio, qtePerguntaPolemicaHaddard, qtePerguntaPolemicaCunha, qtePerguntaPolemicaDaci;
 
     // ATAQUES ESPECIAIS DE CADA PERSONAGEM
 
     public int qteChamarGilmar, qteMeuPostoIpiranga, qteSemCustoContribuinte, qteCiclovia;
     public Button ataqueChamarGilmar, ataqueMeuPostoIpiranga, ataqueSemCustoContribuinte, ataqueCiclovia;
 
-    public int qteChamarGilmarLula, qteChamarGilmarCiro, qteChamarGilmarBolso, qteChamarGilmarDilma, qteChamarGilmarSuplicy, qteChamarGilmarEneas, qteChamarGilmarDodorio, qteChamarGilmarHaddard, qteChamarGilmarCunha; // aumentar autoridade
-    public int qteMeuPostoIpirangaBolso, qteMeuPostoIpirangaLula, qteMeuPostoIpirangaCiro, qteMeuPostoIpirangaDilma, qteMeuPostoIpirangaEneas, qteMeuPostoIpirangaSuplicy, qteMeuPostoIpirangaDodorio, qteMeuPostoIpirangaHaddard, qteMeuPostoIpirangaCunha ; // aumentar autoridade
-    public int qteSemCustoContribuinteDodorio, qteSemCustoContribuinteLula, qteSemCustoContribuinteCiro, qteSemCustoContribuinteDilma, qteSemCustoContribuinteBolso, qteSemCustoContribuinteSuplicy, qteSemCustoContribuinteEneas, qteSemCustoContribuinteHaddard, qteSemCustoContribuinteCunha; // aumenta apoio da midia
-    public int qteCicloviaHaddard, qteCicloviaLula, qteCicloviaCiro, qteCicloviaBolso, qteCicloviaDilma, qteCicloviaSuplicy, qteCicloviaEneas, qteCicloviaDodorio, qteCicloviaCunha; // aumenta apoio da midia
+    public int qteChamarGilmarLula, qteChamarGilmarCiro, qteChamarGilmarBolso, qteChamarGilmarDilma, qteChamarGilmarSuplicy, qteChamarGilmarEneas, qteChamarGilmarDodorio, qteChamarGilmarHaddard, qteChamarGilmarCunha, qteChamarGilmarDaci; // aumentar autoridade
+    public int qteMeuPostoIpirangaBolso, qteMeuPostoIpirangaLula, qteMeuPostoIpirangaCiro, qteMeuPostoIpirangaDilma, qteMeuPostoIpirangaEneas, qteMeuPostoIpirangaSuplicy, qteMeuPostoIpirangaDodorio, qteMeuPostoIpirangaHaddard, qteMeuPostoIpirangaCunha, qteMeuPostoIpirangaDaci ; // aumentar autoridade
+    public int qteSemCustoContribuinteDodorio, qteSemCustoContribuinteLula, qteSemCustoContribuinteCiro, qteSemCustoContribuinteDilma, qteSemCustoContribuinteBolso, qteSemCustoContribuinteSuplicy, qteSemCustoContribuinteEneas, qteSemCustoContribuinteHaddard, qteSemCustoContribuinteCunha, qteSemCustoContribuinteDaci; // aumenta apoio da midia
+    public int qteCicloviaHaddard, qteCicloviaLula, qteCicloviaCiro, qteCicloviaBolso, qteCicloviaDilma, qteCicloviaSuplicy, qteCicloviaEneas, qteCicloviaDodorio, qteCicloviaCunha, qteCicloviaDaci; // aumenta apoio da midia
 
     // PARA INIMIGOS
 
@@ -123,26 +127,32 @@ public class SistemaBatalhas : MonoBehaviour
 
     // RESETA O GanhaInflu
 
-    public int ganhouInfluLula, ganhouInfluCiro, ganhouInfluBolso, ganhouInfluDilma, ganhouInfluSuplicy, ganhouInfluEneas, ganhouInfluDodorio, ganhouInfluHaddard, ganhouInfluCunha;
+    public int ganhouInfluLula, ganhouInfluCiro, ganhouInfluBolso, ganhouInfluDilma, ganhouInfluSuplicy, ganhouInfluEneas, ganhouInfluDodorio, ganhouInfluHaddard, ganhouInfluCunha, ganhouInfluDaci;
     public int ganhouVerba;
     public GameObject jornalEleicoes;
     public Canvas canvasDentroJogo, canvasDebatesEleicoes;
 
-    // TELA DESBLOQUEOU O PERSONAGEM
+    // TELA DESBLOQUEOU O PERSONAGEM (ao fim da batalha de desbloqueio)
 
-    public GameObject Dilma, Suplicy, Eneas, Cunha, Ciro, painelDesbloqueou;
+    public GameObject Dilma, Suplicy, Eneas, Cunha, Ciro, Daci, painelDesbloqueou;
     public Text desbloqueouPolitico, foiEleitoTxt;
 
     // GANHOU PERDEU
 
     public GameObject painelGanhouPerdeu;
     public Text ganhouPerdeuTxt, ganhouInfluTxt, ganhouVerbaTxt;
-
+    int qtoPerdeuVerba;
     public bool moveCamera;
+
+    bool somouPopPartido;
 
     // ---- CANDIDATO ---- //
 
     string candidatoAtual;
+
+    // ------ verifica IMPEACHMENT ----- //
+
+    bool perdeuLevel;
 
     public enum BattleStates
     {
@@ -170,7 +180,8 @@ public class SistemaBatalhas : MonoBehaviour
         CIRAO,
         SUPLICY,
         ENEAS,
-        CUNHA
+        CUNHA,
+        DACI
     }
 
 
@@ -179,11 +190,13 @@ public class SistemaBatalhas : MonoBehaviour
     {
 
 
+
         tocaSom = 1;
 
         if (canvasBatalha.GetComponent<Canvas>().enabled == true)
         {
-            SomaPartido();
+            //SomaPartido();
+            somouPopPartido = false;
         }
 
         HabilitaBotoes();
@@ -209,6 +222,8 @@ public class SistemaBatalhas : MonoBehaviour
         Eneas.gameObject.SetActive(false);
         Ciro.gameObject.SetActive(false);
         Suplicy.gameObject.SetActive(false);
+        Daci.gameObject.SetActive(false);
+
         painelDesbloqueou.gameObject.SetActive(false);
 
 
@@ -218,6 +233,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void Start()
     {
+        mostraMsg = 0;
         CandidatoDessaBatalha();
 
         PopPersonagensInicial();
@@ -287,18 +303,17 @@ public class SistemaBatalhas : MonoBehaviour
 
     void Update()
     {
+      
 
-        print("QUEM É CANDIDATO: " + candidatoAtual);
         //PlayerPrefs.DeleteAll();
         DireitaEsquerda();
+        DireitaEsquerdaInimigos();
 
-        print(currentState);
-
-        print("pop inimigos" + popularidadeInimigo);
         //print("soma pop partido" + somaPopPartido);
         pop_txtUI.text = Mathf.Round(popularidadePlayer).ToString();
         barraPop.value = popularidadePlayer;
 
+        PopPersonagens();
 
         VerificaQteAtaques();
         if (canvasBatalha.GetComponent<Canvas>().enabled == true)
@@ -396,6 +411,15 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
+            if (tipoDessaBatalha == TipoBatalha.DACI)
+            {
+                Daci.gameObject.SetActive(true);
+                foiEleitoTxt.text = "";
+                desbloqueouPolitico.text = "Você desbloqueou um novo politico!";
+                painelDesbloqueou.gameObject.SetActive(true);
+
+            }
+
             if (tipoDessaBatalha == TipoBatalha.ELEICAOVEREADOR)
             {
                 foiEleitoTxt.text = "Você foi eleito <color=#5AD02CFF>VEREADOR </color>";
@@ -442,8 +466,8 @@ public class SistemaBatalhas : MonoBehaviour
             }
 
             ganhouPerdeuTxt.text = "Você Perdeu!";
-            ganhouInfluTxt.text = "0";
-            ganhouVerbaTxt.text = "0";
+            ganhouInfluTxt.text = "-1 level";
+            ganhouVerbaTxt.text = "-" + PlayerPrefs.GetInt("QuantoPerdeuVerba").ToString();
 
             PlayerPrefs.SetInt("PerdeuDebate", 1);
 
@@ -454,6 +478,8 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void FluxoBatalha()
     {
+       // PausaTema();
+        
         PlayerPrefs.SetInt("NaBatalha", 1);
 
         popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
@@ -480,12 +506,18 @@ public class SistemaBatalhas : MonoBehaviour
         {
 
             case BattleStates.START:
+                if (somouPopPartido == false)
+                {
+                    SomaPartido();
+                    somouPopPartido = true;
+                }
+                painelGanhouPerdeu.gameObject.SetActive(false);
                 HabilitaBotoes();
                 DialogoEscolha();
-
+                mostraMsg = 0;
+                perdeuLevel = false;
                 popularidadeInimigo = PlayerPrefs.GetFloat("PopInimigos");
 
-                print("Pop Inimigos " + PlayerPrefs.GetFloat("PopInimigos"));
                 //print(playerAtacou);
                 PopPersonagens();
 
@@ -496,10 +528,9 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
             case BattleStates.ESCOLHAJOGADOR:
-
+                tocouMitouLacrouInimigo = false;
                 // dialogo.text = "O que você irá fazer?";
                 MinMaxAut();
-                print("VEZ PLAYER");
 
                 if (popularidadeInimigo <= 0 && quantosInimigos <= 0)
                 {
@@ -530,12 +561,25 @@ public class SistemaBatalhas : MonoBehaviour
                             {
                                 mitouLacrou_Txt.text = "LACROU!";
                                 StartCoroutine(MitouLacrouAviso());
+
+                                if (tocouMitouLacrou == false)
+                                {
+                                    // StartCoroutine(TocaMitouLacrou());
+                                    SomLacrou.Play();
+                                    tocouMitouLacrou = true;
+                                }
+
                             }
 
                             if (direita == true)
                             {
                                 mitouLacrou_Txt.text = "MITOU!";
                                 StartCoroutine(MitouLacrouAviso());
+                                if (tocouMitouLacrou == false)
+                                {
+                                    SomMitou.Play();
+                                    tocouMitouLacrou = true;
+                                }
                             }
                         }
                     }
@@ -573,7 +617,6 @@ public class SistemaBatalhas : MonoBehaviour
                     VerificaHpPlayer();
                     trocouPersonagem = false;
                     CalculoRetorica();
-                    StatusDeBatalha();
                     DesabilitaBotoes();
                 }
                 break;
@@ -581,6 +624,8 @@ public class SistemaBatalhas : MonoBehaviour
 
 
             case BattleStates.ESCOLHAINIMIGO:
+
+                tocouMitouLacrou = false;
                 if (trocouInimigo == true)
                 {
                     VerificaHpInimigo();
@@ -614,16 +659,28 @@ public class SistemaBatalhas : MonoBehaviour
                     {
                         if (chanceMitarLacrar == 2)
                         {
-                            if (esquerda == true)
+                            if (esquerdaInimigo == true)
                             {
                                 mitouLacrou_Txt.text = "LACROU!";
                                 StartCoroutine(MitouLacrouAviso());
+
+                                if (tocouMitouLacrouInimigo == false)
+                                {
+                                    SomLacrou.Play();
+                                    tocouMitouLacrouInimigo = true;
+                                }                  
+                            
                             }
 
-                            if (direita == true)
+                            if (direitaInimigo == true)
                             {
                                 mitouLacrou_Txt.text = "MITOU!";
                                 StartCoroutine(MitouLacrouAviso());
+                                if (tocouMitouLacrouInimigo == false)
+                                {
+                                    SomMitou.Play();
+                                    tocouMitouLacrouInimigo = true;
+                                }
                             }
                         }
                     }
@@ -638,7 +695,6 @@ public class SistemaBatalhas : MonoBehaviour
                     playerAtacou = false;
                     VerificaHpInimigo();
                     DireitaEsquerda();
-                    print("INIMIGO ATACOU");
 
                     if (popularidadePlayer > 0 && popularidadeInimigo > 0)
                     {
@@ -652,16 +708,16 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
             case BattleStates.PERDEU:
-                print("você perdeu");
                 PlayerPrefs.SetInt("NaBatalha", 0);
                 DesabilitaBotoes();
                 ResetaSomaPop();
                 GanhouPerdeu();
+                Insignias();
+
 
                 break;
 
             case BattleStates.GANHOU:
-                print("você ganhou");
                 PlayerPrefs.SetInt("NaBatalha", 0);
                 Insignias();
                 DesabilitaBotoes();
@@ -676,6 +732,7 @@ public class SistemaBatalhas : MonoBehaviour
 
                 ResetaSomaPop();
                 HabilitaBotoes();
+                VoltaScene();
                 //canvasDentroJogo.enabled = true;
                 //canvasDebatesEleicoes.enabled = false;
                 //currentState = BattleStates.START;
@@ -736,10 +793,8 @@ public class SistemaBatalhas : MonoBehaviour
                 quantosInimigos = 0;
             }
             PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
-            print("trocou inimigo");
 
             trocouInimigo = true;
-            print("quanto enemy " + PlayerPrefs.GetInt("QuantosInimigos"));
             HabilitaBotoes();
 
             if (quantosInimigos == 0)
@@ -758,7 +813,7 @@ public class SistemaBatalhas : MonoBehaviour
     {
 
 
-        AtualizaPopPersonagens();
+        //AtualizaPopPersonagens();
 
 
         if (popularidadePlayer > 0 && popularidadeInimigo > 0)
@@ -801,11 +856,9 @@ public class SistemaBatalhas : MonoBehaviour
             }
 
             PlayerPrefs.SetInt("QuantosInimigos", quantosInimigos);
-            print("trocou inimigo");
             barraPopInimigo.value = popularidadeInimigo;
             levelInimigo_txt.text = "LVL : " + levelInimigo.ToString();
 
-            print("quanto enemy " + PlayerPrefs.GetInt("QuantosInimigos"));
 
             StatusDeBatalhaInimigos();
             trocouInimigo = true;
@@ -828,8 +881,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void TrocouDePersonagem()
     {
-        StatusDeBatalha();
-        SomaPartido();
+        //SomaPartido();
         trocouPersonagem = true;
         StatusDeBatalha();
         PopPersonagens();
@@ -869,47 +921,7 @@ public class SistemaBatalhas : MonoBehaviour
     }
 
 
-    public void TiraDaScene()
-    {
-        if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
-        {
-        }
-
-        if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
-        {
-        }
-        if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
-        {
-
-        }
-        if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
-        {
-        }
-        if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
-        {
-        }
-        if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
-        {
-        }
-
-        if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
-        {
-
-        }
-
-        if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
-        {
-            //  PersonagemScene.gameObject.SetActive(false);
-
-        }
-    
-        if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
-        {
-            //  PersonagemScene.gameObject.SetActive(false);
-
-        }
-    
-    }
+ 
     public void DesabilitaBotoes()
     {
         botao1.interactable = false;
@@ -927,167 +939,178 @@ public class SistemaBatalhas : MonoBehaviour
     {
         // quantosPartido = meuPartido.Count;
 
-        somaPopPartido = 0;
 
         if (PlayerPrefs.GetInt("LulaDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"))));
-            print("Lula no partido");
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopLula"))));
         }
 
         if (PlayerPrefs.GetInt("CiroDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopCiro"))));
 
         }
         if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1)
         {
-            print("Bolso no partido");
 
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopBolso"))));
         }
         if (PlayerPrefs.GetInt("DilmaDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopDilma"))));
 
         }
         if (PlayerPrefs.GetInt("SuplicyDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopSuplicy"))));
 
         }
         if (PlayerPrefs.GetInt("EneasDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopEneas"))));
 
         }
         if (PlayerPrefs.GetInt("DodorioDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDodorio"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopDodorio"))));
 
         }
 
         if (PlayerPrefs.GetInt("HaddardDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeHaddard"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopHaddard"))));
 
         }
 
         if (PlayerPrefs.GetInt("CunhaDentroPartido") == 1)
         {
-            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCunha"))));
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopCunha"))));
 
         }
 
-        print("soma pop partido: " + somaPopPartido);
+        if (PlayerPrefs.GetInt("DaciDentroPartido") == 1)
+        {
+            somaPopPartido = Mathf.Round(Mathf.Round(somaPopPartido + Mathf.Round(PlayerPrefs.GetFloat("PopDaci"))));
+
+        }
     }
 
     public void PopPersonagens()
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeLula"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopLula"));
 
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCiro"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopCiro"));
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeBolso"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopBolso"));
 
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDilma"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopDilma"));
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeSuplicy"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopSuplicy"));
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeEneas"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopEneas"));
         }
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeDodorio"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopDodorio"));
         }
 
         if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeHaddard"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopHaddard"));
         }
     
         if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
         {
-            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopularidadeCunha"));
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopCunha"));
         }
 
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            popularidadePlayer = Mathf.Round(PlayerPrefs.GetFloat("PopDaci"));
+        }
     }
 
     public void PopPersonagensInicial()
     {
         if (PlayerPrefs.GetInt("LulaDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeLula", 100);
+            PlayerPrefs.SetFloat("PopLula", 100);
             popularidadePlayer = 100;
         }
 
         if (PlayerPrefs.GetInt("CiroDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeCiro", 100);
+            PlayerPrefs.SetFloat("PopCiro", 100);
             popularidadePlayer = 100;
 
         }
         if (PlayerPrefs.GetInt("BolsoDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeBolso", 100);
+            PlayerPrefs.SetFloat("PopBolso", 100);
             popularidadePlayer = 100;
 
         }
         if (PlayerPrefs.GetInt("DilmaDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeDilma", 100);
+            PlayerPrefs.SetFloat("PopDilma", 100);
             popularidadePlayer = 100;
 
         }
         if (PlayerPrefs.GetInt("SuplicyDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeSuplicy", 100);
+            PlayerPrefs.SetFloat("PopSuplicy", 100);
             popularidadePlayer = 100;
 
         }
         if (PlayerPrefs.GetInt("EneasDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeEneas", 100);
+            PlayerPrefs.SetFloat("PopEneas", 100);
             popularidadePlayer = 100;
 
         }
 
         if (PlayerPrefs.GetInt("DodorioDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeDodorio", 100);
+            PlayerPrefs.SetFloat("PopDodorio", 100);
             popularidadePlayer = 100;
 
         }
 
         if (PlayerPrefs.GetInt("HaddardDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeHaddard", 100);
+            PlayerPrefs.SetFloat("PopHaddard", 100);
             popularidadePlayer = 100;
 
         }
     
         if (PlayerPrefs.GetInt("CunhaDentroPartido") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeCunha", 100);
+            PlayerPrefs.SetFloat("PopCunha", 100);
             popularidadePlayer = 100;
 
         }
     
+        if (PlayerPrefs.GetInt("DaciDentroPartido") == 1)
+        {
+            PlayerPrefs.SetFloat("PopDaci", 100);
+            popularidadePlayer = 100;
+
+        }
     }
 
 
@@ -1101,8 +1124,8 @@ public class SistemaBatalhas : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeLula", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeLula") <= 0)
+            PlayerPrefs.SetFloat("PopLula", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopLula") <= 0)
             {
                 LulaPartido.interactable = false;
             }
@@ -1110,40 +1133,40 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeCiro", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeCiro") <= 0)
+            PlayerPrefs.SetFloat("PopCiro", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopCiro") <= 0)
             {
                 CiroPartido.interactable = false;
             }
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeBolso", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeBolso") <= 0)
+            PlayerPrefs.SetFloat("PopBolso", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopBolso") <= 0)
             {
                 BolsoPartido.interactable = false;
             }
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeDilma", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeDilma") <= 0)
+            PlayerPrefs.SetFloat("PopDilma", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopDilma") <= 0)
             {
                 DilmaPartido.interactable = false;
             }
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeSuplicy", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeSuplicy") <= 0)
+            PlayerPrefs.SetFloat("PopSuplicy", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopSuplicy") <= 0)
             {
                 SuplicyPartido.interactable = false;
             }
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeEneas", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeEneas") <= 0)
+            PlayerPrefs.SetFloat("PopEneas", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopEneas") <= 0)
             {
                 EneasPartido.interactable = false;
             }
@@ -1151,8 +1174,8 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeDodorio", Mathf.Round(popularidadePlayer));
-            if (PlayerPrefs.GetFloat("PopularidadeDodorio") <= 0)
+            PlayerPrefs.SetFloat("PopDodorio", Mathf.Round(popularidadePlayer));
+            if (PlayerPrefs.GetFloat("PopDodorio") <= 0)
             {
                 DodorioPartido.interactable = false;
             }
@@ -1160,9 +1183,9 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeHaddard", Mathf.Round(popularidadePlayer));
+            PlayerPrefs.SetFloat("PopHaddard", Mathf.Round(popularidadePlayer));
 
-            if (PlayerPrefs.GetFloat("PopularidadeHaddard") <= 0)
+            if (PlayerPrefs.GetFloat("PopHaddard") <= 0)
             {
                 HaddardPartido.interactable = false;
             }
@@ -1170,13 +1193,24 @@ public class SistemaBatalhas : MonoBehaviour
     
         if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
         {
-            PlayerPrefs.SetFloat("PopularidadeCunha", Mathf.Round(popularidadePlayer));
+            PlayerPrefs.SetFloat("PopCunha", Mathf.Round(popularidadePlayer));
 
-            if (PlayerPrefs.GetFloat("PopularidadeCunha") <= 0)
+            if (PlayerPrefs.GetFloat("PopCunha") <= 0)
             {
                 CunhaPartido.interactable = false;
             }
         }
+    
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            PlayerPrefs.SetFloat("PopDaci", Mathf.Round(popularidadePlayer));
+
+            if (PlayerPrefs.GetFloat("PopDaci") <= 0)
+            {
+                DaciPartido.interactable = false;
+            }
+        }
+    
     }
 
 
@@ -1194,6 +1228,8 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
+
 
         }
 
@@ -1209,6 +1245,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1224,6 +1261,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1239,6 +1277,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1254,6 +1293,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1269,6 +1309,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1284,6 +1325,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosEneas.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1299,6 +1341,7 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosEneas.gameObject.SetActive(false);
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosCunha.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
 
@@ -1314,9 +1357,25 @@ public class SistemaBatalhas : MonoBehaviour
             MovimentosEneas.gameObject.SetActive(false);
             MovimentosDodorio.gameObject.SetActive(false);
             MovimentosHaddard.gameObject.SetActive(false);
+            MovimentosDaci.gameObject.SetActive(false);
 
         }
     
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            MovimentosDaci.gameObject.SetActive(true);
+
+            MovimentosCiro.gameObject.SetActive(false);
+            MovimentosBolso.gameObject.SetActive(false);
+            MovimentosDilma.gameObject.SetActive(false);
+            MovimentosSuplicy.gameObject.SetActive(false);
+            MovimentosLula.gameObject.SetActive(false);
+            MovimentosEneas.gameObject.SetActive(false);
+            MovimentosDodorio.gameObject.SetActive(false);
+            MovimentosHaddard.gameObject.SetActive(false);
+            MovimentosCunha.gameObject.SetActive(false);
+
+        }
     
     } // FIM PAINEL MOVIMENTOS
 
@@ -1342,6 +1401,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
 
 
@@ -1364,6 +1424,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
@@ -1384,6 +1445,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
@@ -1404,6 +1466,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
@@ -1424,6 +1487,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
@@ -1444,6 +1508,7 @@ public class SistemaBatalhas : MonoBehaviour
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
@@ -1464,6 +1529,7 @@ public class SistemaBatalhas : MonoBehaviour
             LulaScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
 
@@ -1485,6 +1551,7 @@ public class SistemaBatalhas : MonoBehaviour
             LulaScene.gameObject.SetActive(false);
             DodorioScene.gameObject.SetActive(false);
             CunhaScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
 
@@ -1506,9 +1573,32 @@ public class SistemaBatalhas : MonoBehaviour
             LulaScene.gameObject.SetActive(false);
             DodorioScene.gameObject.SetActive(false);
             HaddardScene.gameObject.SetActive(false);
+            DaciScene.gameObject.SetActive(false);
 
         }
 
+
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            autoridadePlayer = PlayerPrefs.GetFloat("AutoridadeDaci");
+            levelPlayer = PlayerPrefs.GetInt("LevelDaci");
+            apoioMidiaPlayer = PlayerPrefs.GetFloat("ApoioMidiaDaci");
+            confiancaPlayer = PlayerPrefs.GetInt("ConfiancaDaci");
+            retoricaPlayer = PlayerPrefs.GetFloat("RetoricaDaci");
+
+            DaciScene.gameObject.SetActive(true);
+
+            CiroScene.gameObject.SetActive(false);
+            BolsoScene.gameObject.SetActive(false);
+            DilmaScene.gameObject.SetActive(false);
+            SuplicyScene.gameObject.SetActive(false);
+            EneasScene.gameObject.SetActive(false);
+            LulaScene.gameObject.SetActive(false);
+            DodorioScene.gameObject.SetActive(false);
+            HaddardScene.gameObject.SetActive(false);
+            CunhaScene.gameObject.SetActive(false);
+
+        }
     } // FIM STATUS DE BATALHA
 
     public void StatusDeBatalhaInimigos()
@@ -1593,6 +1683,15 @@ public class SistemaBatalhas : MonoBehaviour
             confiancaInimigo = PlayerPrefs.GetInt("ConfiancaCunhaInimigo");
         }
     
+        if (PlayerPrefs.GetInt("DaciInimigoScene") == 1)
+        {
+            autoridadeInimigo = PlayerPrefs.GetFloat("AutoridadeDaciInimigo");
+            levelInimigo = PlayerPrefs.GetInt("LevelDaciInimigo");
+            apoioMidiaInimigo = PlayerPrefs.GetFloat("ApoioMidiaDaciInimigo");
+            retoricaInimigo = PlayerPrefs.GetFloat("RetoricaDaciInimigo");
+            confiancaInimigo = PlayerPrefs.GetInt("ConfiancaDaciInimigo");
+        }
+
     } // FIM STATUS INIMIGO
 
 
@@ -1602,6 +1701,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueChamarGilmar()
     {
+
         ataquePlayer = false;
         defesaPlayer = false;
         mudaStatusPlayer = true;
@@ -1670,6 +1770,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueMeuPostoIpiranga()
     {
+
         ataquePlayer = false;
         defesaPlayer = false;
         mudaStatusPlayer = true;
@@ -1921,7 +2022,6 @@ public class SistemaBatalhas : MonoBehaviour
 
         if (qteFraudarUrnas > 0)
         {
-            print("ATAQUE COM DANO" + danoPlayer);
 
             //  StartCoroutine(tirapop(danoPlayer));
 
@@ -2008,6 +2108,7 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueFakeNews()
     {
+         
 
         ataquePlayer = true;
         defesaPlayer = false;
@@ -2114,7 +2215,7 @@ public class SistemaBatalhas : MonoBehaviour
     // Pergunta Polemica (autoridade 40-50)
     public void AtaquePerguntaPolemica()
     {
-
+        
         ataquePlayer = true;
         defesaPlayer = false;
         mudaStatusPlayer = false;
@@ -2227,6 +2328,7 @@ public class SistemaBatalhas : MonoBehaviour
     // HABEAS CORPUS - aumenta apoio da mídia
     public void AtaqueHabeasCorpus()
     {
+        
 
         ataquePlayer = false;
         defesaPlayer = true;
@@ -2289,7 +2391,6 @@ public class SistemaBatalhas : MonoBehaviour
         DesabilitaBotoes();
 
         playerAtacou = true;
-        print("Ataque Habeas finalizado");
 
     }
 
@@ -2307,6 +2408,8 @@ public class SistemaBatalhas : MonoBehaviour
     // MILITANCIA - aumenta autoridade
     public void AtaqueMilitancia()
     {
+      
+
         ataquePlayer = false;
         defesaPlayer = false;
         mudaStatusPlayer = true;
@@ -2378,6 +2481,8 @@ public class SistemaBatalhas : MonoBehaviour
     // DENUNCIA SUPREMO - tira autoridade
     public void AtaqueDenuciaSupremo()
     {
+       
+
         ataquePlayer = true;
         defesaPlayer = false;
         mudaStatusPlayer = false;
@@ -2386,7 +2491,7 @@ public class SistemaBatalhas : MonoBehaviour
 
         MitouLacrou();
         CalculoConfiancaPlayer();
-        autoridadeAtaque = Random.Range(30, 41);
+        autoridadeAtaque = Random.Range(20, 31);
 
         if (autoridadeInimigo <= 5)
         {
@@ -2420,6 +2525,7 @@ public class SistemaBatalhas : MonoBehaviour
             if (confianca != 0)
             {
                 SomTiraStatus.Play();
+                suorInimigo.Play();
 
                 if (chanceMitarLacrar != 2)
                 {
@@ -2455,7 +2561,7 @@ public class SistemaBatalhas : MonoBehaviour
         infoAtaque.text = "Diminuí Autoridade (ataque) de seu oponente.";
         qte_Ataque.text = "Qte.: " + qteDenunciaSupremo + "/3";
         dialogo.text = "Utilizar o ataque Denuncia ao Supremo?";
-        aut_Ataque.text = "Autoridade: 30 - 40";
+        aut_Ataque.text = "Autoridade: 20 - 30";
 
     }
 
@@ -2463,6 +2569,8 @@ public class SistemaBatalhas : MonoBehaviour
     //  ELOGIO JORNAL - aumenta popularidade
     public void AtaqueElogioJornal()
     {
+       
+
         ataquePlayer = false;
         defesaPlayer = false;
         mudaStatusPlayer = true;
@@ -2493,7 +2601,6 @@ public class SistemaBatalhas : MonoBehaviour
             if (confianca != 0)
             {
                 StartCoroutine(AumentouPopPlayer());
-
                 SomEspecial.Play();
 
                 dialogo.text = "Você foi <color=#FFED00FF> ELOGIADO NO JORNAL </color>. Agora, sua popularidade aumentou para " + popularidadePlayer;
@@ -2521,6 +2628,8 @@ public class SistemaBatalhas : MonoBehaviour
     // FORO PRIVILEGIADO - defesa 100% de um ataque
     public void AtaqueForoPrivilegiado()
     {
+      
+
         ataquePlayer = false;
         defesaPlayer = true;
         mudaStatusPlayer = false;
@@ -2565,6 +2674,8 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueVazarLigacoes()
     {
+      
+
         ataquePlayer = true;
         defesaPlayer = false;
         mudaStatusPlayer = false;
@@ -2676,6 +2787,7 @@ public class SistemaBatalhas : MonoBehaviour
     // AD HOMINEM - tira confiança (precisão) do oponente
     public void AtaqueAdHominem()
     {
+       
 
         ataquePlayer = true;
         defesaPlayer = false;
@@ -2786,6 +2898,8 @@ public class SistemaBatalhas : MonoBehaviour
     // APOIO CENTRAO - aumenta confiança do player
     public void AtaqueApoioCentrao()
     {
+        
+
         ataquePlayer = false;
         defesaPlayer = false;
         mudaStatusPlayer = true;
@@ -2866,6 +2980,8 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaqueDelacaoPremiada()
     {
+       
+
         MitouLacrou();
         Protegido();
         CalculoConfiancaPlayer();
@@ -3156,6 +3272,26 @@ public class SistemaBatalhas : MonoBehaviour
             qteMeuPostoIpiranga = qteMeuPostoIpirangaCunha;
         }
 
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            qteFraudarUrnas = qteFraudarUrnasDaci;
+            qteHabeasCorpus = qteHabeasDaci;
+            qteMilitancia = qteMilitanciaDaci;
+            qteElogioJornal = qteElogioDaci;
+            qteDenunciaSupremo = qteDenunciaSupremoDaci;
+            qteForoPrivilegiado = qteForoDaci;
+            qteVazarLigacoes = qteVazarDaci;
+            qteAdHominem = qteAdHominemDaci;
+            qteApoioCentrao = qteApoioCentraoDaci;
+            qteDelacaoPremiada = qteDelacaoDaci;
+            qteFakeNews = qteFakeNewsDaci;
+            qtePerguntaPolemica = qtePerguntaPolemicaDaci;
+            qteCiclovia = qteCicloviaDaci;
+            qteChamarGilmar = qteChamarGilmarDaci;
+            qteSemCustoContribuinte = qteSemCustoContribuinteDaci;
+            qteMeuPostoIpiranga = qteMeuPostoIpirangaDaci;
+        }
+
         VerificaQteAtaques();
 
     } // FIM QUANTIDADE ATAQUES
@@ -3342,6 +3478,26 @@ public class SistemaBatalhas : MonoBehaviour
             qteSemCustoContribuinteCunha = qteSemCustoContribuinte;
             qteCicloviaCunha = qteCiclovia;
         }
+       
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            qteFraudarUrnasDaci = qteFraudarUrnas;
+            qteHabeasDaci = qteHabeasCorpus;
+            qteMilitanciaDaci = qteMilitancia;
+            qteElogioDaci = qteElogioJornal;
+            qteDenunciaSupremoDaci = qteDenunciaSupremo;
+            qteForoDaci = qteForoPrivilegiado;
+            qteVazarDaci = qteVazarLigacoes;
+            qteAdHominemDaci = qteAdHominem;
+            qteApoioCentraoDaci = qteApoioCentrao;
+            qteDelacaoDaci = qteDelacaoPremiada;
+            qteFakeNewsDaci = qteFakeNews;
+            qtePerguntaPolemicaDaci = qtePerguntaPolemica;
+            qteChamarGilmarDaci = qteChamarGilmar;
+            qteMeuPostoIpirangaDaci = qteMeuPostoIpiranga;
+            qteSemCustoContribuinteDaci = qteSemCustoContribuinte;
+            qteCicloviaDaci = qteCiclovia;
+        }
     }
 
     // RESETA ATAQUES QUANDO ALUGAR
@@ -3357,6 +3513,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteFraudarUrnasDodorio = 5;
         qteFraudarUrnasHaddard = 5;
         qteFraudarUrnasCunha = 5;
+        qteFraudarUrnasDaci = 5;
+
     }
 
     public void ResetaHabeasCorpus()
@@ -3370,6 +3528,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteHabeasDodorio = 3;
         qteHabeasHaddard = 3;
         qteHabeasCunha = 3;
+        qteHabeasDaci = 3;
+
     }
 
     public void ResetaMilitancia()
@@ -3383,6 +3543,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteMilitanciaDodorio = 3;
         qteMilitanciaHaddard = 3;
         qteMilitanciaCunha = 3;
+        qteMilitanciaDaci = 3;
+
     }
    
     public void ResetaElogio()
@@ -3396,6 +3558,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteElogioDodorio = 1;
         qteElogioHaddard = 1;
         qteElogioCunha = 1;
+        qteElogioDaci = 1;
+
     }
    
     public void ResetaDenunciaSupremo()
@@ -3409,6 +3573,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteDenunciaSupremoDodorio = 3;
         qteDenunciaSupremoHaddard = 3;
         qteDenunciaSupremoCunha = 3;
+        qteDenunciaSupremoDaci = 3;
+
     }
 
     public void ResetaForo()
@@ -3422,6 +3588,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteForoDodorio = 2;
         qteForoHaddard = 2;
         qteForoCunha = 2;
+        qteForoDaci = 2;
+
     }
 
     public void ResetaVazarLigacoes()
@@ -3435,6 +3603,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteVazarDodorio = 3;
         qteVazarHaddard = 3;
         qteVazarCunha = 3;
+        qteVazarDaci = 3;
+
     }
 
     public void ResetaAdHominem()
@@ -3448,6 +3618,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteAdHominemDodorio = 3;
         qteAdHominemHaddard = 3;
         qteAdHominemCunha = 3;
+        qteAdHominemDaci = 3;
+
     }
 
     public void ResetapoioCentrao()
@@ -3461,6 +3633,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteApoioCentraoDodorio = 3;
         qteApoioCentraoHaddard = 3;
         qteApoioCentraoCunha = 3;
+        qteApoioCentraoDaci = 3;
+
     }
 
     public void ResetaDelacao()
@@ -3475,6 +3649,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteDelacaoDodorio = 3;
         qteDelacaoHaddard = 3;
         qteDelacaoCunha = 3;
+        qteDelacaoDaci = 3;
+
     }
 
     public void ResetaFakeNews()
@@ -3488,6 +3664,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteFakeNewsDodorio = 3;
         qteFakeNewsHaddard = 3;
         qteFakeNewsCunha = 3;
+        qteFakeNewsDaci = 3;
+
     }
 
     public void ResetaPerguntaPolemica()
@@ -3501,6 +3679,8 @@ public class SistemaBatalhas : MonoBehaviour
         qtePerguntaPolemicaDodorio = 3;
         qtePerguntaPolemicaHaddard = 3;
         qtePerguntaPolemicaCunha = 3;
+        qtePerguntaPolemicaDaci = 3;
+
     }
 
     public void ResetaChamarGilmar()
@@ -3514,6 +3694,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteChamarGilmarDodorio = 3;
         qteChamarGilmarHaddard = 3;
         qteChamarGilmarCunha = 3;
+        qteChamarGilmarDaci = 3;
+
     }
 
     public void ResetaPostoIpiranga()
@@ -3527,6 +3709,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteMeuPostoIpirangaDodorio = 3;
         qteMeuPostoIpirangaHaddard = 3;
         qteMeuPostoIpirangaCunha = 3;
+        qteMeuPostoIpirangaDaci = 3;
+
     }
 
     public void ResetaSemCustoContribuinte()
@@ -3540,6 +3724,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteSemCustoContribuinteDodorio = 3;
         qteSemCustoContribuinteHaddard = 3;
         qteSemCustoContribuinteCunha = 3;
+        qteSemCustoContribuinteDaci = 3;
+
     }
 
     public void ResetaCiclovia()
@@ -3553,6 +3739,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteCicloviaDodorio = 3;
         qteCicloviaHaddard = 3;
         qteCicloviaCunha = 3;
+        qteCicloviaDaci = 3;
 
     }
    
@@ -3570,6 +3757,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteFraudarUrnasDodorio = 5;
         qteFraudarUrnasHaddard = 5;
         qteFraudarUrnasCunha = 5;
+        qteFraudarUrnasDaci = 5;
 
 
         qteHabeasLula = 3;
@@ -3581,6 +3769,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteHabeasDodorio = 3;
         qteHabeasHaddard = 3;
         qteHabeasCunha = 3;
+        qteHabeasDaci = 3;
 
         qteMilitanciaLula = 3;
         qteMilitanciaCiro = 3;
@@ -3591,6 +3780,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteMilitanciaDodorio = 3;
         qteMilitanciaHaddard = 3;
         qteMilitanciaCunha = 3;
+        qteMilitanciaDaci = 3;
 
 
         qteElogioLula = 1;
@@ -3602,6 +3792,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteElogioDodorio = 1;
         qteElogioHaddard = 1;
         qteElogioCunha = 1;
+        qteElogioDaci = 1;
 
 
         qteDenunciaSupremoLula = 3;
@@ -3613,6 +3804,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteDenunciaSupremoDodorio = 3;
         qteDenunciaSupremoHaddard = 3;
         qteDenunciaSupremoCunha = 3;
+        qteDenunciaSupremoDaci = 3;
 
         qteForoLula = 2;
         qteForoCiro = 2;
@@ -3623,6 +3815,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteForoDodorio = 2;
         qteForoHaddard = 2;
         qteForoCunha = 2;
+        qteForoDaci = 2;
 
         qteVazarLula = 3;
         qteVazarCiro = 3;
@@ -3633,6 +3826,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteVazarDodorio = 3;
         qteVazarHaddard = 3;
         qteVazarCunha = 3;
+        qteVazarDaci = 3;
 
         qteAdHominemLula = 3;
         qteAdHominemCiro = 3;
@@ -3643,6 +3837,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteAdHominemDodorio = 3;
         qteAdHominemHaddard = 3;
         qteAdHominemCunha = 3;
+        qteAdHominemDaci = 3;
 
         qteApoioCentraoLula = 3;
         qteApoioCentraoCiro = 3;
@@ -3653,6 +3848,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteApoioCentraoDodorio = 3;
         qteApoioCentraoHaddard = 3;
         qteApoioCentraoCunha = 3;
+        qteApoioCentraoDaci = 3;
 
         qteDelacaoLula = 3;
         qteDelacaoCiro = 3;
@@ -3663,6 +3859,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteDelacaoDodorio = 3;
         qteDelacaoHaddard = 3;
         qteDelacaoCunha = 3;
+        qteDelacaoDaci = 3;
 
         qteFakeNewsLula = 3;
         qteFakeNewsCiro = 3;
@@ -3673,6 +3870,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteFakeNewsDodorio = 3;
         qteFakeNewsHaddard = 3;
         qteFakeNewsCunha = 3;
+        qteFakeNewsDaci = 3;
 
         qtePerguntaPolemicaLula = 3;
         qtePerguntaPolemicaCiro = 3;
@@ -3683,6 +3881,7 @@ public class SistemaBatalhas : MonoBehaviour
         qtePerguntaPolemicaDodorio = 3;
         qtePerguntaPolemicaHaddard = 3;
         qtePerguntaPolemicaCunha = 3;
+        qtePerguntaPolemicaDaci = 3;
 
         qteChamarGilmarLula = 3;
         qteChamarGilmarCiro = 3;
@@ -3693,6 +3892,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteChamarGilmarDodorio = 3;
         qteChamarGilmarHaddard = 3;
         qteChamarGilmarCunha = 3;
+        qteChamarGilmarDaci = 3;
 
         qteMeuPostoIpirangaLula = 3;
         qteMeuPostoIpirangaCiro = 3;
@@ -3703,6 +3903,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteMeuPostoIpirangaDodorio = 3;
         qteMeuPostoIpirangaHaddard = 3;
         qteMeuPostoIpirangaCunha = 3;
+        qteMeuPostoIpirangaDaci = 3;
 
         qteSemCustoContribuinteLula = 3;
         qteSemCustoContribuinteCiro = 3;
@@ -3713,6 +3914,7 @@ public class SistemaBatalhas : MonoBehaviour
         qteSemCustoContribuinteDodorio = 3;
         qteSemCustoContribuinteHaddard = 3;
         qteSemCustoContribuinteCunha = 3;
+        qteSemCustoContribuinteDaci = 3;
 
         qteCicloviaLula = 3;
         qteCicloviaCiro = 3;
@@ -3723,6 +3925,8 @@ public class SistemaBatalhas : MonoBehaviour
         qteCicloviaDodorio = 3;
         qteCicloviaHaddard = 3;
         qteCicloviaCunha = 3;
+        qteCicloviaDaci = 3;
+
 
     }
 
@@ -3904,7 +4108,6 @@ public class SistemaBatalhas : MonoBehaviour
         CalculoConfiancaInimigo();
         Protegido();
 
-        print("autoridade ataque inimigo" + autoridadeAtaque);
 
         danoInimigo = Mathf.Round(Mathf.Round(Mathf.Round(((2 * (levelInimigo / levelPlayer) / 5 + 2) * autoridadeInimigo * autoridadeAtaque / apoioMidiaPlayer) / 50) + 2) * mitouLacrou) * confianca;
 
@@ -3949,16 +4152,15 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Oponente <color=#FFED00FF> MITOU com FRAUDAR URNAS </color>  e tirou " + danoInimigo + " da sua popularidade");
                
-                StartCoroutine(MitouLacrouAviso());
+
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Oponente <color=#FFED00FF> LACROU com FRAUDAR URNAS </color> e tirou " + danoInimigo + " da sua popularidade");
-                StartCoroutine(MitouLacrouAviso());
             }
         }
 
@@ -4038,14 +4240,14 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
              
                 dialogo.text = ("Oponente <color=#FFED00FF> MITOU com FAKE NEWS </color>, tirando " + danoInimigo + " da sua popularidade");
 
             }
 
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 
                 dialogo.text = ("Oponente <color=#FFED00FF> LACROU com FAKE NEWS </color> tirando " + danoInimigo + " da sua popularidade");
@@ -4127,12 +4329,12 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Oponente <color=#FFED00FF> MITOU com PERGUNTA POLÊMICA </color> " + danoInimigo + " da sua popularidade");
 
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Oponente <color=#FFED00FF> LACROU com PERGUNTA POLÊMICA </color> " + danoInimigo + " da sua popularidade");
 
@@ -4202,12 +4404,12 @@ public class SistemaBatalhas : MonoBehaviour
 
                 }
 
-                if (direita == true && chanceMitarLacrar == 2)
+                if (direitaInimigo == true && chanceMitarLacrar == 2)
                 {
                     dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com VAZAR LIGAÇÕES </color> e tirou " + danoInimigo + " de seu Apoio da Mídia");
 
                 }
-                if (esquerda == true && chanceMitarLacrar == 2)
+                if (esquerdaInimigo == true && chanceMitarLacrar == 2)
                 {
                     dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com VAZAR LIGAÇÕES </color> e tirou " + danoInimigo + " de seu Apoio da Mídia");
 
@@ -4283,12 +4485,12 @@ public class SistemaBatalhas : MonoBehaviour
 
                 }
 
-                if (direita == true && chanceMitarLacrar == 2)
+                if (direitaInimigo == true && chanceMitarLacrar == 2)
                 {
                     dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com AD HOMINEM </color>  e tirou " + danoInimigo + " de sua Confiança");
 
                 }
-                if (esquerda == true && chanceMitarLacrar == 2)
+                if (esquerdaInimigo == true && chanceMitarLacrar == 2)
                 {
                     dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com AD HOMINEM </color>  e tirou " + danoInimigo + " de sua Confiança");
 
@@ -4362,6 +4564,7 @@ public class SistemaBatalhas : MonoBehaviour
         }
         if (confianca != 0)
         {
+            suorPlayer.Play();
             SomAumentaStatus.Play();
 
             if (chanceMitarLacrar != 2)
@@ -4370,12 +4573,12 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com DENÚNCIA AO SUPREMO </color> e tirou " + danoInimigo + " da sua Autoridade");
 
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com DENÚNCIA AO SUPREMO </color> e tirou " + danoInimigo + " da sua Autoridade");
 
@@ -4431,12 +4634,12 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com MILITÂNCIA </color> e aumentou Autoridade para " + autoridadeInimigo);
 
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com MILITÂNCIA </color> e aumentou Autoridade para " + autoridadeInimigo);
 
@@ -4492,12 +4695,12 @@ public class SistemaBatalhas : MonoBehaviour
                 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com HABEAS CORPUS </color> e aumentou o Apoio da Mídia para " + apoioMidiaInimigo);
 
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com HABEAS CORPUS </color> e aumentou o Apoio da Mídia para " + apoioMidiaInimigo);
 
@@ -4599,12 +4802,12 @@ public class SistemaBatalhas : MonoBehaviour
 
             }
 
-            if (direita == true && chanceMitarLacrar == 2)
+            if (direitaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Muito opressor! Oponente <color=#FFED00FF> MITOU com APOIO DO CENTRÃO </color> e aumentou " + danoInimigo + " de Retórica.");
 
             }
-            if (esquerda == true && chanceMitarLacrar == 2)
+            if (esquerdaInimigo == true && chanceMitarLacrar == 2)
             {
                 dialogo.text = ("Que tiro foi esse?! Oponente <color=#FFED00FF> LACROU com APOIO DO CENTRÃO </color> e aumentou " + danoInimigo + " Retórica.");
 
@@ -4626,13 +4829,14 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AtaquesInimigo()
     {
+
         MinMaxAut();
 
         // PLAYER ATACOU
 
         if (ataquePlayer == true && defesaPlayer == false && mudaStatusPlayer == false && inimigoAtacou == false)// && inimigoJaAtacou == false)
         {
-            print("minMax" + autoridadeAtaque);
+
 
             if (popularidadePlayer >= 80 && inimigoAtacou == false)
             {
@@ -4654,7 +4858,6 @@ public class SistemaBatalhas : MonoBehaviour
 
                 }
 
-                print("minMax" + autoridadeAtaque);
 
             }
 
@@ -5238,55 +5441,72 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void DireitaEsquerda()
     {
-        if (direita == true)
-        {
-            esquerda = false;
-        }
-        if (esquerda == true)
-        {
-            direita = false;
-        }
+       
 
         if (PlayerPrefs.GetInt("LulaDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
         }
 
         if (PlayerPrefs.GetInt("CiroDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
+
         }
         if (PlayerPrefs.GetInt("BolsoDentroScene") == 1)
         {
             direita = true;
+            esquerda = false;
+
 
         }
         if (PlayerPrefs.GetInt("DilmaDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
+
         }
         if (PlayerPrefs.GetInt("SuplicyDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
+
         }
         if (PlayerPrefs.GetInt("EneasDentroScene") == 1)
         {
             direita = true;
+            esquerda = false;
+
         }
 
         if (PlayerPrefs.GetInt("DodorioDentroScene") == 1)
         {
             direita = true;
+            esquerda = false;
+
         }
 
         if (PlayerPrefs.GetInt("HaddardDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
+
         }
 
         if (PlayerPrefs.GetInt("CunhaDentroScene") == 1)
         {
             esquerda = true;
+            direita = false;
+
+        }
+
+        if (PlayerPrefs.GetInt("DaciDentroScene") == 1)
+        {
+            esquerda = false;
+            direita = true;
+
         }
 
 
@@ -5294,55 +5514,70 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void DireitaEsquerdaInimigos()
     {
-        if (direitaInimigo == true)
-        {
-            esquerdaInimigo = false;
-        }
-        if (esquerdaInimigo == true)
-        {
-            direitaInimigo = false;
-        }
+       
 
         if (PlayerPrefs.GetInt("LulaInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
         }
 
         if (PlayerPrefs.GetInt("CiroInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
+
         }
         if (PlayerPrefs.GetInt("BolsoInimigoScene") == 1)
         {
             direitaInimigo = true;
+            esquerdaInimigo = false;
 
         }
         if (PlayerPrefs.GetInt("DilmaInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
+
         }
         if (PlayerPrefs.GetInt("SuplicyInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
+
         }
         if (PlayerPrefs.GetInt("EneasInimigoScene") == 1)
         {
             direitaInimigo = true;
+            esquerdaInimigo = false;
         }
 
         if (PlayerPrefs.GetInt("DodorioInimigoScene") == 1)
         {
             direitaInimigo = true;
+            esquerdaInimigo = false;
+
         }
 
         if (PlayerPrefs.GetInt("HaddardInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
+
         }
 
         if (PlayerPrefs.GetInt("CunhaInimigoScene") == 1)
         {
             esquerdaInimigo = true;
+            direitaInimigo = false;
+
+        }
+
+        if (PlayerPrefs.GetInt("DaciInimigoScene") == 1)
+        {
+            esquerdaInimigo = false;
+            direitaInimigo = true;
+
         }
 
 
@@ -5479,10 +5714,51 @@ public class SistemaBatalhas : MonoBehaviour
 
     }
 
-  
+    public void BatalhaDaci()
+    {
+        tipoDessaBatalha = TipoBatalha.DACI;
+
+
+    }
+
+    IEnumerator MostraMsgAluga()
+    {
+        
+            yield return new WaitForSeconds(2f);
+            msgAtaque.gameObject.SetActive(true);
+             yield return new WaitForSeconds(5f);
+        msgAutoridade.gameObject.SetActive(true);
+        msgAtaque.gameObject.SetActive(false);
+            yield return new WaitForSeconds(4f);
+
+        msgAutoridade.gameObject.SetActive(false);
+
+
+            yield return new WaitForSeconds(12f);
+            msgSobreAtaques.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(5f);
+        msgSobreAtaques.gameObject.SetActive(false);
+            yield return new WaitForSeconds(8f);
+
+            msgAluga.gameObject.SetActive(true);
+            yield return new WaitForSeconds(5f);
+        msgAluga.gameObject.SetActive(false);
+
+
+
+        
+
+
+
+
+    }
+
+   
 
     public void VerificaBatalha()
     {
+        
         // ---------- BATALHAS DE DESBLOQUEIO DE PERSONAGEM ----------- //
 
         if (tipoDessaBatalha == TipoBatalha.DILMA)
@@ -5555,6 +5831,20 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
 
+        if (tipoDessaBatalha == TipoBatalha.DACI)
+        {
+            switch (currentState)
+            {
+                case BattleStates.GANHOU:
+                    PlayerPrefs.SetInt("DaciDesblock", 1);
+                    GanhaInflu(100);
+                    GanhaVerba(30);
+                    break;
+            }
+
+
+        }
+
         // ------- BATALHAS VARIADAS -------- //
 
        
@@ -5583,51 +5873,77 @@ public class SistemaBatalhas : MonoBehaviour
                 case BattleStates.PERDEU:
                     
 
-                    if (PlayerPrefs.GetString("Candidato") == "Lula")
+                    if (PlayerPrefs.GetString("Candidato") == "Lula" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLula") - 1);                  
+                        PlayerPrefs.SetInt("LevelLula", PlayerPrefs.GetInt("LevelLula") - 1);
+                        perdeuLevel = true;
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Ciro")
+                    if (PlayerPrefs.GetString("Candidato") == "Ciro" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelCiro") - 1);                  
+                        PlayerPrefs.SetInt("LevelCiro", PlayerPrefs.GetInt("LevelCiro") - 1);      
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Bolso")
+                    if (PlayerPrefs.GetString("Candidato") == "Bolso" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso") - 1);                  
+                        PlayerPrefs.SetInt("LevelBolso", PlayerPrefs.GetInt("LevelBolso") - 1); 
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dilma")
+                    if (PlayerPrefs.GetString("Candidato") == "Dilma" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelDilma", PlayerPrefs.GetInt("LevelDilma") - 1);                  
+                        PlayerPrefs.SetInt("LevelDilma", PlayerPrefs.GetInt("LevelDilma") - 1);
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Suplicy")
+                    if (PlayerPrefs.GetString("Candidato") == "Suplicy" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelSuplicy", PlayerPrefs.GetInt("LevelSuplicy") - 1);                  
+                        PlayerPrefs.SetInt("LevelSuplicy", PlayerPrefs.GetInt("LevelSuplicy") - 1);  
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Eneas")
+                    if (PlayerPrefs.GetString("Candidato") == "Eneas" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelEneas", PlayerPrefs.GetInt("LevelEneas") - 1);                  
+                        PlayerPrefs.SetInt("LevelEneas", PlayerPrefs.GetInt("LevelEneas") - 1); 
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Dodorio")
+                    if (PlayerPrefs.GetString("Candidato") == "Dodorio" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelDodorio", PlayerPrefs.GetInt("LevelDodorio") - 1);                  
+                        PlayerPrefs.SetInt("LevelDodorio", PlayerPrefs.GetInt("LevelDodorio") - 1); 
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Haddard")
+                    if (PlayerPrefs.GetString("Candidato") == "Haddard" && perdeuLevel == false)
                     {
-                        PlayerPrefs.SetInt("LevelHaddard", PlayerPrefs.GetInt("LevelHaddard") - 1);                  
+                        PlayerPrefs.SetInt("LevelHaddard", PlayerPrefs.GetInt("LevelHaddard") - 1);  
+                        perdeuLevel = true;
+
                     }
 
-                    if (PlayerPrefs.GetString("Candidato") == "Cunha")
+                    if (PlayerPrefs.GetString("Candidato") == "Cunha" && perdeuLevel == false)
                     {
                         PlayerPrefs.SetInt("LevelCunha", PlayerPrefs.GetInt("LevelCunha") - 1);
+                        perdeuLevel = true;
+
+                    }
+
+                    if (PlayerPrefs.GetString("Candidato") == "Daci" && perdeuLevel == false)
+                    {
+                        PlayerPrefs.SetInt("LevelDaci", PlayerPrefs.GetInt("LevelDaci") - 1);
+                        perdeuLevel = true;
+
                     }
                     break;
+
+                
             }
 
 
@@ -5639,7 +5955,15 @@ public class SistemaBatalhas : MonoBehaviour
 
     public void AvisaBatalha()
     {
-        if (PlayerPrefs.GetInt("LevelIndice") == 3 || PlayerPrefs.GetInt("LevelIndice") == 5 || PlayerPrefs.GetInt("LevelIndice") == 8 || PlayerPrefs.GetInt("LevelIndice") == 10)
+
+       
+
+        if (PlayerPrefs.GetInt("LevelIndice") == 6)
+        {
+            avisaBatalha.gameObject.SetActive(true);
+            avisaBatalhaTxt.text = "Debata e desbloqueie novos candidatos";
+        }
+        if (PlayerPrefs.GetInt("LevelIndice") == 3 || PlayerPrefs.GetInt("LevelIndice") == 6 || PlayerPrefs.GetInt("LevelIndice") == 8 || PlayerPrefs.GetInt("LevelIndice") == 15 || PlayerPrefs.GetInt("LevelIndice") == 20)
         {
             avisaBatalha.gameObject.SetActive(true);
             avisaBatalhaTxt.text = "Um novo debate foi desbloqueado!";
@@ -5647,10 +5971,10 @@ public class SistemaBatalhas : MonoBehaviour
 
         }
 
-        if (PlayerPrefs.GetInt("LevelIndice") != 3 || PlayerPrefs.GetInt("LevelIndice") != 5 || PlayerPrefs.GetInt("LevelIndice") != 8 || PlayerPrefs.GetInt("LevelIndice") != 10)
+        if (PlayerPrefs.GetInt("LevelIndice") != 3 || PlayerPrefs.GetInt("LevelIndice") != 6 || PlayerPrefs.GetInt("LevelIndice") != 8 || PlayerPrefs.GetInt("LevelIndice") != 10)
         {
-            avisaBatalha.gameObject.SetActive(false);
-            avisaBatalhaTxt.text = " ";
+            //avisaBatalha.gameObject.SetActive(false);
+            //avisaBatalhaTxt.text = " ";
 
 
         }
@@ -5716,6 +6040,70 @@ public class SistemaBatalhas : MonoBehaviour
             mainCunha.GetComponent<Influencia>().influCunha += influ;
             ganhouInfluCunha = 1;
         }
+
+        if (PlayerPrefs.GetInt("DaciDentroPartido") == 1 && ganhouInfluDaci == 0)
+        {
+            mainDaci.GetComponent<Influencia>().influDaci += influ;
+            ganhouInfluDaci = 1;
+        }
+    }
+
+    public void PerdeLevel()
+    {
+
+        if (candidatoAtual == "Lula" && ganhouInfluLula == 0)
+        {
+            PlayerPrefs.SetInt("LevelLula", mainLula.GetComponent<Influencia>().levelLula - 1);
+            ganhouInfluLula = 1;        }
+
+        if (candidatoAtual == "Ciro" && ganhouInfluCiro == 0)
+        {
+            PlayerPrefs.SetInt("LevelCiro", mainCiro.GetComponent<Influencia>().levelCiro - 1);
+            ganhouInfluCiro = 1;        }
+
+        if (candidatoAtual == "Bolso" && ganhouInfluBolso == 0)
+        {
+            PlayerPrefs.SetInt("LevelBolso", mainBolso.GetComponent<Influencia>().levelBolso - 1);
+            ganhouInfluBolso = 1;        }
+
+        if (candidatoAtual == "Dilma" && ganhouInfluDilma == 0)
+        {
+            PlayerPrefs.SetInt("LevelDilma", mainDilma.GetComponent<Influencia>().levelDilma - 1);
+            ganhouInfluDilma = 1;        }
+
+        if (candidatoAtual == "Suplicy" && ganhouInfluSuplicy == 0)
+        {
+            PlayerPrefs.SetInt("LevelSuplicy", mainSuplicy.GetComponent<Influencia>().levelSuplicy - 1);
+            ganhouInfluSuplicy = 1;        }
+
+        if (candidatoAtual == "Eneas" && ganhouInfluEneas == 0)
+        {
+            PlayerPrefs.SetInt("LevelEneas", mainEneas.GetComponent<Influencia>().levelEneas - 1);
+            ganhouInfluEneas = 1;        }
+
+        if (candidatoAtual == "Dodorio" && ganhouInfluDodorio == 0)
+        {
+            PlayerPrefs.SetInt("LevelDodorio", mainDodorio.GetComponent<Influencia>().levelDodorio - 1);
+            ganhouInfluDodorio = 1;        }
+
+        if (candidatoAtual == "Haddard" && ganhouInfluHaddard == 0)
+        {
+            PlayerPrefs.SetInt("LevelHaddard", mainHaddard.GetComponent<Influencia>().levelHaddard - 1);
+            ganhouInfluHaddard = 1;
+           
+        }
+
+        if (candidatoAtual == "Cunha" && ganhouInfluCunha == 0)
+        {
+            PlayerPrefs.SetInt("LevelCunha", mainCunha.GetComponent<Influencia>().levelCunha - 1);
+            ganhouInfluCunha = 1;
+        }
+
+        if (candidatoAtual == "Daci" && ganhouInfluDaci == 0)
+        {
+            PlayerPrefs.SetInt("LevelDaci", mainDaci.GetComponent<Influencia>().levelDaci - 1);
+            ganhouInfluDaci = 1;
+        }
     }
 
     public void GanhaVerba(int verba)
@@ -5729,6 +6117,16 @@ public class SistemaBatalhas : MonoBehaviour
         }
     }
 
+    public void PerdeVerba(int verba)
+    {
+        PlayerPrefs.SetInt("QuantoPerdeuVerba", verba);
+
+        if (ganhouVerba == 0)
+        {
+            PlayerPrefs.SetInt("Verba", PlayerPrefs.GetInt("Verba") - verba);
+            ganhouVerba = 1;
+        }
+    }
    
     public void CandidatoDessaBatalha()
     {
@@ -5776,6 +6174,11 @@ public class SistemaBatalhas : MonoBehaviour
         {
             candidatoAtual = "Cunha";
         }
+
+        if (PlayerPrefs.GetString("Candidato") == "Daci")
+        {
+            candidatoAtual = "Daci";
+        }
     }
 
     public void Insignias()
@@ -5786,8 +6189,8 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 case BattleStates.GANHOU:
                     // o candidato é definido na classe ConvocaEleicoes
-                    GanhaVerba(30);
-                    jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
+                    GanhaVerba(50);
+                    jornalEleicoes.gameObject.SetActive(false);
                     GanhaInflu(150f);
 
                     if (candidatoAtual == "Lula")
@@ -5835,7 +6238,20 @@ public class SistemaBatalhas : MonoBehaviour
                         PlayerPrefs.SetInt("CunhaVereador", 1);
                     }
 
+                    if (candidatoAtual == "Daci")
+                    {
+                        PlayerPrefs.SetInt("DaciVereador", 1);
+                    }
+
+
                     break;
+
+                case BattleStates.PERDEU:
+                    PerdeVerba(30);
+                    jornalEleicoes.gameObject.SetActive(false);
+                    PerdeLevel();                    
+                    break;
+
             }
         }
 
@@ -5846,9 +6262,9 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 case BattleStates.GANHOU:
 
-                    GanhaVerba(50);
+                    GanhaVerba(70);
 
-                    jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
+                    jornalEleicoes.gameObject.SetActive(false);
                     GanhaInflu(180f);
 
 
@@ -5899,6 +6315,17 @@ public class SistemaBatalhas : MonoBehaviour
                         PlayerPrefs.SetInt("CunhaDeputado", 1);
                     }
 
+                    if (candidatoAtual == "Daci")
+                    {
+                        PlayerPrefs.SetInt("DaciDeputado", 1);
+                    }
+
+                    break;
+
+                case BattleStates.PERDEU:
+                    PerdeVerba(30);
+                    jornalEleicoes.gameObject.SetActive(false);
+                    PerdeLevel();
                     break;
             }
         }
@@ -5909,9 +6336,9 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 case BattleStates.GANHOU:
 
-                    GanhaVerba(80);
+                    GanhaVerba(100);
 
-                    jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
+                    jornalEleicoes.gameObject.SetActive(false);
                     GanhaInflu(200f);
 
                     // o candidato é definido na classe ConvocaEleicoes
@@ -5961,6 +6388,17 @@ public class SistemaBatalhas : MonoBehaviour
                         PlayerPrefs.SetInt("CunhaPrefeito", 1);
                     }
 
+                    if (candidatoAtual == "Daci")
+                    {
+                        PlayerPrefs.SetInt("DaciPrefeito", 1);
+                    }
+
+                    break;
+
+                case BattleStates.PERDEU:
+                    PerdeVerba(30);
+                    jornalEleicoes.gameObject.SetActive(false);
+                    PerdeLevel();
                     break;
             }
         }
@@ -5971,9 +6409,9 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 case BattleStates.GANHOU:
 
-                    GanhaVerba(100);
+                    GanhaVerba(150);
 
-                    jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
+                    jornalEleicoes.gameObject.SetActive(false);
                     GanhaInflu(220f);
                     // o candidato é definido na classe ConvocaEleicoes
 
@@ -6022,6 +6460,17 @@ public class SistemaBatalhas : MonoBehaviour
                         PlayerPrefs.SetInt("CunhaGovernador", 1);
                     }
 
+                    if (candidatoAtual == "Daci")
+                    {
+                        PlayerPrefs.SetInt("DaciGovernador", 1);
+                    }
+
+                    break;
+
+                case BattleStates.PERDEU:
+                    PerdeVerba(30);
+                    jornalEleicoes.gameObject.SetActive(false);
+                    PerdeLevel();
                     break;
             }
         }
@@ -6032,9 +6481,9 @@ public class SistemaBatalhas : MonoBehaviour
             {
                 case BattleStates.GANHOU:
 
-                    GanhaVerba(120);
+                    GanhaVerba(200);
 
-                    jornalEleicoes.gameObject.GetComponent<Canvas>().enabled = false;
+                    jornalEleicoes.gameObject.SetActive(false);
                     GanhaInflu(300f);
                     // o candidato é definido na classe ConvocaEleicoes
 
@@ -6083,11 +6532,341 @@ public class SistemaBatalhas : MonoBehaviour
                         PlayerPrefs.SetInt("CunhaPresidente", 1);
                     }
 
+                    if (candidatoAtual == "Daci")
+                    {
+                        PlayerPrefs.SetInt("DaciPresidente", 1);
+                    }
+
+                    break;
+
+                case BattleStates.PERDEU:
+                    PerdeVerba(30);
+                    jornalEleicoes.gameObject.SetActive(false);
+                    PerdeLevel();
                     break;
             }
         }
 
     } // FIM INSIGNIAS
+
+    // GANHA POP
+
+    // VOLTA PRA SCENE
+
+    public void VoltaScene()
+    {
+        if (candidatoAtual == "Lula")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 1);
+
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene",0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeLula", 100);
+            //
+            mainLula.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+
+        }
+
+        if (candidatoAtual == "Ciro")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+
+            PlayerPrefs.SetInt("CiroDentroScene", 1);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeCiro", 100);
+
+            mainCiro.gameObject.SetActive(true);
+
+            mainLula.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        }
+
+        if (candidatoAtual == "Bolso")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+
+            PlayerPrefs.SetInt("BolsoDentroScene", 1);
+
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeBolso", 100);
+
+            mainBolso.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        }
+
+        if (candidatoAtual == "Dilma")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+
+            PlayerPrefs.SetInt("DilmaDentroScene", 1);
+
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeDilma", 100);
+
+            mainDilma.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        }
+
+        if (candidatoAtual == "Suplicy")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+
+            PlayerPrefs.SetInt("SuplicyDentroScene", 1);
+
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);    
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeSuplicy", 100);
+
+            mainSuplicy.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        }
+
+        if (candidatoAtual == "Eneas")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+
+            PlayerPrefs.SetInt("EneasDentroScene", 1);
+
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);   
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeEneas", 100);
+
+            mainEneas.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        }
+
+        if (candidatoAtual == "Dodorio")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+
+            PlayerPrefs.SetInt("DodorioDentroScene", 1);
+
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);    
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetFloat("PopularidadeDodorio", 100);
+
+            mainDodorio.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        
+        }
+
+        if (candidatoAtual == "Haddard")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+
+            PlayerPrefs.SetInt("HaddardDentroScene", 1);
+
+            PlayerPrefs.SetInt("CunhaDentroScene", 0); 
+
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+        
+            PlayerPrefs.SetFloat("PopularidadeHaddard", 100);
+
+            mainHaddard.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+
+        
+        }
+
+        if (candidatoAtual == "Cunha")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("DaciDentroScene", 0);
+
+            PlayerPrefs.SetInt("CunhaDentroScene", 1);     
+        
+            PlayerPrefs.SetFloat("PopularidadeCunha", 100);
+
+            mainCunha.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+            mainDaci.gameObject.SetActive(false);
+        
+        }
+
+        if (candidatoAtual == "Daci")
+        {
+            PlayerPrefs.SetInt("LulaDentroScene", 0);
+            PlayerPrefs.SetInt("CiroDentroScene", 0);
+            PlayerPrefs.SetInt("BolsoDentroScene", 0);
+            PlayerPrefs.SetInt("DilmaDentroScene", 0);
+            PlayerPrefs.SetInt("SuplicyDentroScene", 0);
+            PlayerPrefs.SetInt("EneasDentroScene", 0);
+            PlayerPrefs.SetInt("DodorioDentroScene", 0);
+            PlayerPrefs.SetInt("HaddardDentroScene", 0);
+            PlayerPrefs.SetInt("CunhaDentroScene", 0);
+
+            PlayerPrefs.SetInt("DaciDentroScene", 1);
+
+            PlayerPrefs.SetFloat("PopularidadeDaci", 100);
+
+            mainDaci.gameObject.SetActive(true);
+
+            mainCiro.gameObject.SetActive(false);
+            mainBolso.gameObject.SetActive(false);
+            mainDilma.gameObject.SetActive(false);
+            mainSuplicy.gameObject.SetActive(false);
+            mainEneas.gameObject.SetActive(false);
+            mainDodorio.gameObject.SetActive(false);
+            mainHaddard.gameObject.SetActive(false);
+            mainCunha.gameObject.SetActive(false);
+            mainLula.gameObject.SetActive(false);
+
+        }
+    }
 
     public void ResetaGanhouInflu()
     {
@@ -6100,6 +6879,7 @@ public class SistemaBatalhas : MonoBehaviour
         ganhouInfluDodorio = 0;
         ganhouInfluHaddard = 0;
         ganhouInfluCunha = 0;
+        ganhouInfluDaci = 0;
 
 
     }
@@ -6110,6 +6890,24 @@ public class SistemaBatalhas : MonoBehaviour
 
     }
 
+
+    public void TutorialInicial()
+    {
+        if (tipoDessaBatalha == TipoBatalha.ELEICAOVEREADOR)
+        {
+            
+                    if (mostraMsg == 0)
+                    {
+                        StartCoroutine(MostraMsgAluga());
+                        mostraMsg = 1;
+
+                    }
+
+              
+
+
+        }
+    }
 
 
     // --------------            ------------ //
@@ -6432,6 +7230,24 @@ public class SistemaBatalhas : MonoBehaviour
                 break;
 
         }
+    }
+
+    IEnumerator TocaMitouLacrou()
+    {
+        //yield return new WaitForSeconds(3f);
+
+        if (direita == true || direitaInimigo == true)
+        {
+            SomMitou.Play();
+        }
+
+        if (esquerda == true || esquerdaInimigo == true)
+        {
+            SomLacrou.Play();
+        }
+
+        yield return new WaitForSeconds(3f);
+
     }
 
 
