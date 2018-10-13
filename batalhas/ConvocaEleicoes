@@ -45,6 +45,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Lula");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelLula"));
+
 
         }
 
@@ -63,6 +65,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Ciro");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelCiro"));
+
 
         }
 
@@ -81,6 +85,7 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Bolso");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelBolso"));
 
         }
 
@@ -99,6 +104,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Dilma");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelDilma"));
+
 
         }
 
@@ -117,6 +124,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Suplicy");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelSuplicy"));
+
 
         }
 
@@ -135,6 +144,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Eneas");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelEneas"));
+
 
         }
 
@@ -153,6 +164,8 @@ public class ConvocaEleicoes : MonoBehaviour
             Daci.gameObject.SetActive(false);
 
             PlayerPrefs.SetString("Candidato", "Dodorio");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelDodorio"));
+
 
         }
     
@@ -172,6 +185,8 @@ public class ConvocaEleicoes : MonoBehaviour
 
 
             PlayerPrefs.SetString("Candidato", "Haddard");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelHaddard"));
+
 
         }
 
@@ -191,6 +206,8 @@ public class ConvocaEleicoes : MonoBehaviour
 
 
             PlayerPrefs.SetString("Candidato", "Cunha");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelCunha"));
+
 
         }
 
@@ -210,6 +227,8 @@ public class ConvocaEleicoes : MonoBehaviour
 
 
             PlayerPrefs.SetString("Candidato", "Daci");
+            PlayerPrefs.SetInt("LevelIndice", PlayerPrefs.GetInt("LevelDaci"));
+
 
         }
     }
